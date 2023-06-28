@@ -23,14 +23,17 @@ class AuthController extends Controller
 
         if (Auth::attempt($credenciales)) {
             $usuario = Auth::user();
+            $token = $usuario->createToken('ApiToken')->plainTextToken;
             return response()->json([
-                'mensaje' => 'Inicio de sesión exitoso'
-                'token' => $usuario->createToken('ApiToken')->plainTextToken
+                'estado' => 'ok',
+                'mensaje' => 'Inicio de sesión exitoso',
+                'token' => $token
             ]);
         }
 
         return response()->json([
-            'mensaje' => 'Credenciales inválidas',
+            'estado' => 'error',
+            'mensaje' => 'Credenciales inválidas'
         ], 401);
     }
 
@@ -38,14 +41,15 @@ class AuthController extends Controller
     {
         Auth::user()->tokens()->delete();
         return response()->json([
-            'mensaje' => 'Cierre de sesión exitoso',
+            'estado' => 'ok',
+            'mensaje' => 'Cierre de sesión exitoso'
         ]);
     }
 
     public function refresh()
     {
         return response()->json([
-            'mensaje' => 'Token actualizado'
+            'mensaje' => 'Token actualizado',
             'token' => Auth::refresh()
         ]);
     }
