@@ -239,6 +239,103 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Estudiantes",
+			"item": [
+				{
+					"name": "solicitarPractica",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"estudiante\":{\r\n        \"id\":2,\r\n        \"carrera_id\":3,\r\n        \"nivel_id\":2\r\n    },\r\n    \"practicaPreprofesional\":{\r\n        \"area\":\"TICS Soporte\",\r\n        \"numeroHoras\":265\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/estudiantes/solicitarPractica",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"estudiantes",
+								"solicitarPractica"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "aceptarCompromiso",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"estudiante\":{\r\n        \"id\":2\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/estudiantes/aceptarCompromiso",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"estudiantes",
+								"aceptarCompromiso"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Director de Carrera",
+			"item": []
 		}
 	],
 	"auth": {
