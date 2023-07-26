@@ -19,7 +19,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'identificacion',
-        'name',
+        'nombre',
         'estado',
         'email',
         'password',
@@ -48,6 +48,6 @@ class User extends Authenticatable
 
     public function rol()
     {
-        return $this->belongsTo(Rol::class);
+        return $this->belongsTo(Role::class);
     }
 }
