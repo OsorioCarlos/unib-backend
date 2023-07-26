@@ -15,9 +15,9 @@ class Student extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'level_id',
-        'career_id',
-        'user_id',
+        'nivel_id',
+        'carrera_id',
+        'usuario_id',
     ];
 
     public function preprofessionalPractices()

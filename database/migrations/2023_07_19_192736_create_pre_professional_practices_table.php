@@ -13,21 +13,21 @@ return new class extends Migration
     {
         Schema::create('pre_professional_practices', function (Blueprint $table) {
             $table->id();
-            $table->integer('numero_horas_practica');
-            $table->boolean('estudiante_compromiso');
-            $table->dateTime('estudiante_compromiso_fecha');
-            $table->string('objetivos_practica');
-            $table->string('tareas');
-            $table->string('horario');
-            $table->date('fecha_inicio');
-            $table->date('fecha_finalizacion');
-            $table->boolean('empresa_compromiso');
-            $table->dateTime('empresa_compromiso_fecha');
-            $table->string('area_practicas');
-            $table->float('nota_final');
-            $table->unsignedBigInteger('student_id');
+            $table->integer('numero_horas_practica')->nullable();
+            $table->boolean('estudiante_compromiso')->nullable();
+            $table->dateTime('estudiante_compromiso_fecha')->nullable();
+            $table->string('objetivos_practica')->nullable();
+            $table->string('tareas')->nullable();
+            $table->string('horario')->nullable();
+            $table->date('fecha_inicio')->nullable();
+            $table->date('fecha_finalizacion')->nullable();
+            $table->boolean('empresa_compromiso')->nullable();
+            $table->dateTime('empresa_compromiso_fecha')->nullable();
+            $table->string('area_practicas')->nullable();
+            $table->float('nota_final')->nullable();
+            $table->unsignedBigInteger('estudiante_id');
             $table->timestamps();
-            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->foreign('estudiante_id')->references('id')->on('students')->onDelete('cascade');
         });
     }
 

@@ -47,14 +47,14 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Student::factory()->create([
-            'level_id' => 1,
-            'career_id' => 1,
-            'user_id' => 1,
+            'nivel_id' => 1,
+            'carrera_id' => 1,
+            'usuario_id' => 1,
         ]);
         \App\Models\Student::factory()->create([
-            'level_id' => 1,
-            'career_id' => 1,
-            'user_id' => 2,
+            'nivel_id' => 1,
+            'carrera_id' => 1,
+            'usuario_id' => 2,
         ]);
 
     }
