@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         
         \App\Models\User::factory()->create([
             'identificacion' => '1111111111',
-            'name' => 'Test User',
+            'nombre' => 'Test User',
             'email' => 'test@example.com',
             'estado' => 'activo',
             'rol_id' => 1
@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::factory()->create([
             'identificacion' => '1751592013',
-            'name' => 'Delgado Landa Byron Daniel',
+            'nombre' => 'Delgado Landa Byron Daniel',
             'estado' => 'activo',
             'email' => 'byrondanipm@gmail.com',
             'rol_id' => 2
@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::factory()->create([
             'identificacion' => '1751592222',
-            'name' => 'Osorio Carlos',
+            'nombre' => 'Osorio Carlos',
             'estado' => 'activo',
             'email' => 'carlosalexander.2001@hotmail.com',
             'rol_id' => 2
