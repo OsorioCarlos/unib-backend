@@ -41,7 +41,7 @@ class UserController extends Controller
         $usuarioDto = new User();
         $usuarioDto->id = $usuario->id;
         $usuarioDto->identificacion = $usuario->identificacion;
-        $usuarioDto->nombre = $usuario->name;
+        $usuarioDto->nombre = $usuario->nombre;
         $usuarioDto->estado = $usuario->estado;
         $usuarioDto->email = $usuario->email;
         $usuarioDto->rol = $usuario->rol->nombre;

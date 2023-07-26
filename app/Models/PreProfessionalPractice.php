@@ -27,7 +27,7 @@ class PreProfessionalPractice extends Model
         'empresa_compromiso_fecha',
         'area_practicas',
         'nota_final',
-        'student_id'
+        'estudiante_id'
     ];
 
     public function student()
