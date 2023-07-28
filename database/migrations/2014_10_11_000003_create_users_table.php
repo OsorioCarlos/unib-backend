@@ -23,7 +23,9 @@ return new class extends Migration
             $table->string('estado');
             $table->timestamps();
 
-            $table->foreign('rol_id')->references('id')->on('roles')->onDelete('cascade');
+            $table->foreign('rol_id')->references('id')->on('roles')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
