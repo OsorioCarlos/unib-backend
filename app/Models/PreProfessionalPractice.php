@@ -26,12 +26,16 @@ class PreProfessionalPractice extends Model
         'empresa_compromiso',
         'empresa_compromiso_fecha',
         'area_practicas',
-        'nota_final',
-        'estudiante_id'
+        'nota_final'
     ];
 
     public function student()
     {
         return $this->belongsTo(Student::class);
+    }
+
+    public function grades()
+    {
+        return $this->hasMany(Grade::class);
     }
 }

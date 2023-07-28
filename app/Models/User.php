@@ -22,8 +22,7 @@ class User extends Authenticatable
         'nombre',
         'estado',
         'email',
-        'password',
-        'rol_id',
+        'password'
     ];
 
     /**
@@ -49,5 +48,15 @@ class User extends Authenticatable
     public function rol()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function student()
+    {
+        return $this->hasOne(Student::class);
+    }
+
+    public function careerDirector()
+    {
+        return $this->hasOne(CareerDirector::class);
     }
 }

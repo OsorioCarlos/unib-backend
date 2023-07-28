@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Student extends Model
+class CareerDirector extends Model
 {
     use HasFactory;
 
@@ -18,23 +18,13 @@ class Student extends Model
         
     ];
 
-    public function preprofessionalPractices()
+    public function career()
     {
-        return $this->hasMany(PreProfessionalPractice::class);
+        return $this->belongsTo(Catalogue::class);
     }
 
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function level()
-    {
-        return $this->belongsTo(Catalogue::class);
-    }
-
-    public function career()
-    {
-        return $this->belongsTo(Resource::class);
     }
 }

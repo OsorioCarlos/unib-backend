@@ -27,7 +27,10 @@ return new class extends Migration
             $table->float('nota_final')->nullable();
             $table->unsignedBigInteger('estudiante_id');
             $table->timestamps();
-            $table->foreign('estudiante_id')->references('id')->on('students')->onDelete('cascade');
+
+            $table->foreign('estudiante_id')->references('id')->on('students')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
