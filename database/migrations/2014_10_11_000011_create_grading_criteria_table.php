@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('grading_criteria', function (Blueprint $table) {
+        Schema::create('grading_criterias', function (Blueprint $table) {
             $table->id();
             $table->float('calificacion');
             $table->unsignedBigInteger('calificacion_id');
