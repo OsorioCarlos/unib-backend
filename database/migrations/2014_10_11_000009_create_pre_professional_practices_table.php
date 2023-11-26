@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('area_practicas')->nullable();
             $table->float('nota_final')->nullable();
             $table->unsignedBigInteger('estudiante_id');
+            $table->morphs('evaluador');
             $table->timestamps();
 
             $table->foreign('estudiante_id')->references('id')->on('students')

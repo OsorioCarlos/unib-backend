@@ -18,13 +18,18 @@ class CareerDirector extends Model
         
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function career()
     {
         return $this->belongsTo(Catalogue::class);
     }
 
-    public function user()
+    public function preprofessionalPractices()
     {
-        return $this->belongsTo(User::class);
+        return $this->morphMany(PreProfessionalPractice::class, 'evaluador');
     }
 }
