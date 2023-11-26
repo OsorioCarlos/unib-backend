@@ -25,9 +25,9 @@ class Organization extends Model
         'dias_laborables'
     ];
 
-    public function grades()
+    public function preprofessionalPractices()
     {
-        return $this->hasMany(Grade::class);
+        return $this->morphMany(PreProfessionalPractice::class, 'evaluador');
     }
 
 }

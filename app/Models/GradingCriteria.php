@@ -18,13 +18,14 @@ class GradingCriteria extends Model
         'calificacion'
     ];
 
+    public function criteria()
+    {
+        return $this->belongsTo(Catalogue::class);
+    }
+
     public function grade()
     {
         return $this->belongsTo(Grade::class);
     }
 
-    public function criteria()
-    {
-        return $this->belongsTo(Catalogue::class);
-    }
 }

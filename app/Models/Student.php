@@ -18,14 +18,14 @@ class Student extends Model
         
     ];
 
-    public function preprofessionalPractices()
-    {
-        return $this->hasMany(PreProfessionalPractice::class);
-    }
-
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function career()
+    {
+        return $this->belongsTo(Resource::class);
     }
 
     public function level()
@@ -33,8 +33,9 @@ class Student extends Model
         return $this->belongsTo(Catalogue::class);
     }
 
-    public function career()
+    public function preprofessionalPractices()
     {
-        return $this->belongsTo(Resource::class);
+        return $this->hasMany(PreProfessionalPractice::class);
     }
+    
 }

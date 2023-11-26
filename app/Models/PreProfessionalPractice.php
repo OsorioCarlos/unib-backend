@@ -36,6 +36,6 @@ class PreProfessionalPractice extends Model
 
     public function grades()
     {
-        return $this->hasMany(Grade::class);
+        return $this->hasOne(Grade::class);
     }
 }
