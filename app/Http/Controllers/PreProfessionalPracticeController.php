@@ -61,7 +61,7 @@ class PreProfessionalPracticeController extends Controller
         return response()->json([
             'practica_preprofesional' => $practicaPreprofesional,
             'mensaje' => 'OK'
-        ], 200); 
+        ], 200);
     }
 
     /**

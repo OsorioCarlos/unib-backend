@@ -39,14 +39,14 @@ class DatabaseSeeder extends Seeder
             'nombre' => 'Primer Nivel',
             'recurso_id' => 2
         ]);
-        
+
         \App\Models\User::factory()->create([
             'identificacion' => '1111111111',
             'nombre' => 'Test User',
             'email' => 'test@example.com',
             'password' => '123456789',
             'estado' => 'activo',
-            'rol_id' => 1
+            'role_id' => 1
         ]);
 
         \App\Models\User::factory()->create([
@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
             'estado' => 'activo',
             'email' => 'byrondanipm@gmail.com',
             'password' => '123456789',
-            'rol_id' => 2
+            'role_id' => 2
         ]);
 
         \App\Models\User::factory()->create([
@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
             'estado' => 'activo',
             'email' => 'carlosalexander.2001@hotmail.com',
             'password' => '123456789',
-            'rol_id' => 2
+            'role_id' => 2
         ]);
 
         \App\Models\Student::factory()->create([

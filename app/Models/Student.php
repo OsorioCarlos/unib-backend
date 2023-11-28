@@ -15,7 +15,7 @@ class Student extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        
+        'usuario_id'
     ];
 
     public function user()
@@ -37,5 +37,5 @@ class Student extends Model
     {
         return $this->hasMany(PreProfessionalPractice::class);
     }
-    
+
 }

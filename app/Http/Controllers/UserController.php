@@ -44,8 +44,8 @@ class UserController extends Controller
         $usuarioDto->nombre = $usuario->nombre;
         $usuarioDto->estado = $usuario->estado;
         $usuarioDto->email = $usuario->email;
-        $usuarioDto->rol = $usuario->rol->nombre;
-        
+        $usuarioDto->rol = $usuario->role->nombre;
+
         return response()->json($usuarioDto, Response::HTTP_OK);
     }
 
