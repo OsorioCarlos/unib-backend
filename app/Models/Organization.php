@@ -25,9 +25,14 @@ class Organization extends Model
         'dias_laborables'
     ];
 
+    public function internshipRepresentatives()
+    {
+        return $this->hasMany(InternshipRepresentative::class);
+    }
+
     public function preprofessionalPractices()
     {
-        return $this->morphMany(PreProfessionalPractice::class, 'evaluador');
+        return $this->hasMany(PreProfessionalPractice::class);
     }
 
 }

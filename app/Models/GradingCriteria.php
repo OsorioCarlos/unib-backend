@@ -18,9 +18,9 @@ class GradingCriteria extends Model
         'calificacion'
     ];
 
-    public function criteria()
+    public function criterioCatalogo()
     {
-        return $this->belongsTo(Catalogue::class);
+        return $this->belongsTo(Catalogue::class, 'criterio_id');
     }
 
     public function grade()

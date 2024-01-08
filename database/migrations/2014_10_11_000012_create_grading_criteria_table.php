@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('grades', function (Blueprint $table) {
+        Schema::create('grading_criterias', function (Blueprint $table) {
             $table->id();
-            $table->float('promedio');
-            $table->unsignedBigInteger('practica_preprofesional_id');
-            $table->unsignedBigInteger('evaluador_id');
+            $table->unsignedBigInteger('grade_id');
+            $table->unsignedBigInteger('criterio_id');
+            $table->float('calificacion');
             $table->timestamps();
 
-            $table->foreign('practica_preprofesional_id')->references('id')->on('pre_professional_practices')
+            $table->foreign('grade_id')->references('id')->on('grades')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
-            $table->foreign('evaluador_id')->references('id')->on('career_directors')
+            $table->foreign('criterio_id')->references('id')->on('catalogues')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('grades');
+        Schema::dropIfExists('grading_criterias');
     }
 };

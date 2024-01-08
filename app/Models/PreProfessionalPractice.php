@@ -15,18 +15,22 @@ class PreProfessionalPractice extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'numero_horas_practica',
-        'estudiante_compromiso',
         'estudiante_compromiso_fecha',
-        'objetivos_practica',
-        'tareas',
-        'horario',
-        'fecha_inicio',
-        'fecha_finalizacion',
-        'empresa_compromiso',
-        'empresa_compromiso_fecha',
         'area_practicas',
-        'nota_final'
+        'objetivos_practicas',
+        'tareas',
+        'numero_horas_practicas',
+        'fecha_inicio',
+        'fecha_fin',
+        'dias_laborables',
+        'horario',
+        'empresa_compromiso_fecha',
+        'cumplimiento_objetivos',
+        'beneficios',
+        'aprendizajes',
+        'desarrollo_personal',
+        'comentarios',
+        'recomendaciones'
     ];
 
     public function student()
@@ -34,8 +38,28 @@ class PreProfessionalPractice extends Model
         return $this->belongsTo(Student::class);
     }
 
+    public function careerDirector()
+    {
+        return $this->belongsTo(CareerDirector::class);
+    }
+
+    public function internshipRepresentative()
+    {
+        return $this->belongsTo(InternshipRepresentative::class);
+    }
+
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
+
+    public function estadoCatalogo()
+    {
+        return $this->belongsTo(Catalogue::class, 'estado_id');
+    }
+
     public function grades()
     {
-        return $this->hasOne(Grade::class);
+        return $this->hasMany(Grade::class);
     }
 }

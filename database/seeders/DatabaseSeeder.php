@@ -14,68 +14,271 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        \App\Models\Role::factory()->create([
+        /*\App\Models\Role::factory()->create([
             'nombre' => 'Representante de practicas',
         ]);
 
         \App\Models\Role::factory()->create([
             'nombre' => 'Estudiante'
-        ]);
+        ]);*/
 
         \App\Models\Resource::factory()->create([
-            'nombre' => 'Carreras',
-        ]);
-
-        \App\Models\Resource::factory()->create([
-            'nombre' => 'Niveles'
+            'nombre' => 'ESTADOS USUARIO',
         ]);
 
         \App\Models\Catalogue::factory()->create([
-            'nombre' => 'Software',
-            'recurso_id' => 1
+            'nombre' => 'ACTIVO',
+            'resource_id' => 1
         ]);
 
         \App\Models\Catalogue::factory()->create([
-            'nombre' => 'Primer Nivel',
-            'recurso_id' => 2
+            'nombre' => 'INACTIVO',
+            'resource_id' => 1
         ]);
 
-        \App\Models\User::factory()->create([
-            'identificacion' => '1111111111',
-            'nombre' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => '123456789',
-            'estado' => 'activo',
-            'role_id' => 1
+        \App\Models\Resource::factory()->create([
+            'nombre' => 'ESTADOS PRACTICA PREPROFESIONAL',
         ]);
 
-        \App\Models\User::factory()->create([
-            'identificacion' => '1751592013',
-            'nombre' => 'Delgado Landa Byron Daniel',
-            'estado' => 'activo',
-            'email' => 'byrondanipm@gmail.com',
-            'password' => '123456789',
-            'role_id' => 2
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'EN PROCESO',
+            'resource_id' => 2
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'APROBADO',
+            'resource_id' => 2
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'REPROBADO',
+            'resource_id' => 2
+        ]);
+
+        \App\Models\Resource::factory()->create([
+            'nombre' => 'NIVELES'
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'PRIMER NIVEL',
+            'resource_id' => 3
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'SEGUNDO NIVEL',
+            'resource_id' => 3
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'TERCER NIVEL',
+            'resource_id' => 3
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'CUARTO NIVEL',
+            'resource_id' => 3
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'QUINTO NIVEL',
+            'resource_id' => 3
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'SEXTO NIVEL',
+            'resource_id' => 3
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'SEPTIMO NIVEL',
+            'resource_id' => 3
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'OCTAVO NIVEL',
+            'resource_id' => 3
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'NOVENO NIVEL',
+            'resource_id' => 3
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'DÉCIMO NIVEL',
+            'resource_id' => 3
+        ]);
+
+        \App\Models\Resource::factory()->create([
+            'nombre' => 'TIPOS USUARIO',
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'ADMINISTRADOR',
+            'resource_id' => 4
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'ÁREA VINCULACIÓN',
+            'resource_id' => 4
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'DIRECTOR DE CARRERA',
+            'resource_id' => 4
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'ESTUDIANTE',
+            'resource_id' => 4
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'REPRESENTANTE PRÁCTICAS',
+            'resource_id' => 4
+        ]);
+
+        \App\Models\Resource::factory()->create([
+            'nombre' => 'CARRERAS',
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'ENFERMERÍA',
+            'resource_id' => 5
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'FISIOTERAPIA',
+            'resource_id' => 5
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'FISNUTRICIÓN Y DIETÉTICAIOTERAPIA',
+            'resource_id' => 5
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'PSICOLOGÍA',
+            'resource_id' => 5
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'CIENCIAS DE LA EDUCACIÓN BÁSICA',
+            'resource_id' => 5
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'MULTIMEDIA Y PRODUCCIÓN AUDIOVISUAL',
+            'resource_id' => 5
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'MEDICINA',
+            'resource_id' => 5
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'SOFTWARE',
+            'resource_id' => 5
+        ]);
+
+        \App\Models\Resource::factory()->create([
+            'nombre' => 'CRITERIOS CALIFFICACIÓN'
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'CUMPLIMIENTO DE LOS OBJETIVOS DE LA PRÁCTICA',
+            'resource_id' => 6
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'COMPETENCIAS NECESARIAS PARA LA TAREA',
+            'resource_id' => 6
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'RESPONSABILIDAD EN EL TRABAJO',
+            'resource_id' => 6
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'CREATIVIDAD E INICIATIVA',
+            'resource_id' => 6
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'ADAPTACIÓN AL LUGAR DEL TRABAJO',
+            'resource_id' => 6
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'COOPERACIÓN',
+            'resource_id' => 6
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'HONESTIDAD',
+            'resource_id' => 6
+        ]);
+
+        \App\Models\Catalogue::factory()->create([
+            'nombre' => 'PUNTUALIDAD',
+            'resource_id' => 6
         ]);
 
         \App\Models\User::factory()->create([
             'identificacion' => '1752397172',
-            'nombre' => 'Osorio Carlos',
-            'estado' => 'activo',
+            'primer_nombre' => 'CARLOS',
+            'segundo_nombre' => 'ALEXANDER',
+            'primer_apellido' => 'OSORIO',
+            'segundo_apellido' => 'HINOJOSA',
             'email' => 'carlosalexander.2001@hotmail.com',
             'password' => '123456789',
-            'role_id' => 2
+            'tipo_id' => 16
+        ]);
+        
+        \App\Models\User::factory()->create([
+            'identificacion' => '1111111111',
+            'primer_nombre' => 'USUARIO',
+            'segundo_nombre' => '',
+            'primer_apellido' => 'VINCULARION',
+            'segundo_apellido' => '',
+            'email' => 'vinculacion@test.com',
+            'password' => '123456789',
+            'tipo_id' => 17
+        ]);
+
+        \App\Models\User::factory()->create([
+            'identificacion' => '2222222222',
+            'primer_nombre' => 'USUARIO',
+            'segundo_nombre' => '',
+            'primer_apellido' => 'DIRECTOR',
+            'segundo_apellido' => '',
+            'email' => 'director@test.com',
+            'password' => '123456789',
+            'tipo_id' => 18
+        ]);
+
+        \App\Models\User::factory()->create([
+            'identificacion' => '3333333333',
+            'primer_nombre' => 'USUARIO',
+            'segundo_nombre' => '',
+            'primer_apellido' => 'ESTUDIANTE',
+            'segundo_apellido' => '',
+            'email' => 'estudiante@test.com',
+            'password' => '123456789',
+            'tipo_id' => 19
+        ]);
+
+        \App\Models\CareerDirector::factory()->create([
+            'user_id' => 3,
+            'carrera_id' => 23
         ]);
 
         \App\Models\Student::factory()->create([
-            'nivel_id' => 2,
-            'carrera_id' => 1,
-            'usuario_id' => 3,
-        ]);
-        \App\Models\Student::factory()->create([
-            'nivel_id' => 2,
-            'carrera_id' => 1,
-            'usuario_id' => 2,
+            'user_id' => 4,
+            'carrera_id' => 23,
+            'nivel_id' => 10
         ]);
 
     }

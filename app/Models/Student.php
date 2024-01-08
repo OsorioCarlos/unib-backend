@@ -23,14 +23,14 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function career()
+    public function carreraCatalogo()
     {
-        return $this->belongsTo(Resource::class);
+        return $this->belongsTo(Catalogue::class, 'carrera_id');
     }
 
-    public function level()
+    public function nivelCatalogo()
     {
-        return $this->belongsTo(Catalogue::class);
+        return $this->belongsTo(Catalogue::class, 'nivel_id');
     }
 
     public function preprofessionalPractices()

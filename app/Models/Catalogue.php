@@ -23,23 +23,38 @@ class Catalogue extends Model
         return $this->belongsTo(Resource::class);
     }
 
-    public function grades()
+    public function tipoUsuarios()
     {
-        return $this->belongsToMany(Grade::class);
+        return $this->hasMany(User::class, 'tipo_id');
     }
 
-    public function students()
+    public function estadoUsuarios()
     {
-        return $this->hasMany(Student::class);
+        return $this->hasMany(User::class, 'estado_id');
     }
 
-    public function careerDirectors()
+    public function carreraEstudiantes()
     {
-        return $this->hasMany(CareerDirector::class);
+        return $this->hasMany(Student::class, 'carrera_id');
     }
 
-    public function gradingCriteria()
+    public function nivelEstudiantes()
     {
-        return $this->hasMany(GradingCriteria::class);
+        return $this->hasMany(Student::class, 'nivel_id');
+    }
+
+    public function carreraDirectoresCarrera()
+    {
+        return $this->hasMany(CareerDirector::class, 'carrera_id');
+    }
+
+    public function estadoPracticasPreProfesionales()
+    {
+        return $this->hasMany(PreProfessionalPractice::class, 'estado_id');
+    }
+
+    public function criterioCalificaciones()
+    {
+        return $this->hasMany(GradingCriteria::class, 'criterio_id');
     }
 }

@@ -11,18 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('grading_criterias', function (Blueprint $table) {
+        Schema::create('internship_representatives', function (Blueprint $table) {
             $table->id();
-            $table->float('calificacion');
-            $table->unsignedBigInteger('calificacion_id');
-            $table->unsignedBigInteger('criterio_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('organization_id');
             $table->timestamps();
 
-            $table->foreign('calificacion_id')->references('id')->on('grades')
+            $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
-            $table->foreign('criterio_id')->references('id')->on('catalogues')
+            $table->foreign('organization_id')->references('id')->on('organizations')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('grading_criteria');
+        Schema::dropIfExists('internship_representatives');
     }
 };

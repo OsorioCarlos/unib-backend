@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Grade extends Model
+class InternshipRepresentative extends Model
 {
     use HasFactory;
 
@@ -15,10 +15,7 @@ class Grade extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'nota_promedio',
-        'porcentaje_asistencia',
-        'observaciones',
-        'recomendaciones'
+        
     ];
 
     public function user()
@@ -26,13 +23,13 @@ class Grade extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function preprofessionalPractice()
+    public function organization()
     {
-        return $this->belongsTo(PreProfessionalPractice::class);
+        return $this->belongsTo(Organization::class);
     }
 
-    public function gradingCriterias()
+    public function preprofessionalPractices()
     {
-        return $this->hasMany(GradingCriteria::class);
+        return $this->hasMany(PreProfessionalPractice::class);
     }
 }

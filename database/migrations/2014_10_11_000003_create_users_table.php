@@ -13,17 +13,28 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('identificacion');
-            $table->string('nombre');
-            $table->string('email')->unique();
+            $table->string('identificacion')->unique();
+            $table->string('primer_nombre');
+            $table->string('segundo_nombre');
+            $table->string('primer_apellido');
+            $table->string('segundo_apellido');
+            $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->unsignedBigInteger('role_id');
-            $table->string('estado');
+            $table->unsignedBigInteger('tipo_id');
+            $table->unsignedBigInteger('estado_id')->default(1);
+            //$table->unsignedBigInteger('rol_id');
             $table->timestamps();
 
-            $table->foreign('role_id')->references('id')->on('roles')
+            /*$table->foreign('rol_id')->references('id')->on('roles')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');*/
+            $table->foreign('tipo_id')->references('id')->on('catalogues')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('estado_id')->references('id')->on('catalogues')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
