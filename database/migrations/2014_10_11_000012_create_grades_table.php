@@ -11,17 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('career_directors', function (Blueprint $table) {
+        Schema::create('grades', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('pre_professional_practice_id');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('carrera_id');
+            $table->float('nota_promedio');
+            $table->float('porcentaje_asistencia');
+            $table->string('observaciones')->nullable();
+            $table->string('recomendaciones')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')
+            $table->foreign('pre_professional_practice_id')->references('id')->on('pre_professional_practices')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
-            $table->foreign('carrera_id')->references('id')->on('catalogues')
+            $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -32,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('career_directors');
+        Schema::dropIfExists('grades');
     }
 };

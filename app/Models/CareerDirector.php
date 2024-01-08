@@ -23,13 +23,13 @@ class CareerDirector extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function career()
+    public function carreraCatalogo()
     {
-        return $this->belongsTo(Catalogue::class);
+        return $this->belongsTo(Catalogue::class, 'carrera_id');
     }
 
     public function preprofessionalPractices()
     {
-        return $this->morphMany(PreProfessionalPractice::class, 'evaluador');
+        return $this->hasMany(PreProfessionalPractice::class);
     }
 }

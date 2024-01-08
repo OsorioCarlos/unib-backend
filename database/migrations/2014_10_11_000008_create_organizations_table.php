@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('razon_social');
             $table->string('representante_legal');
             $table->string('direccion');
-            $table->string('area_dedicacion');
             $table->string('telefono');
+            $table->string('area_dedicacion');
             $table->string('horario');
             $table->string('dias_laborables');
             $table->timestamps();

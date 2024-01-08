@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('catalogues', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->unsignedBigInteger('recurso_id');
+            $table->unsignedBigInteger('resource_id');
             $table->timestamps();
 
-            $table->foreign('recurso_id')->references('id')->on('resources')
+            $table->foreign('resource_id')->references('id')->on('resources')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });

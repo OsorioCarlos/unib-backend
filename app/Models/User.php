@@ -19,8 +19,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'identificacion',
-        'nombre',
-        'estado',
+        'primer_nombre',
+        'segundo_nombre',
+        'primer_apellido',
+        'segundo_apellido',
         'email',
         'password'
     ];
@@ -45,10 +47,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function role()
+    /*public function role()
     {
         return $this->belongsTo(Role::class);
-    }
+    }*/
 
     public function student()
     {
@@ -58,5 +60,25 @@ class User extends Authenticatable
     public function careerDirector()
     {
         return $this->hasOne(CareerDirector::class);
+    }
+
+    public function internshipRepresentative()
+    {
+        return $this->hasOne(InternshipRepresentative::class);
+    }
+
+    public function tipoCatalogo()
+    {
+        return $this->belongsTo(Catalogue::class, 'tipo_id');
+    }
+
+    public function estadoCatalogo()
+    {
+        return $this->belongsTo(Catalogue::class, 'estado_id');
+    }
+
+    public function grades()
+    {
+        return $this->hasMany(Grade::class);
     }
 }
