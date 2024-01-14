@@ -17,7 +17,7 @@ class PreProfessionalPracticeController extends Controller
         $practicasPreprofesionales = PreProfessionalPractice::all();
 
         return response()->json([
-            'practicas_preprofesionales' => $practicasPreprofesionales,
+            'data' => $practicasPreprofesionales,
             'mensaje' => 'OK'
         ], 200);
     }
@@ -59,7 +59,7 @@ class PreProfessionalPracticeController extends Controller
         $practicaPreprofesional = PreProfessionalPractice::find($id);
 
         return response()->json([
-            'practica_preprofesional' => $practicaPreprofesional,
+            'data' => $practicaPreprofesional,
             'mensaje' => 'OK'
         ], 200);
     }
@@ -69,27 +69,20 @@ class PreProfessionalPracticeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $practicaPreprofesionalData = $request->get('practica_preprofesional');
+        $requestData = $request->all();
 
         $practicaPreprofesional = PreProfessionalPractice::find($id);
-        $practicaPreprofesional->numero_horas_practica = $practicaPreprofesionalData['numero_horas_practica'];
-        $practicaPreprofesional->estudiante_compromiso = $practicaPreprofesionalData['estudiante_compromiso'];
-        $practicaPreprofesional->estudiante_compromiso_fecha = Carbon::parse($practicaPreprofesionalData['estudiante_compromiso_fecha'])->format('Y-m-d');
-        $practicaPreprofesional->objetivos_practica = $practicaPreprofesionalData['objetivos_practica'];
-        $practicaPreprofesional->tareas = $practicaPreprofesionalData['tareas'];
-        $practicaPreprofesional->horario = $practicaPreprofesionalData['horario'];
-        $practicaPreprofesional->fecha_inicio = Carbon::parse($practicaPreprofesionalData['fecha_inicio'])->format('Y-m-d');
-        $practicaPreprofesional->fecha_finalizacion = Carbon::parse($practicaPreprofesionalData['fecha_finalizacion'])->format('Y-m-d');
-        $practicaPreprofesional->empresa_compromiso = $practicaPreprofesionalData['empresa_compromiso'];
-        $practicaPreprofesional->empresa_compromiso_fecha = Carbon::parse($practicaPreprofesionalData['empresa_compromiso_fecha'])->format('Y-m-d');
-        $practicaPreprofesional->area_practicas = $practicaPreprofesionalData['area_practicas'];
-        $practicaPreprofesional->nota_final = $practicaPreprofesionalData['nota_final'];
-        $practicaPreprofesional->estudiante_id = $practicaPreprofesionalData['estudiante_id'];
+        $practicaPreprofesional->cumplimiento_objetivos = strtoupper($requestData['informe']['cumplimiento_objetivos']);
+        $practicaPreprofesional->beneficios = strtoupper($requestData['informe']['beneficios']);
+        $practicaPreprofesional->aprendizajes = strtoupper($requestData['informe']['aprendizajes']);
+        $practicaPreprofesional->desarrollo_personal = strtoupper($requestData['informe']['desarrollo_personal']);
+        $practicaPreprofesional->comentarios = strtoupper($requestData['informe']['comentarios']);
+        $practicaPreprofesional->recomendaciones = strtoupper($requestData['informe']['recomendaciones']);
         $practicaPreprofesional->save();
 
         return response()->json([
-            'practicas_preprofesional' => $practicaPreprofesional,
-            'mensaje' => 'OK'
+            'mensaje' => 'OK',
+            'data' => ''
         ], 200);
     }
 

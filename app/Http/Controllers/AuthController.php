@@ -55,4 +55,37 @@ class AuthController extends Controller
             'token' => Auth::refresh()
         ]);
     }
+
+    public function authUser()
+    {
+        $authUser = Auth::user();
+        $usuario = [
+            'cedula' => $authUser->identificacion,
+            'nombres' => trim($authUser->primer_nombre . ' ' . $authUser->segundo_nombre),
+            'apellidos' => trim($authUser->primer_apellido . ' ' . $authUser->segundo_apellido),
+            'tipo_usuario' => $authUser->tipoCatalogo->nombre,
+            'carrera' => '',
+            'nivel' => '',
+            'empresa' => ''
+        ];
+
+        switch ($usuario['tipo_usuario']) {
+            case 'ESTUDIANTE':
+                $usuario['carrera'] = $authUser->student->carreraCatalogo->nombre;
+                $usuario['nivel'] = $authUser->student->nivelCatalogo->nombre;
+                $usuario['empresa'] = 'TRAMAS';
+                break;
+            case 'DIRECTOR CARRERA':
+                $usuario['carrera'] = $authUser->careerDirector->carreraCatalogo->nombre;
+                break;
+            case 'REPRESENTANTE PRACTICAS':
+                $usuario['carrera'] = $authUser->internshipRepresentative->organization->nombre;
+                break;
+        }
+
+        return response()->json([
+            'data' => $usuario,
+            'mensaje' => 'OK'
+        ], 200); 
+    }
 }

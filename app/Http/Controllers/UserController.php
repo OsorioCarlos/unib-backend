@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
 use App\Models\User;
+use App\Models\Student;
+use App\Models\CareerDirector;
+use App\Models\InternshipRepresentative;
 use App\Validations\UserValidator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -12,102 +14,150 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
 
-    public function getAll()
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
         $usuarios = User::all();
-        $usuariosDto = [];
-        foreach ($usuarios as $usuario) {
-            $usuarioDto = new User();
-            $usuarioDto->id = $usuario->id;
-            $usuarioDto->identificacion = $usuario->identificacion;
-            $usuarioDto->nombre = $usuario->nombre;
-            $usuarioDto->estado = $usuario->estado;
-            $usuarioDto->email = $usuario->email;
-            $usuarioDto->rol = $usuario->rol->nombre;
-            array_push($usuariosDto, $usuarioDto);
-         }
-        return response()->json($usuariosDto, Response::HTTP_OK);
+
+        return response()->json([
+            'data' => $usuarios,
+            'mensaje' => 'OK'
+        ], Response::HTTP_OK);
     }
 
-    public function getById(string $id)
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
     {
         $usuario = User::find($id);
-        if(!$usuario){
-            return response()->json([
-                'estado' => 'error',
-                'mensaje' => 'No existe usuario',
-            ], Response::HTTP_BAD_REQUEST);
-        }
-        $usuarioDto = new User();
-        $usuarioDto->id = $usuario->id;
-        $usuarioDto->identificacion = $usuario->identificacion;
-        $usuarioDto->nombre = $usuario->nombre;
-        $usuarioDto->estado = $usuario->estado;
-        $usuarioDto->email = $usuario->email;
-        $usuarioDto->rol = $usuario->role->nombre;
+        $json = [];
 
-        return response()->json($usuarioDto, Response::HTTP_OK);
+        switch ($usuario->tipoCatalogo->nombre) {
+            case 'ESTUDIANTE':
+                $json = [
+                    'usuario' => $usuario,
+                    'estudiante' => $usuario->student,
+                    'mensaje' => 'OK'
+                ];
+                break;
+            case 'DIRECTOR CARRERA':
+                $json = [
+                    'usuario' => $usuario,
+                    'director_carrera' => $usuario->careerDirector,
+                    'mensaje' => 'OK'
+                ];
+                break;
+            case 'REPRESENTANTE PRACTICAS':
+                $json = [
+                    'usuario' => $usuario,
+                    'representante_practicas' => $usuario->internshipRepresentative,
+                    'mensaje' => 'OK'
+                ];
+                break;
+            default:
+                $json = [
+                    'usuario' => $usuario,
+                    'mensaje' => 'OK'
+                ];
+                break;
+        }
+
+        return response()->json($json, Response::HTTP_OK); 
     }
 
-    public function create(Request $request)
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
     {
-        UserValidator::validate($request);
-        $rol = Role::find($request->rol_id);
-        if(!$rol){
-            return response()->json([
-                'estado' => 'error',
-                'mensaje' => 'No existe el rol',
-            ], Response::HTTP_BAD_REQUEST);
-        }
-        $existeEmail = User::where('email', $request->email)->where('id',  '!=', $request->id)->exists();
-        if($existeEmail){
-            return response()->json([
-                'estado' => 'error',
-                'mensaje' => 'Ya existe el email',
-            ], Response::HTTP_BAD_REQUEST);
-        }
-        $usuario = new User();
-        $usuario->identificacion = $request->identificacion;
-        $usuario->nombre = $request->nombre;
-        $usuario->email = $request->email;
-        $usuario->password = bcrypt($request->identificacion);
-        $usuario->rol_id = $request->rol_id;
-        $usuario->estado = 'activo';
+        $usuarioData = $request->get('usuario');
 
+        $usuario = new User();
+        $usuario->identificacion = $usuarioData['identificacion'];
+        $usuario->primer_nombre = $usuarioData['primer_nombre'];
+        $usuario->segundo_nombre = $usuarioData['segundo_nombre'];
+        $usuario->primer_apellido = $usuarioData['primer_apellido'];
+        $usuario->segundo_apellido = $usuarioData['segundo_apellido'];
+        $usuario->email = $usuarioData['email'];
+        $usuario->password = $usuarioData['password'];
+        $usuario->tipo_id = $usuarioData['tipo_id'];
         $usuario->save();
 
-        return response()->json($usuario, Response::HTTP_CREATED);
+        switch ($usuario->tipoCatalogo->nombre) {
+            case 'ESTUDIANTE':
+                $estudiante = new Student();
+                $estudiante->user_id = $usuario->id;
+                $estudiante->carrera_id = $usuarioData['carrera_id'];
+                $estudiante->nivel_id = $usuarioData['nivel_id'];
+                $estudiante->save();
+                break;
+        
+            case 'DIRECTOR CARRERA':
+                $directorCarrera = new CareerDirector();
+                $directorCarrera->user_id = $usuario->id;
+                $directorCarrera->carrera_id = $usuarioData['carrera_id'];
+                $directorCarrera->save();
+                break;
+
+            case 'REPRESENTANTE PRACTICAS':
+                $internshipRepresentative = new InternshipRepresentative();
+                $internshipRepresentative->user_id = $usuario->id;
+                $internshipRepresentative->organization_id = $usuarioData['organizacion_id'];
+                $internshipRepresentative->save();
+                break;
+        }
+
+        return response()->json([
+            'usuario' => $usuario,
+            'mensaje' => 'OK'
+        ], Response::HTTP_OK);
     }
 
-    public function update(Request $request)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
     {
-        $usuario = User::find($request->id);
-        UserValidator::validate($request);
+        $usuarioData = $request->get('usuario');
 
-        if(!$usuario){
-            return response()->json([
-                'estado' => 'error',
-                'mensaje' => 'No existe usuario',
-            ], Response::HTTP_BAD_REQUEST);
+        $usuario = User::find($id);
+        $usuario->identificacion = $usuarioData['identificacion'];
+        $usuario->primer_nombre = $usuarioData['primer_nombre'];
+        $usuario->segundo_nombre = $usuarioData['segundo_nombre'];
+        $usuario->primer_apellido = $usuarioData['primer_apellido'];
+        $usuario->segundo_apellido = $usuarioData['segundo_apellido'];
+        $usuario->email = $usuarioData['email'];
+        $usuario->password = $usuarioData['password'];
+        $usuario->save();
+
+        switch ($usuario->tipoCatalogo->nombre) {
+            case 'ESTUDIANTE':
+                $estudiante = Student::where('user_id', $id)->first();
+                $estudiante->carrera_id = $usuarioData['carrera_id'];
+                $estudiante->nivel_id = $usuarioData['nivel_id'];
+                $estudiante->save();
+                break;
+        
+            case 'DIRECTOR CARRERA':
+                $directorCarrera = CareerDirector::where('user_id', $id)->first();
+                $directorCarrera->carrera_id = $usuarioData['carrera_id'];
+                $directorCarrera->save();
+                break;
+
+            case 'REPRESENTANTE PRACTICAS':
+                $internshipRepresentative = InternshipRepresentative::where('user_id', $id)->first();
+                $internshipRepresentative->organization_id = $usuarioData['organizacion_id'];
+                $internshipRepresentative->save();
+                break;
         }
 
-        $existeEmail = User::where('email', $request->email)->where('id',  '!=', $request->id)->exists();
-        $existeIdentificacion = User::where('identificacion', $request->identificacion)->where('id',  '!=', $request->id)->exists();
-        if($existeEmail){
-            return response()->json([
-                'estado' => 'error',
-                'mensaje' => 'Ya existe el email',
-            ], Response::HTTP_BAD_REQUEST);
-        }
-        if($existeIdentificacion){
-            return response()->json([
-                'estado' => 'error',
-                'mensaje' => 'Ya existe la identificacion',
-            ], Response::HTTP_BAD_REQUEST);
-        }
-        $usuario->update($request->all());
-
-        return response()->json($usuario, Response::HTTP_OK);
+        return response()->json([
+            'usuario' => $usuario,
+            'mensaje' => 'OK'
+        ], Response::HTTP_OK);
     }
 
 

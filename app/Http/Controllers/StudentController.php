@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Catalogue;
 use App\Models\PreProfessionalPractice;
+use App\Models\Resource;
 use App\Models\Student;
 use App\Models\User;
 use App\Validations\StudentValidator;
@@ -75,6 +77,27 @@ class StudentController extends Controller
             'estado' => 'ok',
             'mensaje' => 'Solicitud Enviada',
             'detalle' => $request->json()->all()
+        ], Response::HTTP_OK);
+    }
+
+    public function buscarEstudiante(string $cedula) {
+        $recursoTiposUsuario = Resource::where('nombre', 'TIPOS USUARIO')->first();
+        $tipoUsuarioId = '';
+        foreach ($recursoTiposUsuario->catalogues as $catalogo) {
+            if ($catalogo->nombre == 'ESTUDIANTE') {
+                $tipoUsuarioId = $catalogo->id;
+                break;
+            }
+        }
+
+        $usuario = User::where('tipo_id', $tipoUsuarioId)
+            ->where('identificacion', $cedula)
+            ->first();
+        $usuario->student;
+
+        return response()->json([
+            'data' => $usuario,
+            'mensaje' => 'OK'
         ], Response::HTTP_OK);
     }
 }

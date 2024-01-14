@@ -6,14 +6,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CareerDirectorController;
 use App\Http\Controllers\CatalogueController;
+use App\Http\Controllers\FormulariosController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\GradingCriteriaController;
+use App\Http\Controllers\InternshipRepresentativeController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\PreProfessionalPracticeController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReportController;
 //use App\Http\Controllers\UsuarioController;
 
 /*
@@ -28,25 +31,14 @@ use App\Http\Controllers\UserController;
 */
 
 Route::controller(AuthController::class)->group(function () {
-    Route::post('login', 'login');
-    Route::post('logout', 'logout');
-    Route::post('register', 'register');
+    Route::get('auth/authUser', 'authUser');
+    Route::post('auth/login', 'login');
+    Route::post('auth/logout', 'logout');
+    Route::post('auth/register', 'register');
 });
 
-// Route::middleware('auth:sanctum')->group(function () {
-    Route::controller(UserController::class)->group(function () {
-        Route::get('usuarios', 'getAll');
-        Route::get('usuarios/{id}', 'getById');
-        Route::post('usuarios', 'create');
-        Route::put('usuarios', 'update');
-        Route::delete('usuarios/{id}', 'delete');
-    });
-
-    Route::controller(StudentController::class)->group(function () {
-        Route::post('estudiantes/solicitarPractica', 'requestPractice');
-        Route::post('estudiantes/aceptarCompromiso', 'acceptCompromise');
-    });
-
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('usuarios', UserController::class);
     Route::apiResource('roles', RoleController::class);
     Route::apiResource('organizaciones', OrganizationController::class);
     Route::apiResource('directores_carrera', CareerDirectorController::class);
@@ -55,5 +47,26 @@ Route::controller(AuthController::class)->group(function () {
     Route::apiResource('practicas_preprofesionales', PreProfessionalPracticeController::class);
     Route::apiResource('calificaciones', GradeController::class);
     Route::apiResource('criterios_calificacion', GradingCriteriaController::class);
-// });
+    Route::apiResource('reportes', ReportController::class);
+
+    Route::controller(FormulariosController::class)->group(function () {
+        Route::get('formularios/informacionVSO003/{cedula}', 'obtenerInformacionFormularioVSO003');
+        Route::get('formularios/informacionVSO004/{ruc}', 'obtenerInformacionFormularioVSO004');
+        Route::get('formularios/informacionVSO005/{cedula}', 'obtenerInformacionFormularioVSO005');
+    });
+
+    Route::controller(StudentController::class)->group(function () {
+        Route::post('estudiantes/solicitarPractica', 'requestPractice');
+        Route::post('estudiantes/aceptarCompromiso', 'acceptCompromise');
+        Route::get('estudiantes/buscarPorCedula/{cedula}', 'buscarEstudiante');
+    });
+
+    Route::controller(OrganizationController::class)->group(function () {
+        Route::get('organizaciones/buscarPorRUC/{ruc}', 'buscarOrganizacion');
+    });
+
+    Route::controller(InternshipRepresentativeController::class)->group(function () {
+        Route::get('representantes_practicas/buscarPorCedula/{ruc}', 'buscarRepresentatePracticas');
+    });
+});
 
