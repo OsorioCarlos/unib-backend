@@ -5,18 +5,30 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Catalogue;
+use App\Models\Resource;
 
 class CatalogueController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $catalogos = Catalogue::all();
+        $nombreRecurso = $request->get('nombre');
+
+        $catalogos = Catalogue::where('id', '<>', null);
+
+        if ($nombreRecurso !== '' && $nombreRecurso !== null) {
+            $recurso = Resource::where('nombre', $nombreRecurso)->first();
+            if ($recurso) {
+                $catalogos->where('resource_id', $recurso->id);
+            }
+        }
+
+        $catalogos = $catalogos->get();
 
         return response()->json([
-            'catalogos' => $catalogos,
+            'data' => $catalogos,
             'mensaje' => 'OK'
         ], 200);
     }
@@ -30,7 +42,7 @@ class CatalogueController extends Controller
 
         $catalogo = new Catalogue();
         $catalogo->nombre = $catalogoData['nombre'];
-        $catalogo->recurso_id = $catalogoData['recurso_id'];
+        $catalogo->resource_id = $catalogoData['recurso_id'];
         $catalogo->save();
 
         return response()->json([
@@ -61,7 +73,7 @@ class CatalogueController extends Controller
 
         $catalogo = Catalogue::find($id);
         $catalogo->nombre = $catalogoData['nombre'];
-        $catalogo->recurso_id = $catalogoData['recurso_id'];
+        $catalogo->resource_id = $catalogoData['recurso_id'];
         $catalogo->save();
 
         return response()->json([

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Grade;
+use App\Models\GradingCriteria;
+use App\Models\PreProfessionalPractice;
 
 class GradeController extends Controller
 {
@@ -26,17 +28,57 @@ class GradeController extends Controller
      */
     public function store(Request $request)
     {
-        $calificacionData = $request->get('calificacion');
+        $requestData = $request->all();
+        
+        $practicaPreProfesional = PreProfessionalPractice::find($requestData['id']);
+        $usuario = null;
+        switch ($requestData['formulario']) {
+            case 'VSO-003':
+                $usuario = $practicaPreProfesional->careerDirector;
+                break;
+            case 'VSO-004':
+                $usuario = $practicaPreProfesional->internshipRepresentative;
+                break;
+            default:
+                break;
+        }
 
         $calificacion = new Grade();
-        $calificacion->promedio = $calificacionData['promedio'];
-        $calificacion->practica_preprofesional_id = $calificacionData['practica_preprofesional_id'];
-        $calificacion->evaluador_id = $calificacionData['evaluador_id'];
+        $calificacion->pre_professional_practice_id = $practicaPreProfesional->id;
+        $calificacion->user_id = $usuario->user->id;
+        $calificacion->nota_promedio = $requestData['calificacion']['nota_promedio'];
+        $calificacion->porcentaje_asistencia = $requestData['calificacion']['porcentaje_asistencia'];
+        $calificacion->observaciones = isset($requestData['calificacion']['observaciones'])?(strtoupper($requestData['calificacion']['observaciones'])):null;
+        $calificacion->recomendaciones = isset($requestData['calificacion']['recomendaciones'])?(strtoupper($requestData['calificacion']['recomendaciones'])):null;
         $calificacion->save();
 
+        foreach($requestData['calificacion']['criterios'] as $criterioData) {
+            $criterioCalificacion = new GradingCriteria();
+            $criterioCalificacion->grade_id = $calificacion->id;
+            $criterioCalificacion->criterio_id = $criterioData['id'];
+            $criterioCalificacion->calificacion = $criterioData['calificacion'];
+            $criterioCalificacion->save();
+        }
+
+        if (count($practicaPreProfesional->grades) === 2) {
+            $calificaciones = $practicaPreProfesional->grades;
+            $notaFinal = 0;
+            $asistencia = 0;
+
+            foreach($calificaciones as $calificacion) {
+                $notaFinal += $calificacion['nota_promedio'];
+                $asistencia += $calificacion['porcentaje_asistencia'];
+            }
+
+            $practicaPreProfesional->nota_final = $notaFinal/2;
+            $practicaPreProfesional->asistencia = $asistencia/2;
+            //$practicaPreProfesional->estado_id = 4;
+            $practicaPreProfesional->save();
+        }
+
         return response()->json([
-            'calificacion' => $calificacion,
-            'mensaje' => 'OK'
+            'mensaje' => 'OK',
+            'data' => ''
         ], 200);
     }
 

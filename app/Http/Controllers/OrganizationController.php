@@ -68,7 +68,6 @@ class OrganizationController extends Controller
         $organizacion = Organization::find($id);
         $organizacion->ruc = $organizacionData['ruc'];
         $organizacion->razon_social = $organizacionData['razon_social'];
-        $organizacion->representante_legal = $organizacionData['representante_legal'];
         $organizacion->direccion = $organizacionData['direccion'];
         $organizacion->area_dedicacion = $organizacionData['area_dedicacion'];
         $organizacion->telefono = $organizacionData['telefono'];
@@ -88,5 +87,14 @@ class OrganizationController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function buscarOrganizacion(string $ruc) {
+        $organizacion = Organization::where('ruc', $ruc)->first();
+
+        return response()->json([
+            'data' => $organizacion,
+            'mensaje' => 'OK'
+        ], 200);
     }
 }

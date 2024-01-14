@@ -47,6 +47,7 @@ class ResourceController extends Controller
 
         return response()->json([
             'recurso' => $recurso,
+            'catalogos' => $recurso->catalogues,
             'mensaje' => 'OK'
         ], 200); 
     }
