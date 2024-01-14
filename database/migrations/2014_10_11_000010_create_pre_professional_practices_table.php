@@ -21,7 +21,7 @@ return new class extends Migration
             $table->dateTime('estudiante_compromiso_fecha');
             $table->float('nota_final')->default(0.0);
             $table->float('asistencia')->default(0.0);
-            $table->unsignedBigInteger('estado_id')->default(1);
+            $table->unsignedBigInteger('estado_id')->default(3);
             $table->string('area_practicas')->nullable();
             $table->string('objetivos_practicas')->nullable();
             $table->string('tareas')->nullable();
