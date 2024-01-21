@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 use App\Models\Organization;
@@ -10,6 +11,18 @@ use App\Models\User;
 
 class FormulariosController extends Controller
 {
+    public function generarCartaCompriso(Request $request) {
+        $estudianteData = $request->all();
+
+        $pdf = Pdf::loadView('documentos.carta-compromiso', compact('estudianteData'));
+        $pdf->save('carta_compromiso.pdf');
+
+        return response()->json([
+            'mensaje' => 'OK',
+            'data' => 'carta_compromiso.pdf'
+        ], 200);
+    }
+
     public function obtenerInformacionFormularioVSO003(string $cedula) {
         $recursoTiposUsuario = Resource::where('nombre', 'TIPOS USUARIO')->first();
         $tipoUsuarioId = '';

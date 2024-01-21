@@ -53,6 +53,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('formularios/informacionVSO003/{cedula}', 'obtenerInformacionFormularioVSO003');
         Route::get('formularios/informacionVSO004/{ruc}', 'obtenerInformacionFormularioVSO004');
         Route::get('formularios/informacionVSO005/{cedula}', 'obtenerInformacionFormularioVSO005');
+        Route::post('formularios/generar_carta_compromiso', 'generarCartaCompriso');
     });
 
     Route::controller(StudentController::class)->group(function () {
