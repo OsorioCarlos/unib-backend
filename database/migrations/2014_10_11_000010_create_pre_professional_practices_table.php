@@ -22,12 +22,14 @@ return new class extends Migration
             $table->unsignedBigInteger('estado_id')->default(3);
             $table->string('area_practicas_solicitadas')->nullable();
             $table->integer('horas_practicas_solicitadas')->nullable();
+            $table->integer('horas_practicas_realizadas')->nullable();
             $table->string('cumplimiento_objetivos')->nullable();
             $table->string('beneficios')->nullable();
             $table->string('aprendizajes')->nullable();
             $table->string('desarrollo_personal')->nullable();
             $table->string('comentarios')->nullable();
             $table->string('recomendaciones')->nullable();
+            $table->string('fecha_informe_enviado')->nullable();
             $table->unsignedBigInteger('career_director_id')->nullable();
             $table->unsignedBigInteger('internship_representative_id')->nullable();
             $table->boolean('empresa_compromiso')->nullable();

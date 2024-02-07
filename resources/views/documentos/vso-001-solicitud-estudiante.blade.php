@@ -99,8 +99,7 @@
                 REPRESENTANTE LEGAL:
                 {{$solicitudData['representante_legal']}}<br />
                 ÁREA DE DEDICACIÓN: {{$solicitudData['area_dedicacion']}}<br />
-                REPRESENTANTE PARA LA PRÁTICA DEL ESTUDIANTE:
-                {{$solicitudData['representante_practica']}}<br />
+                REPRESENTANTE PARA LA PRÁTICA DEL ESTUDIANTE: {{$solicitudData['representante_practica']}}<br />
                 DIRECCIÓN: {{$solicitudData['direccion']}}<br />
                 TELÉFONOS: {{$solicitudData['telefono']}}<br />
                 E-MAIL: {{$solicitudData['email']}}
@@ -109,7 +108,7 @@
         <br />
         <div style="border: 1px solid black; padding: 10px">
             <h3>COMPROMISO DEL ESTUDIANTE:</h3>
-            <p>
+            <p style="text-align: justify">
                 Me comprometo a cumplir con el Reglamento de Prácticas Pre
                 profesionales de la Universidad, así como los objetivos,
                 actividades, horarios y más responsabilidades exigidas por la
@@ -126,6 +125,8 @@
             <p>Quito, D.M, {{$solicitudData['fecha_texto']}}</p>
         </div>
         <div style="padding: 10px">
+            <p class="text-end">Por #{{$solicitudData['horas_practicas_solicitadas']}} horas de Práctica</p>
+
             <p style="line-height: 1.3">
                 {{$solicitudData['nombre_director']}}<br />
                 <b>

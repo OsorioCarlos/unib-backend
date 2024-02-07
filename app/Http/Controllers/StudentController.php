@@ -79,7 +79,7 @@ class StudentController extends Controller
             'organizacion.horario' => 'required|string',
             'practicaPreprofesional.areaPropuesta' => 'required|string',
             'practicaPreprofesional.horasSolicitadas' => 'required|integer',
-            'practicaPreprofesional.representante' => 'required|integer',
+            'organizacion.representante' => 'required|integer',
             'compromisoEstudiante.acepta' => 'required|boolean',
         ]);
         $student = Auth::user()->student;
@@ -89,7 +89,7 @@ class StudentController extends Controller
                 'mensaje' => 'El estudiante aun no acepta el compromiso de bioseguridad'
             ], Response::HTTP_BAD_REQUEST);
         }
-        $practicaPreprofesional->internship_representative_id = $request->input('practicaPreprofesional.representante');
+        $practicaPreprofesional->internship_representative_id = $request->input('organizacion.representante');
         $practicaPreprofesional->horas_practicas_solicitadas = $request->input('practicaPreprofesional.horasSolicitadas');
         $practicaPreprofesional->area_practicas_solicitadas = $request->input('practicaPreprofesional.areaPropuesta');
         $practicaPreprofesional->estudiante_compromiso = $request->input('compromisoEstudiante.acepta');
@@ -130,6 +130,7 @@ class StudentController extends Controller
         $practicaPreprofesional->desarrollo_personal = strtoupper($requestData['informe']['desarrollo_personal']);
         $practicaPreprofesional->comentarios = strtoupper($requestData['informe']['comentarios']);
         $practicaPreprofesional->recomendaciones = strtoupper($requestData['informe']['recomendaciones']);
+        $practicaPreprofesional->fecha_informe_enviado = Carbon::now()->format('Y-m-d');
         $practicaPreprofesional->save();
 
         return response()->json([

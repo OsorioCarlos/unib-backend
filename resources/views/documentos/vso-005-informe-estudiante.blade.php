@@ -81,59 +81,64 @@
         <div style="border: 1px solid black; padding: 10px">
             <h3>DATOS DEL ESTUDIANTE:</h3>
             <p>
-
                 NOMBRE: {{$solicitudData['nombre_estudiante']}}<br />
                 ESCUELA: {{$solicitudData['carrera']}}<br />
                 NIVEL/CICLO: {{$solicitudData['nivel']}}<br />
                 ORGANIZACIÓN, ENTIDAD O PERSONA JURÍDICA DE LA PRÁCTICA: {{$solicitudData['razon_social']}}<br />
-                NÚMERO DE HORAS DE PRÁCTICA REALIZADAS: {{$solicitudData['horas_practicas_solicitadas']}}<br />
+                NÚMERO DE HORAS DE PRÁCTICA REALIZADAS: {{$solicitudData['horas_practicas_realizadas']}}<br />
                 FECHA DE INICIO: {{$solicitudData['fecha_inicio']}}<br />
                 FECHA DE FINALIZACIÓN: {{$solicitudData['fecha_fin']}}<br />
-
             </p>
         </div>
         <br />
         <div style="border: 1px solid black; padding: 10px">
-            <h3>COMPROMISO EN RELACIÓN CON EL ESTUDIANTE DE PRÁCTICAS PRE PROFESIONALES:</h3>
-            <p>
-                NOMBRE DEL ESTUDIANTE: {{$solicitudData['fecha_fin']}}<br />
-                ÁREA DE LA PRÁCTICA PRE PROFESIONAL: {{$solicitudData['fecha_fin']}}<br />
-                OBJETIVOS DE LA PRÁCTICA PARA EL ESTUDIANTE:
-                {{$solicitudData['fecha_fin']}}<br />
-                TAREAS:
-                {{$solicitudData['fecha_fin']}}<br />
-                DURACIÓN:
-                {{$solicitudData['fecha_fin']}}<br />
-                FECHA DE INICIO: {{$solicitudData['fecha_fin']}}<br />
-                FECHA DE FINALIZACIÓN: {{$solicitudData['fecha_fin']}}<br />
-                DÍAS LABORABLES DE LAS PRÁCTICAS PRE PROFESIONALES: {{$solicitudData['fecha_fin']}}<br />
-                HORARIO: {{$solicitudData['fecha_fin']}}<br />
+            <h3>CUMPLIMIENTO DE LOS OBJETIVOS DE LA PRÁCTICA:</h3>
+            <p style="text-align: justify">
+                {{$solicitudData['objetivos_practica']}}
             </p>
         </div>
         <br />
         <div style="border: 1px solid black; padding: 10px">
-            <h3>COMPROMISO DE LA ORGANIZACIÓN, ENTIDAD O PERSONA JURÍDICA:</h3>
-            <p>
-                Me comprometo en realizar el seguimiento y las evaluaciones respectivas, y recibir a la autoridad de la Universidad para la supervisión al estudiante.
+            <h3>BENEFICIOS PARA SU FORMACIÓN PROFESIONAL:</h3>
+            <p style="text-align: justify">
+                {{$solicitudData['beneficios_practica']}}
             </p>
-            <p style="line-height: 1.3">
-                Nombre: {{$solicitudData['nombre_estudiante']}}<br />
-                Representante: {{$solicitudData['carrera']}}<br />
-                CC: {{$solicitudData['identificacion_estudiante']}}
+        </div>
+        <br />
+        <div style="border: 1px solid black; padding: 10px">
+            <h3>NUEVOS APRENDIZAJES:</h3>
+            <p style="text-align: justify">
+                {{$solicitudData['apredizajes_practica']}}
             </p>
-
-            <p>Quito, D.M, {{$solicitudData['fecha_texto']}}</p>
+        </div>
+        <br />
+        <div style="border: 1px solid black; padding: 10px">
+            <h3>INCIDENCIA EN SU DESARROLLO PERSONAL:</h3>
+            <p style="text-align: justify">
+                {{$solicitudData['incidencia_practica']}}
+            </p>
+        </div>
+        <br />
+        <div style="border: 1px solid black; padding: 10px">
+            <h3>COMENTARIOS:</h3>
+            <p style="text-align: justify">
+                {{$solicitudData['comentarios_practica']}}
+            </p>
+        </div>
+        <br />
+        <div style="border: 1px solid black; padding: 10px">
+            <h3>RECOMENDACIONES</h3>
+            <p style="text-align: justify">
+                {{$solicitudData['recomendaciones_practica']}}
+            </p>
         </div>
         <div style="padding: 10px">
-            <p style="line-height: 1.3">
-                {{$solicitudData['nombre_director']}}<br />
-                <b>
-                    Director Escuela de: {{$solicitudData['carrera']}}<br />
-                    CC: {{$solicitudData['identificacion_director']}}<br />
-                    UNIBE
-                </b>
+            <p class="text-end">Quito, D.M, {{$solicitudData['fecha_texto']}}</p>
+            <p>
+                Srta./Sr {{$solicitudData['nombre_estudiante']}}<br>
+                ESTUDIANTE DE LA CARRERA DE: {{$solicitudData['carrera']}}<br>
+                CC: {{$solicitudData['cedula_estudiante']}}
             </p>
-            <p>Quito, D.M, {{$solicitudData['fecha_texto']}}</p>
         </div>
     </body>
 </html>
