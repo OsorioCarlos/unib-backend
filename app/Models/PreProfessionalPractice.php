@@ -15,6 +15,9 @@ class PreProfessionalPractice extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'estudiante_carta_compromiso',
+        'estudiante_carta_compromiso_fecha',
+        'estudiante_compromiso',
         'estudiante_compromiso_fecha',
         'area_practicas',
         'objetivos_practicas',

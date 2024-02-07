@@ -23,6 +23,39 @@ class FormulariosController extends Controller
         ], 200);
     }
 
+    public function generarVso001(Request $request) {
+        $identificacionEstudiante = $request->input('identificacionEstudiante');
+        $usuario = User::where('identificacion', $identificacionEstudiante)->first();
+        $practicaPreprofesional = $usuario->student->preprofessionalPractices->first();
+
+        $solicitudData = [
+            'nombre_estudiante' => $usuario->nombre_completo,
+            'carrera' => $usuario->student->carrera_id,
+            'nivel' => $usuario->student->nivel_id,
+            'area_practicas_solicitadas' => $practicaPreprofesional->area_practicas_solicitadas,
+            'horas_practicas_solicitadas' => $practicaPreprofesional->horas_practicas_solicitadas,
+            'razon_social' => $practicaPreprofesional->organization->razon_social,
+            'representante_legal' => $practicaPreprofesional->organization->representante_legal,
+            'area_dedicacion' => $practicaPreprofesional->organization->area_dedicacion,
+            'representante_practica' => $practicaPreprofesional->internshipRepresentative->user->nombre,
+            'direccion' => $practicaPreprofesional->organization->direccion,
+            'telefono' => $practicaPreprofesional->organization->telefono,
+            'email' => $practicaPreprofesional->organization->email,
+            'identificacion_estudiante' => $usuario->identificacion,
+            'fecha_texto' => 'fecha nueva',
+            'nombre_director' => 'nombre director',
+            'identificacion_director' => 'identificacion director',
+        ];
+        $pdf = Pdf::loadView('documentos.vso-001-solicitud-estudiante', compact('solicitudData'));
+        $pdf->save('solicitud.pdf');
+
+        return response()->json([
+            'mensaje' => 'OK',
+            'data' => 'solicitud.pdf'
+        ], 200);
+    }
+
+
     public function obtenerInformacionFormularioVSO003(string $cedula) {
         $recursoTiposUsuario = Resource::where('nombre', 'TIPOS USUARIO')->first();
         $tipoUsuarioId = '';

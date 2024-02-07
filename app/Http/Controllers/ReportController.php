@@ -61,7 +61,7 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        
+
     }
 
     /**
@@ -69,7 +69,7 @@ class ReportController extends Controller
      */
     public function show(string $id)
     {
-        
+
     }
 
     /**
@@ -77,7 +77,7 @@ class ReportController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
+
     }
 
     /**
@@ -87,4 +87,5 @@ class ReportController extends Controller
     {
         //
     }
+
 }

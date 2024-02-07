@@ -228,46 +228,46 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::factory()->create([
             'identificacion' => '1752397172',
-            'primer_nombre' => 'CARLOS',
-            'segundo_nombre' => 'ALEXANDER',
-            'primer_apellido' => 'OSORIO',
-            'segundo_apellido' => 'HINOJOSA',
-            'email' => 'carlosalexander.2001@hotmail.com',
+            'nombre_completo' => 'OSORIO HINOJOSA CARLOS ALEXANDER',
+                'email' => 'carlosalexander.2001@hotmail.com',
             'password' => '123456789',
-            'tipo_id' => 16
+            'tipo_id' => 16//ADMINISTRADOR
         ]);
-        
+
+
         \App\Models\User::factory()->create([
-            'identificacion' => '1111111111',
-            'primer_nombre' => 'USUARIO',
-            'segundo_nombre' => '',
-            'primer_apellido' => 'VINCULARION',
-            'segundo_apellido' => '',
-            'email' => 'vinculacion@test.com',
+            'identificacion' => '2929291291',
+            'nombre_completo' => 'MOLINA RIVERA EWDIN MARCELO',
+            'email' => 'representante@test.com',
             'password' => '123456789',
-            'tipo_id' => 17
+            'tipo_id' => 20
         ]);
 
         \App\Models\User::factory()->create([
             'identificacion' => '2222222222',
-            'primer_nombre' => 'USUARIO',
-            'segundo_nombre' => '',
-            'primer_apellido' => 'DIRECTOR',
-            'segundo_apellido' => '',
+            'nombre_completo' => 'MEDINA PONCE DARIO JOSE',
             'email' => 'director@test.com',
             'password' => '123456789',
             'tipo_id' => 18
         ]);
 
         \App\Models\User::factory()->create([
-            'identificacion' => '3333333333',
-            'primer_nombre' => 'USUARIO',
-            'segundo_nombre' => '',
-            'primer_apellido' => 'ESTUDIANTE',
-            'segundo_apellido' => '',
+            'identificacion' => '1751592013',
+            'nombre_completo' => 'DELGADO LANDA BYRON DANIEL',
             'email' => 'estudiante@test.com',
             'password' => '123456789',
             'tipo_id' => 19
+        ]);
+
+        \App\Models\Organization::factory()->create([
+            'razon_social'=> 'Empresa de prueba',
+            'representante_legal' => 'Representante de prueba',
+            'direccion' => 'Direccion de prueba',
+            'area_dedicacion'=> 'Area de prueba',
+            'telefono'=> 'Telefono de prueba',
+            'horario'=> 'Horario de prueba',
+            'dias_laborables'=> 'Dias laborables de prueba',
+            'email'=>'email@gmail.com'
         ]);
 
         \App\Models\CareerDirector::factory()->create([

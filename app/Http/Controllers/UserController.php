@@ -65,7 +65,7 @@ class UserController extends Controller
                 break;
         }
 
-        return response()->json($json, Response::HTTP_OK); 
+        return response()->json($json, Response::HTTP_OK);
     }
 
     /**
@@ -77,10 +77,7 @@ class UserController extends Controller
 
         $usuario = new User();
         $usuario->identificacion = $usuarioData['identificacion'];
-        $usuario->primer_nombre = $usuarioData['primer_nombre'];
-        $usuario->segundo_nombre = $usuarioData['segundo_nombre'];
-        $usuario->primer_apellido = $usuarioData['primer_apellido'];
-        $usuario->segundo_apellido = $usuarioData['segundo_apellido'];
+        $usuario->nombre_completo = $usuarioData['nombre_completo'];
         $usuario->email = $usuarioData['email'];
         $usuario->password = $usuarioData['password'];
         $usuario->tipo_id = $usuarioData['tipo_id'];
@@ -94,7 +91,7 @@ class UserController extends Controller
                 $estudiante->nivel_id = $usuarioData['nivel_id'];
                 $estudiante->save();
                 break;
-        
+
             case 'DIRECTOR CARRERA':
                 $directorCarrera = new CareerDirector();
                 $directorCarrera->user_id = $usuario->id;
@@ -125,10 +122,7 @@ class UserController extends Controller
 
         $usuario = User::find($id);
         $usuario->identificacion = $usuarioData['identificacion'];
-        $usuario->primer_nombre = $usuarioData['primer_nombre'];
-        $usuario->segundo_nombre = $usuarioData['segundo_nombre'];
-        $usuario->primer_apellido = $usuarioData['primer_apellido'];
-        $usuario->segundo_apellido = $usuarioData['segundo_apellido'];
+        $usuario->nombre_completo = $usuarioData['nombre_completo'];
         $usuario->email = $usuarioData['email'];
         $usuario->password = $usuarioData['password'];
         $usuario->save();
@@ -140,7 +134,7 @@ class UserController extends Controller
                 $estudiante->nivel_id = $usuarioData['nivel_id'];
                 $estudiante->save();
                 break;
-        
+
             case 'DIRECTOR CARRERA':
                 $directorCarrera = CareerDirector::where('user_id', $id)->first();
                 $directorCarrera->carrera_id = $usuarioData['carrera_id'];

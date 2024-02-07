@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\InternshipRepresentative;
+use App\Models\Organization;
 use App\Models\Resource;
 use App\Models\User;
 use Illuminate\Http\Request;

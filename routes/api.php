@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,8 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
+use App\Models\PreProfessionalPractice;
+
 //use App\Http\Controllers\UsuarioController;
 
 /*
@@ -32,12 +35,41 @@ use App\Http\Controllers\ReportController;
 
 Route::controller(AuthController::class)->group(function () {
     Route::get('auth/authUser', 'authUser');
+    Route::get('auth/obtenerRolUsuario', 'obtenerRolUsuario');
     Route::post('auth/login', 'login');
     Route::post('auth/logout', 'logout');
     Route::post('auth/register', 'register');
 });
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware('role:ADMINISTRADOR')->group(function () {
+        Route::controller(AdminController::class)->group(function () {
+            Route::post('admin/crearUsuario', 'crearUsuario');
+            Route::get('admin/consultarUsuarios', 'consultarUsuarios');
+        });
+    });
+
+    Route::middleware('role:ESTUDIANTE')->group(function () {
+        Route::controller(StudentController::class)->group(function () {
+            Route::post('estudiantes/solicitarPracticas', 'solicitarPracticas');
+            Route::get('estudiantes/obtenerInfoCompromiso', 'obtenerInfoCompromiso');
+            Route::get('estudiantes/aceptarCompromisoBioseguridad', 'aceptarCompromisoBioseguridad');
+            Route::post('estudiantes/enviarInformeFinal', 'enviarInformeFinal');
+            Route::get('estudiantes/obtenerOrganizaciones', 'obtenerOrganizaciones');
+            Route::post('estudiantes/generarCartaCompromiso', 'generarCartaCompromiso');
+            Route::get('estudiantes/consultarOrganizacionAsignada', 'consultarOrganizacionAsignada');
+            Route::get('estudiantes/obtenerEstadosPracticasPreprofesionales', 'obtenerEstadosPracticasPreprofesionales');
+            Route::get('estudiantes/obtenerRepresentantes', 'obtenerRepresentantes');
+
+        });
+
+        Route::controller(OrganizationController::class)->group(function () {
+            Route::get('organizaciones/buscarPorNombre/{nombre}', 'buscarPorNombre');
+        });
+
+    });
+
+
     Route::apiResource('usuarios', UserController::class);
     Route::apiResource('roles', RoleController::class);
     Route::apiResource('organizaciones', OrganizationController::class);
@@ -53,21 +85,17 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('formularios/informacionVSO003/{cedula}', 'obtenerInformacionFormularioVSO003');
         Route::get('formularios/informacionVSO004/{ruc}', 'obtenerInformacionFormularioVSO004');
         Route::get('formularios/informacionVSO005/{cedula}', 'obtenerInformacionFormularioVSO005');
-        Route::post('formularios/generar_carta_compromiso', 'generarCartaCompriso');
+        Route::post('formularios/generar_carta_compromiso', 'generarCartaCompriso');;
+        Route::post('formularios/generarVso001', 'generarVso001');;
     });
 
-    Route::controller(StudentController::class)->group(function () {
-        Route::post('estudiantes/solicitarPractica', 'requestPractice');
-        Route::post('estudiantes/aceptarCompromiso', 'acceptCompromise');
-        Route::get('estudiantes/buscarPorCedula/{cedula}', 'buscarEstudiante');
-    });
 
-    Route::controller(OrganizationController::class)->group(function () {
-        Route::get('organizaciones/buscarPorRUC/{ruc}', 'buscarOrganizacion');
-    });
+
 
     Route::controller(InternshipRepresentativeController::class)->group(function () {
         Route::get('representantes_practicas/buscarPorCedula/{ruc}', 'buscarRepresentatePracticas');
     });
+
+
 });
 

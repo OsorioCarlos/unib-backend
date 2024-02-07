@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 use App\Models\Grade;
@@ -29,8 +30,7 @@ class GradeController extends Controller
     public function store(Request $request)
     {
         $requestData = $request->all();
-        
-        $practicaPreProfesional = PreProfessionalPractice::find($requestData['id']);
+        $practicaPreProfesional = Student::find(2)->preprofessionalPractices->first();
         $usuario = null;
         switch ($requestData['formulario']) {
             case 'VSO-003':
@@ -92,7 +92,7 @@ class GradeController extends Controller
         return response()->json([
             'calificacion' => $calificacion,
             'mensaje' => 'OK'
-        ], 200); 
+        ], 200);
     }
 
     /**

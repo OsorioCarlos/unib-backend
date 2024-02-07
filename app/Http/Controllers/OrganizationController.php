@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Organization;
+use Illuminate\Http\Response;
 
 class OrganizationController extends Controller
 {
@@ -18,7 +19,7 @@ class OrganizationController extends Controller
         return response()->json([
             'organizaciones' => $organizaciones,
             'mensaje' => 'OK'
-        ], 200); 
+        ], 200);
     }
 
     /**
@@ -42,7 +43,7 @@ class OrganizationController extends Controller
         return response()->json([
             'organizacion' => $organizacion,
             'mensaje' => 'OK'
-        ], 200); 
+        ], 200);
     }
 
     /**
@@ -55,7 +56,7 @@ class OrganizationController extends Controller
         return response()->json([
             'organizacion' => $organizacion,
             'mensaje' => 'OK'
-        ], 200); 
+        ], 200);
     }
 
     /**
@@ -63,7 +64,7 @@ class OrganizationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $organizacionData = $request->get('organizacion');   
+        $organizacionData = $request->get('organizacion');
 
         $organizacion = Organization::find($id);
         $organizacion->ruc = $organizacionData['ruc'];
@@ -77,23 +78,6 @@ class OrganizationController extends Controller
 
         return response()->json([
             'organizacion' => $organizacion,
-            'mensaje' => 'OK'
-        ], 200); 
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
-    public function buscarOrganizacion(string $ruc) {
-        $organizacion = Organization::where('ruc', $ruc)->first();
-
-        return response()->json([
-            'data' => $organizacion,
             'mensaje' => 'OK'
         ], 200);
     }
