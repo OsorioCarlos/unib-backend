@@ -22,14 +22,15 @@ class AuthController extends Controller
         ]);
 
         $credenciales = $request->only('email', 'password');
-        
+
         if (Auth::attempt($credenciales)) {
             $usuario = Auth::user();
             $token = $usuario->createToken('ApiToken')->plainTextToken;
             return response()->json([
                 'estado' => 'ok',
                 'mensaje' => 'Inicio de sesión exitoso',
-                'token' => $token
+                'token' => $token,
+                'rol'=> $usuario->tipoCatalogo->nombre
             ]);
         }
 
@@ -61,19 +62,11 @@ class AuthController extends Controller
         $authUser = Auth::user();
         $usuario = [
             'cedula' => $authUser->identificacion,
-            'nombres' => trim($authUser->primer_nombre . ' ' . $authUser->segundo_nombre),
-            'apellidos' => trim($authUser->primer_apellido . ' ' . $authUser->segundo_apellido),
-            'tipo_usuario' => $authUser->tipoCatalogo->nombre,
-            'carrera' => '',
-            'nivel' => '',
-            'empresa' => ''
+            'tipo_usuario' => $authUser->tipoCatalogo->nombre
         ];
 
         switch ($usuario['tipo_usuario']) {
             case 'ESTUDIANTE':
-                $usuario['carrera'] = $authUser->student->carreraCatalogo->nombre;
-                $usuario['nivel'] = $authUser->student->nivelCatalogo->nombre;
-                $usuario['empresa'] = 'TRAMAS';
                 break;
             case 'DIRECTOR CARRERA':
                 $usuario['carrera'] = $authUser->careerDirector->carreraCatalogo->nombre;
@@ -86,6 +79,15 @@ class AuthController extends Controller
         return response()->json([
             'data' => $usuario,
             'mensaje' => 'OK'
-        ], 200); 
+        ], 200);
+    }
+
+    public function obtenerRolUsuario()
+    {
+        $authUser = Auth::user();
+        return response()->json([
+            'data' => $authUser->tipoCatalogo->nombre,
+            'mensaje' => 'OK'
+        ], 200);
     }
 }

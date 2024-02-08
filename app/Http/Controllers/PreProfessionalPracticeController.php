@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 use App\Models\PreProfessionalPractice;
+use App\Models\Student;
+use App\Models\User;
 
 class PreProfessionalPracticeController extends Controller
 {
@@ -15,7 +17,6 @@ class PreProfessionalPracticeController extends Controller
     public function index()
     {
         $practicasPreprofesionales = PreProfessionalPractice::all();
-
         return response()->json([
             'data' => $practicasPreprofesionales,
             'mensaje' => 'OK'
@@ -54,12 +55,18 @@ class PreProfessionalPracticeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $cedula)
     {
-        $practicaPreprofesional = PreProfessionalPractice::find($id);
-
+        $usuario = User::where('identificacion',$cedula)->first();
+        $practicaPreprofesionales = $usuario->student->preprofessionalPractices;
+        if($practicaPreprofesionales->count()==0){
+            return response()->json([
+                'data' => null,
+                'mensaje' => 'OK'
+            ], 200);
+        }
         return response()->json([
-            'data' => $practicaPreprofesional,
+            'data' => $practicaPreprofesionales->latest()->first(),
             'mensaje' => 'OK'
         ], 200);
     }
@@ -67,24 +74,6 @@ class PreProfessionalPracticeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        $requestData = $request->all();
-
-        $practicaPreprofesional = PreProfessionalPractice::find($id);
-        $practicaPreprofesional->cumplimiento_objetivos = strtoupper($requestData['informe']['cumplimiento_objetivos']);
-        $practicaPreprofesional->beneficios = strtoupper($requestData['informe']['beneficios']);
-        $practicaPreprofesional->aprendizajes = strtoupper($requestData['informe']['aprendizajes']);
-        $practicaPreprofesional->desarrollo_personal = strtoupper($requestData['informe']['desarrollo_personal']);
-        $practicaPreprofesional->comentarios = strtoupper($requestData['informe']['comentarios']);
-        $practicaPreprofesional->recomendaciones = strtoupper($requestData['informe']['recomendaciones']);
-        $practicaPreprofesional->save();
-
-        return response()->json([
-            'mensaje' => 'OK',
-            'data' => ''
-        ], 200);
-    }
 
     /**
      * Remove the specified resource from storage.

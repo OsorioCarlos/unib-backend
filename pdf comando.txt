@@ -1,0 +1,2 @@
+Comando para pdfs
+composer require barryvdh/laravel-dompdf

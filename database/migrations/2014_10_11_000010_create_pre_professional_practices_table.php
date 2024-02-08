@@ -13,31 +13,36 @@ return new class extends Migration
     {
         Schema::create('pre_professional_practices', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('student_id')->unique();
             $table->unsignedBigInteger('organization_id');
-            $table->unsignedBigInteger('internship_representative_id');
-            $table->unsignedBigInteger('career_director_id');
-            $table->boolean('estudiante_compromiso')->default(true);
-            $table->dateTime('estudiante_compromiso_fecha');
-            $table->float('nota_final')->default(0.0);
-            $table->float('asistencia')->default(0.0);
+            $table->boolean('estudiante_carta_compromiso')->nullable();
+            $table->dateTime('estudiante_carta_compromiso_fecha')->nullable();
+            $table->boolean('estudiante_compromiso')->nullable();
+            $table->dateTime('estudiante_compromiso_fecha')->nullable();
             $table->unsignedBigInteger('estado_id')->default(3);
-            $table->string('area_practicas')->nullable();
-            $table->string('objetivos_practicas')->nullable();
-            $table->string('tareas')->nullable();
-            $table->integer('numero_horas_practicas')->nullable();
-            $table->date('fecha_inicio')->nullable();
-            $table->date('fecha_fin')->nullable();
-            $table->string('dias_laborables')->nullable();
-            $table->string('horario')->nullable();
-            $table->boolean('empresa_compromiso')->default(false);
-            $table->dateTime('empresa_compromiso_fecha')->nullable();
+            $table->string('area_practicas_solicitadas')->nullable();
+            $table->integer('horas_practicas_solicitadas')->nullable();
+            $table->integer('horas_practicas_realizadas')->nullable();
             $table->string('cumplimiento_objetivos')->nullable();
             $table->string('beneficios')->nullable();
             $table->string('aprendizajes')->nullable();
             $table->string('desarrollo_personal')->nullable();
             $table->string('comentarios')->nullable();
             $table->string('recomendaciones')->nullable();
+            $table->string('fecha_informe_enviado')->nullable();
+            $table->unsignedBigInteger('career_director_id')->nullable();
+            $table->unsignedBigInteger('internship_representative_id')->nullable();
+            $table->boolean('empresa_compromiso')->nullable();
+            $table->dateTime('empresa_compromiso_fecha')->nullable();
+            $table->string('area_practicas')->nullable();
+            $table->string('objetivos_practicas')->nullable();
+            $table->string('tareas')->nullable();
+            $table->date('fecha_inicio')->nullable();
+            $table->date('fecha_fin')->nullable();
+            $table->string('dias_laborables')->nullable();
+            $table->string('horario')->nullable();
+            $table->float('asistencia')->nullable();
+            $table->float('nota_final')->nullable();
             $table->timestamps();
 
             $table->foreign('student_id')->references('id')->on('students')

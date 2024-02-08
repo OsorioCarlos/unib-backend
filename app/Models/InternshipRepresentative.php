@@ -15,12 +15,12 @@ class InternshipRepresentative extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        
+        'funcion_laboral'
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function organization()
