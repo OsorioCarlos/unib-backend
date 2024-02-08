@@ -60,15 +60,19 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('estudiantes/consultarOrganizacionAsignada', 'consultarOrganizacionAsignada');
             Route::get('estudiantes/obtenerEstadosPracticasPreprofesionales', 'obtenerEstadosPracticasPreprofesionales');
             Route::get('estudiantes/obtenerRepresentantes', 'obtenerRepresentantes');
-
         });
-
         Route::controller(OrganizationController::class)->group(function () {
             Route::get('organizaciones/buscarPorNombre/{nombre}', 'buscarPorNombre');
         });
-
     });
 
+
+    Route::middleware('role:REPRESENTANTE PRÁCTICAS,ESTUDIANTE')->group(function () {
+        Route::controller(InternshipRepresentativeController::class)->group(function () {
+            Route::post('representante/completarInformacionBasica', 'completarInformacionBasica');
+            Route::get('representante/obtenerInformacionRepresentantePracticas', 'obtenerInformacionRepresentantePracticas');
+        });
+    });
 
     Route::apiResource('usuarios', UserController::class);
     Route::apiResource('roles', RoleController::class);

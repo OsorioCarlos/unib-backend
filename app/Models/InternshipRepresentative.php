@@ -15,7 +15,7 @@ class InternshipRepresentative extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-
+        'funcion_laboral'
     ];
 
     public function user()

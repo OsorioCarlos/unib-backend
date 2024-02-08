@@ -19,7 +19,7 @@ class CheckRole
         $user = Auth::user();
         $allowedRoles = explode(',', strtoupper($roles));
 
-        if ($user && in_array(strtoupper($user->tipoCatalogo->nombre), $allowedRoles)) {
+                 if ($user && in_array(strtoupper($user->tipoCatalogo->nombre), $allowedRoles)) {
             return $next($request);
         }
         abort(403, 'Unauthorized action.');
