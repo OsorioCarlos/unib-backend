@@ -75,6 +75,12 @@ Route::middleware('auth:sanctum')->group(function () {
         });
     });
 
+    Route::middleware('role:REPRESENTANTE PRÁCTICAS')->group(function () {
+        Route::controller(InternshipRepresentativeController::class)->group(function () {
+            Route::get('representante/obtenerEstudiantes', 'obtenerEstudiantes');
+        });
+    });
+
     Route::apiResource('usuarios', UserController::class);
     Route::apiResource('roles', RoleController::class);
     Route::apiResource('organizaciones', OrganizationController::class);

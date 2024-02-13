@@ -78,4 +78,18 @@ class InternshipRepresentativeController extends Controller
         ], Response::HTTP_OK);
     }
 
+    public function obtenerEstudiantes(){
+        $user = Auth::user();
+        $representantePracticas = $user->internshipRepresentative;
+        $practicasPreprofesionales = $representantePracticas->preprofessionalPractices;
+        $estudiantes = [];
+        foreach ($practicasPreprofesionales as $practica) {
+            $estudiante = $practica->student->user;
+            array_push($estudiantes, $estudiante);
+        }
+        return response()->json([
+            'data' => $estudiantes,
+            'mensaje' => 'OK'
+        ], Response::HTTP_OK);
+    }
 }

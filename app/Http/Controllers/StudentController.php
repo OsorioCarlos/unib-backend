@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Notification;
 
 class StudentController extends Controller
 {
@@ -88,19 +89,9 @@ class StudentController extends Controller
         $practicaPreprofesional->estudiante_compromiso_fecha = Carbon::now()->format('Y-m-d');
         $practicaPreprofesional->save();
 
-//        $organization = $practicaPreprofesional->organizacion;
-//        $organizacionExistente = Organization::where('razon_social', $request->input('organizacion.nombreRazonSocial'))->first();
-//        if( $organizacionExistente == null){
-//            $organization->razon_social = $request->input('organizacion.nombreRazonSocial');
-//            $organization->representante_legal = $request->input('organizacion.representanteLegal');
-//            $organization->area_dedicacion = $request->input('organizacion.areaDedicacion');
-//            $organization->direccion = $request->input('organizacion.direccion');
-//            $organization->telefono = $request->input('organizacion.telefono');
-//            $organization->email = $request->input('organizacion.email');
-//            $organization->dias_laborables = $request->input('organizacion.diasHabiles');
-//            $organization->horario = $request->input('organizacion.horario');
-//            $organization->save();
-//        }
+        Notification::route('mail', $practicaPreprofesional->internshipRepresentative->user->email)
+            ->notify(new \App\Notifications\PracticasNotificacion(nombre: $practicaPreprofesional->internshipRepresentative->user->nombre_completo,estudiante: $student->user->nombre_completo, carrera: $student->carreraCatalogo->nombre));
+
         // Puedes devolver una respuesta o redirigir a otra página según tus necesidades
         return response()->json(['mensaje' => 'Solicitud de práctica preprofesional enviada'], 200);
     }
