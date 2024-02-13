@@ -60,6 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('estudiantes/consultarOrganizacionAsignada', 'consultarOrganizacionAsignada');
             Route::get('estudiantes/obtenerEstadosPracticasPreprofesionales', 'obtenerEstadosPracticasPreprofesionales');
             Route::get('estudiantes/obtenerRepresentantes', 'obtenerRepresentantes');
+            Route::get('estudiantes/obtenerEstudiante', 'obtenerEstudiante');
         });
         Route::controller(OrganizationController::class)->group(function () {
             Route::get('organizaciones/buscarPorNombre/{nombre}', 'buscarPorNombre');

@@ -21,7 +21,7 @@ class StudentController extends Controller
      public function obtenerInfoCompromiso() {
         $authUser = Auth::user();
         $usuario = User::where('identificacion', $authUser->identificacion)->first();
-        if($usuario->student == null){
+        if($usuario->student->preprofessionalPractices->first() == null){
             return response()->json([
                 'mensaje' => 'No existe estudiante creado'
             ], Response::HTTP_BAD_REQUEST);
@@ -69,14 +69,6 @@ class StudentController extends Controller
     public function solicitarPracticas(Request $request){
         // Validar la solicitud
         $request->validate([
-            'organizacion.nombreRazonSocial' => 'required|string',
-            'organizacion.representanteLegal' => 'required|string',
-            'organizacion.areaDedicacion' => 'required|string',
-            'organizacion.direccion' => 'required|string',
-            'organizacion.telefono' => 'required|string',
-            'organizacion.email' => 'required|email',
-            'organizacion.diasHabiles' => 'required|string',
-            'organizacion.horario' => 'required|string',
             'practicaPreprofesional.areaPropuesta' => 'required|string',
             'practicaPreprofesional.horasSolicitadas' => 'required|integer',
             'organizacion.representante' => 'required|integer',
@@ -96,21 +88,21 @@ class StudentController extends Controller
         $practicaPreprofesional->estudiante_compromiso_fecha = Carbon::now()->format('Y-m-d');
         $practicaPreprofesional->save();
 
-        $organization = $practicaPreprofesional->organizacion;
-        $organizacionExistente = Organization::where('razon_social', $request->input('organizacion.nombreRazonSocial'))->first();
-        if( $organizacionExistente == null){
-            $organization->razon_social = $request->input('organizacion.nombreRazonSocial');
-            $organization->representante_legal = $request->input('organizacion.representanteLegal');
-            $organization->area_dedicacion = $request->input('organizacion.areaDedicacion');
-            $organization->direccion = $request->input('organizacion.direccion');
-            $organization->telefono = $request->input('organizacion.telefono');
-            $organization->email = $request->input('organizacion.email');
-            $organization->dias_laborables = $request->input('organizacion.diasHabiles');
-            $organization->horario = $request->input('organizacion.horario');
-            $organization->save();
-        }
+//        $organization = $practicaPreprofesional->organizacion;
+//        $organizacionExistente = Organization::where('razon_social', $request->input('organizacion.nombreRazonSocial'))->first();
+//        if( $organizacionExistente == null){
+//            $organization->razon_social = $request->input('organizacion.nombreRazonSocial');
+//            $organization->representante_legal = $request->input('organizacion.representanteLegal');
+//            $organization->area_dedicacion = $request->input('organizacion.areaDedicacion');
+//            $organization->direccion = $request->input('organizacion.direccion');
+//            $organization->telefono = $request->input('organizacion.telefono');
+//            $organization->email = $request->input('organizacion.email');
+//            $organization->dias_laborables = $request->input('organizacion.diasHabiles');
+//            $organization->horario = $request->input('organizacion.horario');
+//            $organization->save();
+//        }
         // Puedes devolver una respuesta o redirigir a otra página según tus necesidades
-        return response()->json(['mensaje' => 'Solicitud de práctica preprofesional procesada correctamente'], 200);
+        return response()->json(['mensaje' => 'Solicitud de práctica preprofesional enviada'], 200);
     }
     public function enviarInformeFinal(Request $request)
     {
@@ -167,20 +159,14 @@ class StudentController extends Controller
             'estudiante.semestre' => 'required|string',
             'organizacion.nombreRazonSocial' => 'required|string'
         ]);
-        $authUser = Auth::user();
-        $estudiante = $authUser->student;
-        if($estudiante != null){
-            return response()->json(['mensaje' => 'El estudiante ya completo su información básica'], 400);
-        }
 
-        $student = new Student;
-        $student->user_id = $authUser->id;
+        $authUser = Auth::user();
+        $student = $authUser->student()->firstOrNew();
         $student->carrera_id = $request->input('estudiante.carrera');
         $student->nivel_id = $request->input('estudiante.semestre');
         $student->save();
 
-        $practicaPreprofesional = new PreProfessionalPractice();
-        $practicaPreprofesional->student_id = $student->id;
+        $practicaPreprofesional = $student->preprofessionalPractices()->firstOrNew();
         $practicaPreprofesional->organization_id = $request->input('organizacion.nombreRazonSocial');
         $practicaPreprofesional->save();
 
@@ -264,6 +250,19 @@ class StudentController extends Controller
             'data' => $representantes,
             'mensaje' => 'OK'
         ], 200);
+    }
 
+    function obtenerEstudiante(){
+        $estudiante = Auth::user()->student;
+
+        $respuesta = [
+                'nombre' => $estudiante->user->nombre_completo,
+                'escuela' => $estudiante->carreraCatalogo->nombre,
+                'nivel' => $estudiante->nivelCatalogo->nombre
+        ];
+        return response()->json([
+            'data' => $respuesta,
+            'mensaje' => 'OK'
+        ], 200);
     }
 }

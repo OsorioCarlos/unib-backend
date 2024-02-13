@@ -62,7 +62,8 @@ class AuthController extends Controller
         $authUser = Auth::user();
         $usuario = [
             'cedula' => $authUser->identificacion,
-            'tipo_usuario' => $authUser->tipoCatalogo->nombre
+            'tipo_usuario' => $authUser->tipoCatalogo->nombre,
+            'nombre' => $authUser->nombre_completo,
         ];
 
         switch ($usuario['tipo_usuario']) {
