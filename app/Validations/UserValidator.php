@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Validations;
+
 use Illuminate\Http\Request;
 
 class UserValidator

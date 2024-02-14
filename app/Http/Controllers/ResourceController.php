@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Models\Resource;
+use Illuminate\Http\Request;
 
 class ResourceController extends Controller
 {
@@ -49,7 +48,7 @@ class ResourceController extends Controller
             'recurso' => $recurso,
             'catalogos' => $recurso->catalogues,
             'mensaje' => 'OK'
-        ], 200); 
+        ], 200);
     }
 
     /**

@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Models\GradingCriteria;
+use Illuminate\Http\Request;
 
 class GradingCriteriaController extends Controller
 {
@@ -50,7 +49,7 @@ class GradingCriteriaController extends Controller
         return response()->json([
             'criterio_calificacion' => $criterioCalificacion,
             'mensaje' => 'OK'
-        ], 200); 
+        ], 200);
     }
 
     /**

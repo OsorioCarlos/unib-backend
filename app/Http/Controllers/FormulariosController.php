@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Organization;
+use App\Models\Resource;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-use App\Models\Organization;
-use App\Models\Resource;
-use App\Models\User;
-
 class FormulariosController extends Controller
 {
-    public function generarCartaCompriso(Request $request) {
+    public function generarCartaCompriso(Request $request)
+    {
         $identificacionEstudiante = $request->input('identificacionEstudiante');
         $usuario = User::where('identificacion', $identificacionEstudiante)->first();
         $practicaPreprofesional = $usuario->student->preprofessionalPractices->first();
@@ -35,7 +35,8 @@ class FormulariosController extends Controller
         ], 200);
     }
 
-    public function generarVso001(Request $request) {
+    public function generarVso001(Request $request)
+    {
         $identificacionEstudiante = $request->input('identificacionEstudiante');
         $usuario = User::where('identificacion', $identificacionEstudiante)->first();
         $practicaPreprofesional = $usuario->student->preprofessionalPractices->first();
@@ -67,7 +68,8 @@ class FormulariosController extends Controller
         ], 200);
     }
 
-    public function generarVso002(Request $request) {
+    public function generarVso002(Request $request)
+    {
         $identificacionEstudiante = $request->input('identificacionEstudiante');
         $usuario = User::where('identificacion', $identificacionEstudiante)->first();
         $practicaPreprofesional = $usuario->student->preprofessionalPractices->first();
@@ -108,7 +110,8 @@ class FormulariosController extends Controller
         ], 200);
     }
 
-    public function generarVso005(Request $request) {
+    public function generarVso005(Request $request)
+    {
         $identificacionEstudiante = $request->input('identificacionEstudiante');
         $usuario = User::where('identificacion', $identificacionEstudiante)->first();
         $practicaPreprofesional = $usuario->student->preprofessionalPractices->first();
@@ -139,7 +142,8 @@ class FormulariosController extends Controller
         ], 200);
     }
 
-    public function obtenerInformacionFormularioVSO003(string $cedula) {
+    public function obtenerInformacionFormularioVSO003(string $cedula)
+    {
         $recursoTiposUsuario = Resource::where('nombre', 'TIPOS USUARIO')->first();
         $tipoUsuarioId = '';
         foreach ($recursoTiposUsuario->catalogues as $catalogo) {
@@ -168,7 +172,8 @@ class FormulariosController extends Controller
         ], 200);
     }
 
-    public function obtenerInformacionFormularioVSO004(string $ruc) {
+    public function obtenerInformacionFormularioVSO004(string $ruc)
+    {
         $organizacion = Organization::where('ruc', $ruc)
             ->first();
         $practicasPreprofesionales = $organizacion->preprofessionalPractices;
@@ -186,7 +191,8 @@ class FormulariosController extends Controller
         ], 200);
     }
 
-    public function obtenerInformacionFormularioVSO005(string $cedula) {
+    public function obtenerInformacionFormularioVSO005(string $cedula)
+    {
         $recursoTiposUsuario = Resource::where('nombre', 'TIPOS USUARIO')->first();
         $tipoUsuarioId = '';
         foreach ($recursoTiposUsuario->catalogues as $catalogo) {

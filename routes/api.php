@@ -1,9 +1,6 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CareerDirectorController;
 use App\Http\Controllers\CatalogueController;
@@ -13,12 +10,12 @@ use App\Http\Controllers\GradingCriteriaController;
 use App\Http\Controllers\InternshipRepresentativeController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\PreProfessionalPracticeController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ReportController;
-use App\Models\PreProfessionalPractice;
+use Illuminate\Support\Facades\Route;
 
 //use App\Http\Controllers\UsuarioController;
 
@@ -61,6 +58,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('estudiantes/obtenerEstadosPracticasPreprofesionales', 'obtenerEstadosPracticasPreprofesionales');
             Route::get('estudiantes/obtenerRepresentantes', 'obtenerRepresentantes');
             Route::get('estudiantes/obtenerEstudiante', 'obtenerEstudiante');
+            Route::get('estudiantes/obtenerInformeEstudiante', 'obtenerInformeEstudiante');
         });
         Route::controller(OrganizationController::class)->group(function () {
             Route::get('organizaciones/buscarPorNombre/{nombre}', 'buscarPorNombre');
@@ -104,8 +102,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('formularios/generarVso005', 'generarVso005');;
 
     });
-
-
 
 
     Route::controller(InternshipRepresentativeController::class)->group(function () {

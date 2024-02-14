@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Catalogue;
 use App\Models\PreProfessionalPractice;
 use App\Models\Student;
-use App\Models\User;
-
-use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {

@@ -3,16 +3,17 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class PracticasNotificacion extends Notification
 {
     use Queueable;
+
     protected $nombre;
     protected $estudiante;
     protected $carrera;
+
     /**
      * Create a new notification instance.
      * @param $nombre
@@ -41,12 +42,12 @@ class PracticasNotificacion extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->greeting('UNIVERSIDAD IBEROAMERICANA DEL ECUADOR')
-                    ->line($this->nombre)
-                    ->line("El estudiante {$this->estudiante} de la carrera de {$this->carrera} ha enviado la solicitud de  prácticas pre profesionales")
-                    ->line('Por favor revisa en tu panel de representante para aprobar o rechazar la solicitud')
-                    ->action('Ver solicitud', url('/'))
-                    ->line('Agradecemos tu respuesta!');
+            ->greeting('UNIVERSIDAD IBEROAMERICANA DEL ECUADOR')
+            ->line($this->nombre)
+            ->line("El estudiante {$this->estudiante} de la carrera de {$this->carrera} ha enviado la solicitud de  prácticas pre profesionales")
+            ->line('Por favor revisa en tu panel de representante para aprobar o rechazar la solicitud')
+            ->action('Ver solicitud', url('/'))
+            ->line('Agradecemos tu respuesta!');
     }
 
     /**

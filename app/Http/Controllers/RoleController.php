@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Models\Role;
+use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
@@ -48,7 +47,7 @@ class RoleController extends Controller
         return response()->json([
             'rol' => $rol,
             'mensaje' => 'OK'
-        ], 200); 
+        ], 200);
     }
 
     /**

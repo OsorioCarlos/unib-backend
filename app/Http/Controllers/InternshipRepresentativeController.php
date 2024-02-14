@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\InternshipRepresentative;
-use App\Models\Organization;
 use App\Models\Resource;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use PhpParser\Node\Scalar\String_;
 
 class InternshipRepresentativeController extends Controller
 {
-    public function buscarRepresentatePracticas(string $cedula) {
+    public function buscarRepresentatePracticas(string $cedula)
+    {
         $recursoTiposUsuario = Resource::where('nombre', 'TIPOS USUARIO')->first();
         $tipoUsuarioId = '';
         foreach ($recursoTiposUsuario->catalogues as $catalogo) {
@@ -35,7 +33,8 @@ class InternshipRepresentativeController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function completarInformacionBasica(Request $request) {
+    public function completarInformacionBasica(Request $request)
+    {
         // Validar la solicitud
         $request->validate([
             'representante.funcionRepresentante' => 'required|string',
@@ -43,7 +42,7 @@ class InternshipRepresentativeController extends Controller
         ]);
         $user = Auth::user();
         $representantePracticas = $user->internshipRepresentative;
-        if($representantePracticas == null) {
+        if ($representantePracticas == null) {
             return response()->json([
                 'mensaje' => 'No se encontro el representante de practicas'
             ], Response::HTTP_NOT_FOUND);
@@ -58,20 +57,21 @@ class InternshipRepresentativeController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function obtenerInformacionRepresentantePracticas() {
+    public function obtenerInformacionRepresentantePracticas()
+    {
         $user = Auth::user();
 
         $representantePracticas = $user->internshipRepresentative;
-        if($representantePracticas == null) {
+        if ($representantePracticas == null) {
             return response()->json([
                 'mensaje' => 'No se encontro el representante de practicas'
             ], Response::HTTP_NOT_FOUND);
         }
 
-       if($representantePracticas->funcion_laboral == null || $representantePracticas->telefono == null) {
-           return response()->json([
-               'mensaje' => 'Debes completar tu información de contacto'
-           ], Response::HTTP_NOT_FOUND);
+        if ($representantePracticas->funcion_laboral == null || $representantePracticas->telefono == null) {
+            return response()->json([
+                'mensaje' => 'Debes completar tu información de contacto'
+            ], Response::HTTP_NOT_FOUND);
         }
 
         return response()->json([
@@ -80,13 +80,14 @@ class InternshipRepresentativeController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function obtenerEstudiantes(){
+    public function obtenerEstudiantes()
+    {
         $user = Auth::user();
         $representantePracticas = $user->internshipRepresentative;
         $practicasPreprofesionales = $representantePracticas->preprofessionalPractices;
         $estudiantes = [];
         foreach ($practicasPreprofesionales as $practica) {
-            if($practica->empresa_compromiso == null || $practica->empresa_compromiso_fecha == null){
+            if ($practica->empresa_compromiso == null || $practica->empresa_compromiso_fecha == null) {
                 $estudiante = $practica->student->user;
                 array_push($estudiantes, $estudiante);
             }
@@ -97,15 +98,16 @@ class InternshipRepresentativeController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function obtenerCompromisoRecepcion(String $identificacionEstudiante){
+    public function obtenerCompromisoRecepcion(string $identificacionEstudiante)
+    {
         $user = User::where('identificacion', $identificacionEstudiante)->first();
-        if($user == null){
+        if ($user == null) {
             return response()->json([
                 'mensaje' => 'No se encontro el estudiante'
             ], Response::HTTP_NOT_FOUND);
         }
         $practica = $user->student->preprofessionalPractices->first();
-        if($practica == null){
+        if ($practica == null) {
             return response()->json([
                 'mensaje' => 'El estudiante no tiene una practica asignada'
             ], Response::HTTP_NOT_FOUND);
@@ -122,7 +124,7 @@ class InternshipRepresentativeController extends Controller
             'dias_habiles' => $organizacion->dias_laborables,
             'horario' => $organizacion->horario,
             'nombre_representante' => $representante->user->nombre_completo,
-            'funcion'=> $representante->funcion_laboral,
+            'funcion' => $representante->funcion_laboral,
             'telefono_representante' => $representante->telefono,
             'email_representante' => $representante->user->email,
             'nombre_estudiante' => $user->nombre_completo,
@@ -135,7 +137,8 @@ class InternshipRepresentativeController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function recibirEstudiante(Request $request){
+    public function recibirEstudiante(Request $request)
+    {
         $request->validate([
             'compromisoRecepcion.identificacionEstudiante' => 'required|string',
             'compromisoRecepcion.objetivos' => 'required|string',
@@ -147,13 +150,13 @@ class InternshipRepresentativeController extends Controller
             'compromisoRecepcion.aceptarCompromiso' => 'required',
         ]);
         $user = User::where('identificacion', $request->input('compromisoRecepcion.identificacionEstudiante'))->first();
-        if($user == null){
+        if ($user == null) {
             return response()->json([
                 'mensaje' => 'No se encontro el estudiante'
             ], Response::HTTP_NOT_FOUND);
         }
         $practica = $user->student->preprofessionalPractices->first();
-        if($practica == null){
+        if ($practica == null) {
             return response()->json([
                 'mensaje' => 'El estudiante no tiene una practica asignada'
             ], Response::HTTP_NOT_FOUND);
@@ -165,7 +168,7 @@ class InternshipRepresentativeController extends Controller
         $practica->dias_laborables = $request->input('compromisoRecepcion.diasLaborables');
         $practica->horario = $request->input('compromisoRecepcion.horario');
         $practica->empresa_compromiso = $request->input('compromisoRecepcion.aceptarCompromiso');
-        $practica->empresa_compromiso_fecha  = Carbon::now()->format('Y-m-d');
+        $practica->empresa_compromiso_fecha = Carbon::now()->format('Y-m-d');
         $practica->save();
 
         return response()->json([

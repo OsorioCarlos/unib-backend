@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Student;
 use App\Models\CareerDirector;
 use App\Models\InternshipRepresentative;
-use App\Validations\UserValidator;
+use App\Models\Student;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -161,7 +159,7 @@ class UserController extends Controller
     public function delete(string $id)
     {
         $usuario = User::find($id);
-        if(!$usuario){
+        if (!$usuario) {
             return response()->json([
                 'estado' => 'error',
                 'mensaje' => 'No existe usuario',
