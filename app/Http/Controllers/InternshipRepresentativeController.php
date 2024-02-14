@@ -6,9 +6,11 @@ use App\Models\InternshipRepresentative;
 use App\Models\Organization;
 use App\Models\Resource;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Scalar\String_;
 
 class InternshipRepresentativeController extends Controller
 {
@@ -84,11 +86,89 @@ class InternshipRepresentativeController extends Controller
         $practicasPreprofesionales = $representantePracticas->preprofessionalPractices;
         $estudiantes = [];
         foreach ($practicasPreprofesionales as $practica) {
-            $estudiante = $practica->student->user;
-            array_push($estudiantes, $estudiante);
+            if($practica->empresa_compromiso == null || $practica->empresa_compromiso_fecha == null){
+                $estudiante = $practica->student->user;
+                array_push($estudiantes, $estudiante);
+            }
         }
         return response()->json([
             'data' => $estudiantes,
+            'mensaje' => 'OK'
+        ], Response::HTTP_OK);
+    }
+
+    public function obtenerCompromisoRecepcion(String $identificacionEstudiante){
+        $user = User::where('identificacion', $identificacionEstudiante)->first();
+        if($user == null){
+            return response()->json([
+                'mensaje' => 'No se encontro el estudiante'
+            ], Response::HTTP_NOT_FOUND);
+        }
+        $practica = $user->student->preprofessionalPractices->first();
+        if($practica == null){
+            return response()->json([
+                'mensaje' => 'El estudiante no tiene una practica asignada'
+            ], Response::HTTP_NOT_FOUND);
+        }
+        $representante = $practica->internshipRepresentative;
+        $organizacion = $representante->organization;
+
+        $respuesta = [
+            'razon_social' => $organizacion->razon_social,
+            'representante_legal' => $organizacion->representante_legal,
+            'area_dedicacion' => $organizacion->area_dedicacion,
+            'telefono' => $organizacion->telefono,
+            'direccion' => $organizacion->direccion,
+            'dias_habiles' => $organizacion->dias_laborables,
+            'horario' => $organizacion->horario,
+            'nombre_representante' => $representante->user->nombre_completo,
+            'funcion'=> $representante->funcion_laboral,
+            'telefono_representante' => $representante->telefono,
+            'email_representante' => $representante->user->email,
+            'nombre_estudiante' => $user->nombre_completo,
+            'area_estudiante' => $practica->area_practicas_solicitadas,
+        ];
+
+        return response()->json([
+            'data' => $respuesta,
+            'mensaje' => 'OK'
+        ], Response::HTTP_OK);
+    }
+
+    public function recibirEstudiante(Request $request){
+        $request->validate([
+            'compromisoRecepcion.identificacionEstudiante' => 'required|string',
+            'compromisoRecepcion.objetivos' => 'required|string',
+            'compromisoRecepcion.tareas' => 'required|string',
+            'compromisoRecepcion.fechaInicio' => 'required|string',
+            'compromisoRecepcion.fechaFin' => 'required|string',
+            'compromisoRecepcion.horario' => 'required|string',
+            'compromisoRecepcion.diasLaborables' => 'required|string',
+            'compromisoRecepcion.aceptarCompromiso' => 'required',
+        ]);
+        $user = User::where('identificacion', $request->input('compromisoRecepcion.identificacionEstudiante'))->first();
+        if($user == null){
+            return response()->json([
+                'mensaje' => 'No se encontro el estudiante'
+            ], Response::HTTP_NOT_FOUND);
+        }
+        $practica = $user->student->preprofessionalPractices->first();
+        if($practica == null){
+            return response()->json([
+                'mensaje' => 'El estudiante no tiene una practica asignada'
+            ], Response::HTTP_NOT_FOUND);
+        }
+        $practica->objetivos_practicas = $request->input('compromisoRecepcion.objetivos');
+        $practica->tareas = $request->input('compromisoRecepcion.tareas');
+        $practica->fecha_inicio = $request->input('compromisoRecepcion.fechaInicio');
+        $practica->fecha_fin = $request->input('compromisoRecepcion.fechaFin');
+        $practica->dias_laborables = $request->input('compromisoRecepcion.diasLaborables');
+        $practica->horario = $request->input('compromisoRecepcion.horario');
+        $practica->empresa_compromiso = $request->input('compromisoRecepcion.aceptarCompromiso');
+        $practica->empresa_compromiso_fecha  = Carbon::now()->format('Y-m-d');
+        $practica->save();
+
+        return response()->json([
             'mensaje' => 'OK'
         ], Response::HTTP_OK);
     }

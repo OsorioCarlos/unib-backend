@@ -78,6 +78,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('role:REPRESENTANTE PRÁCTICAS')->group(function () {
         Route::controller(InternshipRepresentativeController::class)->group(function () {
             Route::get('representante/obtenerEstudiantes', 'obtenerEstudiantes');
+            Route::get('representante/obtenerCompromisoRecepcion/{id}', 'obtenerCompromisoRecepcion');
+            Route::post('representante/recibirEstudiante', 'recibirEstudiante');
         });
     });
 
@@ -98,6 +100,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('formularios/informacionVSO005/{cedula}', 'obtenerInformacionFormularioVSO005');
         Route::post('formularios/generar_carta_compromiso', 'generarCartaCompriso');;
         Route::post('formularios/generarVso001', 'generarVso001');
+        Route::post('formularios/generarVso002', 'generarVso002');
         Route::post('formularios/generarVso005', 'generarVso005');;
 
     });
