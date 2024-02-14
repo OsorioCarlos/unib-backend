@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Grade;
 use App\Models\GradingCriteria;
 use App\Models\Student;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class GradeController extends Controller
@@ -27,8 +28,21 @@ class GradeController extends Controller
      */
     public function store(Request $request)
     {
+        $usuario = User::where('identificacion', $request->input('id'))->first();
+        if ($usuario === null) {
+            return response()->json([
+                'mensaje' => 'No se encontró el estudiante',
+                'data' => ''
+            ], 404);
+        }
         $requestData = $request->all();
-        $practicaPreProfesional = Student::find(2)->preprofessionalPractices->first();
+        $practicaPreProfesional = $usuario->student->preprofessionalPractices->first();
+        if ($practicaPreProfesional === null) {
+            return response()->json([
+                'mensaje' => 'No se encontró la práctica preprofesional',
+                'data' => ''
+            ], 404);
+        }
         $usuario = null;
         switch ($requestData['formulario']) {
             case 'VSO-003':

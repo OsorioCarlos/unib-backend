@@ -78,6 +78,8 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('representante/obtenerEstudiantes', 'obtenerEstudiantes');
             Route::get('representante/obtenerCompromisoRecepcion/{id}', 'obtenerCompromisoRecepcion');
             Route::post('representante/recibirEstudiante', 'recibirEstudiante');
+            Route::get('representante/obtenerEvaluacionesPendientes', 'obtenerEvaluacionesPendientes');
+            Route::get('representante/obtenerInformacionEvaluacion/{id}', 'obtenerInformacionEvaluacion');
         });
     });
 

@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('user_id');
             $table->float('nota_promedio');
             $table->float('porcentaje_asistencia');
-            $table->string('observaciones')->nullable();
-            $table->string('recomendaciones')->nullable();
+            $table->text('observaciones')->nullable();
+            $table->text('recomendaciones')->nullable();
             $table->timestamps();
 
             $table->foreign('pre_professional_practice_id')->references('id')->on('pre_professional_practices')
