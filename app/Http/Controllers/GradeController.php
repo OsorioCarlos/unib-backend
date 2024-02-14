@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Student;
-use Illuminate\Http\Request;
-
 use App\Models\Grade;
 use App\Models\GradingCriteria;
-use App\Models\PreProfessionalPractice;
+use App\Models\Student;
+use Illuminate\Http\Request;
 
 class GradeController extends Controller
 {
@@ -48,11 +46,11 @@ class GradeController extends Controller
         $calificacion->user_id = $usuario->user->id;
         $calificacion->nota_promedio = $requestData['calificacion']['nota_promedio'];
         $calificacion->porcentaje_asistencia = $requestData['calificacion']['porcentaje_asistencia'];
-        $calificacion->observaciones = isset($requestData['calificacion']['observaciones'])?(strtoupper($requestData['calificacion']['observaciones'])):null;
-        $calificacion->recomendaciones = isset($requestData['calificacion']['recomendaciones'])?(strtoupper($requestData['calificacion']['recomendaciones'])):null;
+        $calificacion->observaciones = isset($requestData['calificacion']['observaciones']) ? (strtoupper($requestData['calificacion']['observaciones'])) : null;
+        $calificacion->recomendaciones = isset($requestData['calificacion']['recomendaciones']) ? (strtoupper($requestData['calificacion']['recomendaciones'])) : null;
         $calificacion->save();
 
-        foreach($requestData['calificacion']['criterios'] as $criterioData) {
+        foreach ($requestData['calificacion']['criterios'] as $criterioData) {
             $criterioCalificacion = new GradingCriteria();
             $criterioCalificacion->grade_id = $calificacion->id;
             $criterioCalificacion->criterio_id = $criterioData['id'];
@@ -65,13 +63,13 @@ class GradeController extends Controller
             $notaFinal = 0;
             $asistencia = 0;
 
-            foreach($calificaciones as $calificacion) {
+            foreach ($calificaciones as $calificacion) {
                 $notaFinal += $calificacion['nota_promedio'];
                 $asistencia += $calificacion['porcentaje_asistencia'];
             }
 
-            $practicaPreProfesional->nota_final = $notaFinal/2;
-            $practicaPreProfesional->asistencia = $asistencia/2;
+            $practicaPreProfesional->nota_final = $notaFinal / 2;
+            $practicaPreProfesional->asistencia = $asistencia / 2;
             //$practicaPreProfesional->estado_id = 4;
             $practicaPreProfesional->save();
         }

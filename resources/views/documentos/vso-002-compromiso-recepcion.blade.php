@@ -77,30 +77,16 @@
             rowspan="2"
             style="text-align: center; height: 100px; width: 110px"
         >
-            VSO-001
+            VSO-002
         </td>
     </tr>
     <tr>
         <td colspan="2" style="text-align: center">
-            SOLICITUD DEL ESTUDIANTE PARA REALIZAR PRÁCTICAS
-            PRE-PROFESIONALES
+            COMPROMISO DE RECEPCIÓN DE PRÁCTICAS PRE PROFESIONALES ESTUDIANTILES POR PARTE DE UNA ORGANIZACIÓN, ENTIDAD
+            O PERSONA JURÍDICA
         </td>
     </tr>
 </table>
-<br/>
-
-<div style="border: 1px solid black; padding: 10px">
-    <h3>DATOS DEL ESTUDIANTE:</h3>
-    <p>
-        NOMBRE: {{$solicitudData['nombre_estudiante']}}<br/>
-        ESCUELA: {{$solicitudData['carrera']}}<br/>
-        NIVEL/CICLO: {{$solicitudData['nivel']}}<br/>
-        ÁREA PROPUESTA PARA LA PRÁCTICA:
-        {{$solicitudData['area_practicas_solicitadas']}}<br/>
-        NÚMERO DE HORAS DE PRÁCTICA SOLICITADAS:
-        {{$solicitudData['horas_practicas_solicitadas']}}
-    </p>
-</div>
 <br/>
 <div style="border: 1px solid black; padding: 10px">
     <h3>DATOS DE LA ORGANIZACIÓN, ENTIDAD O PERSONA JURÍDICA:</h3>
@@ -109,34 +95,52 @@
         REPRESENTANTE LEGAL:
         {{$solicitudData['representante_legal']}}<br/>
         ÁREA DE DEDICACIÓN: {{$solicitudData['area_dedicacion']}}<br/>
-        REPRESENTANTE PARA LA PRÁTICA DEL ESTUDIANTE: {{$solicitudData['representante_practica']}}<br/>
+        TELÉFONO DE LA ORGANIZACIÓN, ENTIDAD O PERSONA JURÍDICA: {{$solicitudData['telefono']}}<br/>
         DIRECCIÓN: {{$solicitudData['direccion']}}<br/>
-        TELÉFONOS: {{$solicitudData['telefono']}}<br/>
-        E-MAIL: {{$solicitudData['email']}}
+        DÍAS HÁBILES: {{$solicitudData['dias_habiles']}}<br/>
+        HORARIO: {{$solicitudData['horario']}}<br/>
+        REPRESENTANTE PARA LA PRÁCTICA DEL ESTUDIANTE: {{$solicitudData['nombre_representante']}}<br/>
+        FUNCIÓN DEL REPRESENTANTE DE LA PRÁCTICA: {{$solicitudData['funcion_representante']}}<br/>
+        TELÉFONO DEL REPRESENTANTE DE LA PRÁCTICA: {{$solicitudData['telefono_representante']}}<br/>
+        E-MAIL DEL REPRESENTANTE DE LA PRÁCTICA: {{$solicitudData['email_representante']}}
     </p>
 </div>
 <br/>
 <div style="border: 1px solid black; padding: 10px">
-    <h3>COMPROMISO DEL ESTUDIANTE:</h3>
+    <h3>COMPROMISO EN RELACIÓN CON EL ESTUDIANTE DE PRÁCTICAS PRE PROFESIONALES:</h3>
+    <p>
+        NOMBRE DEL ESTUDIANTE: {{$solicitudData['nombre_estudiante']}}<br/>
+        ÁREA DE LA PRÁCTICA PRE PROFESIONAL: {{$solicitudData['area_practica']}}<br/>
+        OBJETIVOS DE LA PRÁCTICA PARA EL ESTUDIANTE:<br/>
+    <p style="text-align: justify">{{$solicitudData['objetivos']}}</p>
+    <br/>
+    TAREAS:<br/>
+    <p style="text-align: justify">{{$solicitudData['tareas']}}</p>
+    <br/>
+    DURACIÓN:<br/>
+    FECHA DE INICIO: {{$solicitudData['fecha_inicio']}}<br/>
+    FECHA DE FINALIZACIÓN: {{$solicitudData['fecha_fin']}}<br/>
+    DÍAS LABORABLES DE LAS PRÁCTICAS PRE PROFESIONALES:<br/>
+    {{$solicitudData['dias_laborables']}}<br/>
+    HORARIO: {{$solicitudData['horario']}}
+    </p>
+</div>
+<br/>
+<div style="border: 1px solid black; padding: 10px">
+    <h3>COMPROMISO DE LA ORGANIZACIÓN, ENTIDAD O PERSONA JURÍDICA:</h3>
     <p style="text-align: justify">
-        Me comprometo a cumplir con el Reglamento de Prácticas Pre
-        profesionales de la Universidad, así como los objetivos,
-        actividades, horarios y más responsabilidades exigidas por la
-        organización, entidad o persona jurídica en la que realizaré mis
-        practicas preprofesionales. Mi conducta, en todo momento, será
-        de responsabilidad, honestidad, puntualidad y colaboración.
+        Me comprometo en realizar el seguimiento y las evaluaciones respectivas, y recibir a la autoridad de la
+        Universidad para la supervisión al estudiante.
     </p>
     <p style="line-height: 1.3">
-        Srta./Sr {{$solicitudData['nombre_estudiante']}}<br/>
-        ESTUDIANTE DE LA CARRERA DE: {{$solicitudData['carrera']}}<br/>
-        CC: {{$solicitudData['identificacion_estudiante']}}
+        Nombre: {{$solicitudData['nombre_representante']}}<br/>
+        CI: {{$solicitudData['identificacion_representante']}}<br/>
+        Quito, D.M, {{$solicitudData['fecha_compromiso_organizacion_texto']}}
     </p>
 
-    <p>Quito, D.M, {{$solicitudData['fecha_texto']}}</p>
 </div>
 <div style="padding: 10px">
-    <p class="text-end">Por #{{$solicitudData['horas_practicas_solicitadas']}} horas de Práctica</p>
-
+    <p class="text-end">Quito, D.M, {{$solicitudData['fecha_director_texto']}}</p>
     <p style="line-height: 1.3">
         {{$solicitudData['nombre_director']}}<br/>
         <b>

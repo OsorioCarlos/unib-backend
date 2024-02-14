@@ -15,7 +15,7 @@ class CareerDirector extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        
+
     ];
 
     public function user()
