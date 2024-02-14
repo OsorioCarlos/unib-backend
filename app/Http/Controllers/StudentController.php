@@ -188,6 +188,7 @@ class StudentController extends Controller
         $statusSolicitud = 'Pendiente';
         $statusInformeFinal = 'Pendiente';
         $compromisoRecepcion = 'Pendiente';
+        $statusEvaluacionRepresentante = 'Pendiente';
 
         $estudiante = Auth::user()->student;
         if ($estudiante == null || $estudiante->preprofessionalPractices->first() == null) {
@@ -209,13 +210,19 @@ class StudentController extends Controller
         if ($practicaPreprofesional->empresa_compromiso != null) {
             $compromisoRecepcion = 'Completado';
         }
+        $practicaPreprofesional->grades->map(function ($grade) use (&$statusEvaluacionRepresentante) {
+            if ($grade->user->tipoCatalogo->nombre == 'REPRESENTANTE PRÁCTICAS') {
+                $statusEvaluacionRepresentante = 'Completado';
+            }
+        });
 
         return response()->json([
             'data' => [
                 'cartaCompromiso' => $statusCartaCompromiso,
                 'solicitud' => $statusSolicitud,
                 'compromisoRecepcion' => $compromisoRecepcion,
-                'informeFinal' => $statusInformeFinal
+                'informeFinal' => $statusInformeFinal,
+                'evaluacionRepresentante' => $statusEvaluacionRepresentante
             ],
             'mensaje' => 'OK'
         ], Response::HTTP_OK);

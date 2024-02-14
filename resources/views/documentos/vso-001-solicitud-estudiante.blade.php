@@ -71,19 +71,19 @@
             />
         </td>
         <td colspan="2" style="text-align: center">
-            UNIVERSIDAD IBEROAMERICANA DEL ECUADOR
+            <b>UNIVERSIDAD IBEROAMERICANA DEL ECUADOR</b>
         </td>
         <td
             rowspan="2"
             style="text-align: center; height: 100px; width: 110px"
         >
-            VSO-001
+            <b>VSO-001</b>
         </td>
     </tr>
     <tr>
         <td colspan="2" style="text-align: center">
-            SOLICITUD DEL ESTUDIANTE PARA REALIZAR PRÁCTICAS
-            PRE-PROFESIONALES
+            <b>SOLICITUD DEL ESTUDIANTE PARA REALIZAR PRÁCTICAS
+            PRE-PROFESIONALES</b>
         </td>
     </tr>
 </table>
