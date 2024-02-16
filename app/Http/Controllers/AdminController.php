@@ -37,7 +37,7 @@ class AdminController extends Controller
             }
         }
         $authUser = Auth::user();
-        if ($authUser->tipoCatalogo->nombre != 'ADMINISTRADOR') {
+        if($authUser->tipoCatalogo->nombre != 'ADMINISTRADOR'){
             return response()->json([
                 'mensaje' => 'No tiene permisos para realizar esta acción'
             ], 401);
@@ -48,14 +48,13 @@ class AdminController extends Controller
         $usuario->identificacion = $request->input('identificacion');
         $usuario->nombre_completo = $request->input('nombreCompleto');
         $usuario->tipo_id = $tipoUsuario;
-        $usuario->estado_id = $estadoUsuario;
-        $usuario->password = $request->input('identificacion');
+        $usuario->estado_id= $estadoUsuario;
+        $usuario->password=$request->input('identificacion');
         $usuario->save();
 
         // Puedes devolver una respuesta o redirigir a otra página según tus necesidades
         return response()->json(['mensaje' => 'Usuario creado correctamente'], 201);
     }
-
     public function eliminarUsuarios(Request $request)
     {
         // Validar la solicitud
@@ -64,7 +63,7 @@ class AdminController extends Controller
         ]);
         $authUser = Auth::user();
         $usuario = User::where('identificacion', $authUser->identificacion)->first();
-        if ($usuario == null) {
+        if($usuario == null){
             return response()->json(['mensaje' => 'Usuario no encontrado'], 404);
         }
         $usuario->delete();
