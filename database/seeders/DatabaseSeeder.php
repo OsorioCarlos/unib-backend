@@ -260,14 +260,14 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Organization::factory()->create([
-            'razon_social' => 'Empresa de prueba',
+            'razon_social'=> 'Empresa de prueba',
             'representante_legal' => 'Representante de prueba',
             'direccion' => 'Direccion de prueba',
-            'area_dedicacion' => 'Area de prueba',
-            'telefono' => 'Telefono de prueba',
-            'horario' => 'Horario de prueba',
-            'dias_laborables' => 'Dias laborables de prueba',
-            'email' => 'email@gmail.com'
+            'area_dedicacion'=> 'Area de prueba',
+            'telefono'=> 'Telefono de prueba',
+            'horario'=> 'Horario de prueba',
+            'dias_laborables'=> 'Dias laborables de prueba',
+            'email'=>'email@gmail.com'
         ]);
 
         \App\Models\CareerDirector::factory()->create([
