@@ -71,19 +71,19 @@
             />
         </td>
         <td colspan="2" style="text-align: center">
-            <b>UNIVERSIDAD IBEROAMERICANA DEL ECUADOR</b>
+            UNIVERSIDAD IBEROAMERICANA DEL ECUADOR
         </td>
         <td
             rowspan="2"
             style="text-align: center; height: 100px; width: 110px"
         >
-            <b>VSO-002</b>
+            VSO-002
         </td>
     </tr>
     <tr>
         <td colspan="2" style="text-align: center">
-            <b>COMPROMISO DE RECEPCIÓN DE PRÁCTICAS PRE PROFESIONALES ESTUDIANTILES POR PARTE DE UNA ORGANIZACIÓN, ENTIDAD
-            O PERSONA JURÍDICA</b>
+            COMPROMISO DE RECEPCIÓN DE PRÁCTICAS PRE PROFESIONALES ESTUDIANTILES POR PARTE DE UNA ORGANIZACIÓN, ENTIDAD
+            O PERSONA JURÍDICA
         </td>
     </tr>
 </table>

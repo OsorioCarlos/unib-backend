@@ -209,6 +209,7 @@ class StudentController extends Controller
         $statusCartaCompromiso = 'Pendiente';
         $statusSolicitud = 'Pendiente';
         $statusInformeFinal = 'Pendiente';
+        $compromisoRecepcion = 'Pendiente';
 
         $estudiante = Auth::user()->student;
         if($estudiante == null || $estudiante->preprofessionalPractices->first() == null){
@@ -218,20 +219,24 @@ class StudentController extends Controller
         }
         $practicaPreprofesional = $estudiante->preprofessionalPractices->first();
 
-            if($practicaPreprofesional->estudiante_carta_compromiso == 1){
-                $statusCartaCompromiso = 'Completado';
-            }
-            if($practicaPreprofesional->horas_practicas_solicitadas != null){
-                $statusSolicitud = 'Completado';
-            }
-            if($practicaPreprofesional->cumplimiento_objetivos != null){
-                $statusInformeFinal = 'Completado';
-            }
+        if ($practicaPreprofesional->estudiante_carta_compromiso == 1) {
+            $statusCartaCompromiso = 'Completado';
+        }
+        if ($practicaPreprofesional->horas_practicas_solicitadas != null) {
+            $statusSolicitud = 'Completado';
+        }
+        if ($practicaPreprofesional->fecha_informe_enviado != null) {
+            $statusInformeFinal = 'Completado';
+        }
+        if ($practicaPreprofesional->empresa_compromiso != null) {
+            $compromisoRecepcion = 'Completado';
+        }
 
         return response()->json([
             'data' => [
                 'cartaCompromiso' => $statusCartaCompromiso,
                 'solicitud' => $statusSolicitud,
+                'compromisoRecepcion' => $compromisoRecepcion,
                 'informeFinal' => $statusInformeFinal
             ],
             'mensaje' => 'OK'

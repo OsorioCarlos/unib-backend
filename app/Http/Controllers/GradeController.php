@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 
 use App\Models\Grade;
 use App\Models\GradingCriteria;
-use App\Models\PreProfessionalPractice;
+use App\Models\Student;
+use Illuminate\Http\Request;
 
 class GradeController extends Controller
 {
