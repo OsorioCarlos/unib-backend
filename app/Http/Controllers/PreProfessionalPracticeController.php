@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Carbon\Carbon;
-
 use App\Models\PreProfessionalPractice;
-use App\Models\Student;
 use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class PreProfessionalPracticeController extends Controller
 {
@@ -57,9 +55,9 @@ class PreProfessionalPracticeController extends Controller
      */
     public function show(string $cedula)
     {
-        $usuario = User::where('identificacion',$cedula)->first();
+        $usuario = User::where('identificacion', $cedula)->first();
         $practicaPreprofesionales = $usuario->student->preprofessionalPractices;
-        if($practicaPreprofesionales->count()==0){
+        if ($practicaPreprofesionales->count() == 0) {
             return response()->json([
                 'data' => null,
                 'mensaje' => 'OK'

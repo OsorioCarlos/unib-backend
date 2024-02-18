@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Models\CareerDirector;
+use Illuminate\Http\Request;
 
 class CareerDirectorController extends Controller
 {
@@ -18,7 +17,7 @@ class CareerDirectorController extends Controller
         return response()->json([
             'directores_carrera' => $directoresCarrera,
             'mensaje' => 'OK'
-        ], 200); 
+        ], 200);
     }
 
     /**
@@ -49,7 +48,7 @@ class CareerDirectorController extends Controller
         return response()->json([
             'director_carrera' => $directorCarrera,
             'mensaje' => 'OK'
-        ], 200); 
+        ], 200);
     }
 
     /**
@@ -57,7 +56,7 @@ class CareerDirectorController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $directorCarreraData = $request->get('director_carrera');  
+        $directorCarreraData = $request->get('director_carrera');
 
         $directorCarrera = CareerDirector::find($id);
         $directorCarrera->usuario_id = $directorCarreraData['usuario_id'];

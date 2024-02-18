@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -17,10 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->float('nota_promedio');
             $table->float('porcentaje_asistencia');
-            $table->string('observaciones')->nullable();
-            $table->string('recomendaciones')->nullable();
+            $table->text('observaciones')->nullable();
+            $table->text('recomendaciones')->nullable();
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('pre_professional_practice_id')->references('id')->on('pre_professional_practices')
                 ->onDelete('cascade')
