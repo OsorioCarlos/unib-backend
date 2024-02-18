@@ -262,6 +262,7 @@ class StudentController extends Controller
         $estudiante = Auth::user()->student;
 
         $respuesta = [
+            'identificacion' => $estudiante->user->identificacion,
             'nombre' => $estudiante->user->nombre_completo,
             'escuela' => $estudiante->carreraCatalogo->nombre,
             'nivel' => $estudiante->nivelCatalogo->nombre
@@ -283,6 +284,7 @@ class StudentController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
         $respuesta = [
+            'identificacion' => $usuario->identificacion,
             'nombre_estudiante' => $usuario->nombre_completo,
             'carrera' => $estudiante->carreraCatalogo->nombre,
             'nivel' => $estudiante->nivelCatalogo->nombre,

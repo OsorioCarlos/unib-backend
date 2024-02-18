@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Grade;
+use App\Models\GradingCriteria;
 use App\Models\Organization;
 use App\Models\Resource;
 use App\Models\User;
@@ -110,6 +112,62 @@ class FormulariosController extends Controller
         ], 200);
     }
 
+    public function generarVso004(Request $request)
+    {
+        $identificacionEstudiante = $request->input('identificacionEstudiante');
+        $usuario = User::where('identificacion', $identificacionEstudiante)->first();
+        $practicaPreprofesional = $usuario->student->preprofessionalPractices->first();
+        $grade = Grade::where('pre_professional_practice_id', $practicaPreprofesional->id)->get()->first();
+        if ($grade == null) {
+            return response()->json([
+                'mensaje' => 'ERROR',
+                'data' => 'No se ha encontrado la evaluación'
+            ], 404);
+        }
+        $criterios = GradingCriteria::where('grade_id', $grade->id)->get();
+        if ($criterios == null) {
+            return response()->json([
+                'mensaje' => 'ERROR',
+                'data' => 'No se han encontrado los criterios de evaluación'
+            ], 404);
+        }
+        $calificaciones = [];
+        foreach ($criterios as $criterio) {
+            array_push($calificaciones, [
+                'criterio' => $criterio->criterioCatalogo->nombre,
+                'calificacion' => $criterio->calificacion
+            ]);
+        }
+        $solicitudData = [
+            'razon_social' => $practicaPreprofesional->organization->razon_social,
+            'representante_legal' => $practicaPreprofesional->organization->representante_legal,
+            'area_dedicacion' => $practicaPreprofesional->organization->area_dedicacion,
+            'nombre_representante' => $practicaPreprofesional->internshipRepresentative->user->nombre_completo,
+            'area_practica' => $practicaPreprofesional->area_practicas_solicitadas,
+            'nombre_estudiante' => $usuario->nombre_completo,
+            'carrera' => $usuario->student->carreraCatalogo->nombre,
+            'nivel' => $usuario->student->nivelCatalogo->nombre,
+            'area_practicas_solicitadas' => $practicaPreprofesional->area_practicas_solicitadas,
+            'horas_practicas_solicitadas' => $practicaPreprofesional->horas_practicas_solicitadas,
+            'fecha_inicio' => $practicaPreprofesional->fecha_inicio,
+            'fecha_finalizacion' => $practicaPreprofesional->fecha_fin,
+            'asistencia' => $grade->porcentaje_asistencia,
+            'observaciones' => $grade->observaciones,
+            'recomendaciones' => $grade->recomendaciones,
+            'identificacion_representante' => $practicaPreprofesional->internshipRepresentative->user->identificacion,
+            'fecha_evaluacion_representante_texto' => Carbon::parse($grade->created_at)->format('d/m/Y'),
+            'nota_promedio' => $grade->nota_promedio,
+            'calificaciones' => $calificaciones
+        ];
+        $pdf = Pdf::loadView('documentos.vso-004-seguimiento-representante', compact('solicitudData'));
+        $pdf->save('seguimientorepresentante.pdf');
+
+        return response()->json([
+            'mensaje' => 'OK',
+            'data' => 'seguimientorepresentante.pdf'
+        ], 200);
+    }
+
     public function generarVso005(Request $request)
     {
         $identificacionEstudiante = $request->input('identificacionEstudiante');
@@ -165,25 +223,6 @@ class FormulariosController extends Controller
         $practicaPreprofesional->organization;
         $practicaPreprofesional->internshipRepresentative->user;
         $practicaPreprofesional->grades;
-
-        return response()->json([
-            'mensaje' => 'OK',
-            'data' => $practicaPreprofesional
-        ], 200);
-    }
-
-    public function obtenerInformacionFormularioVSO004(string $ruc)
-    {
-        $organizacion = Organization::where('ruc', $ruc)
-            ->first();
-        $practicasPreprofesionales = $organizacion->preprofessionalPractices;
-        $practicaPreprofesional = collect($practicasPreprofesionales)
-            ->where('estado_id', 3)
-            ->sortByDesc('created_at')
-            ->first();
-        $practicaPreprofesional->organization;
-        $practicaPreprofesional->internshipRepresentative->user;
-        $practicaPreprofesional->student->user;
 
         return response()->json([
             'mensaje' => 'OK',

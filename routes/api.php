@@ -101,6 +101,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('formularios/generar_carta_compromiso', 'generarCartaCompriso');;
         Route::post('formularios/generarVso001', 'generarVso001');
         Route::post('formularios/generarVso002', 'generarVso002');
+        Route::post('formularios/generarVso004', 'generarVso004');;
         Route::post('formularios/generarVso005', 'generarVso005');;
 
     });

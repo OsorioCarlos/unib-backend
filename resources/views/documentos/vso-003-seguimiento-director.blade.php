@@ -77,19 +77,32 @@
                     rowspan="2"
                     style="text-align: center; height: 100px; width: 110px"
                 >
-                    <b>VSO-004</b>
+                    <b>VSO-003</b>
                 </td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align: center">
                     <b
-                        >SEGUIMIENTO Y EVALUACIÓN DE PRÁCTICAS PRE PROFESIONALES
-                        POR PARTE DE LA ORGANIZACIÓN, ENTIDAD O PERSONA
-                        JURÍDICA</b
+                        >SEGUIMIENTO Y EVALUACIÓN DE PRÁCTICAS PREPROFESIONALES POR PARTE DE LA DIRECCIÓN DE CARRERA</b
                     >
                 </td>
             </tr>
         </table>
+        <br />
+        <div style="border: 1px solid black; padding: 10px">
+            <h3>DATOS DEL ESTUDIANTE:</h3>
+            <p>
+                NOMBRE: {{$solicitudData['nombre_estudiante']}}<br />
+                CARRERA: {{$solicitudData['carrera']}}<br />
+                NIVEL/CICLO: {{$solicitudData['nivel']}}<br />
+                ÁREA DE LA PRÁCTICA PRE PROFESIONAL:
+                {{$solicitudData['area_practicas_solicitadas']}}<br />
+                NÚMERO DE HORAS DE PRÁCTICA REALIZADAS:
+                {{$solicitudData['horas_practicas_solicitadas']}}<br />
+                FECHA DE INICIO: {{$solicitudData['fecha_inicio']}}<br />
+                FECHA DE FINALIZACIÓN: {{$solicitudData['fecha_finalizacion']}}
+            </p>
+        </div>
         <br />
         <div style="border: 1px solid black; padding: 10px">
             <h3>DATOS DE LA ORGANIZACIÓN, ENTIDAD O PERSONA JURÍDICA:</h3>
@@ -101,21 +114,6 @@
                 REPRESENTANTE PARA LA PRÁCTICA DEL ESTUDIANTE:
                 {{$solicitudData['nombre_representante']}}<br />
                 ÁREA DE LAS PRÁCTICAS: {{$solicitudData['area_practica']}}
-            </p>
-        </div>
-        <br />
-        <div style="border: 1px solid black; padding: 10px">
-            <h3>DATOS DEL ESTUDIANTE:</h3>
-            <p>
-                NOMBRE: {{$solicitudData['nombre_estudiante']}}<br />
-                ESCUELA: {{$solicitudData['carrera']}}<br />
-                NIVEL/CICLO: {{$solicitudData['nivel']}}<br />
-                ÁREA DE LA PRÁCTICA PRE PROFESIONAL:
-                {{$solicitudData['area_practicas_solicitadas']}}<br />
-                NÚMERO DE HORAS DE PRÁCTICA REALIZADAS:
-                {{$solicitudData['horas_practicas_solicitadas']}}<br />
-                FECHA DE INICIO: {{$solicitudData['fecha_inicio']}}<br />
-                FECHA DE FINALIZACIÓN: {{$solicitudData['fecha_finalizacion']}}
             </p>
         </div>
         <br />
@@ -154,7 +152,31 @@
                             border: none;
                         "
                     >
-                        <b>PROMEDIO</b>
+                        <b>TOTAL:</b>
+                    </td>
+                    <td>10</td>
+                </tr>
+                <tr style="border-style: none">
+                    <td
+                        style="
+                            display: flex;
+                            justify-content: end;
+                            border: none;
+                        "
+                    >
+                        <b>EVALUACIÓN DE LA ORGANIZACIÓN:</b>
+                    </td>
+                    <td>10</td>
+                </tr>
+                <tr style="border-style: none">
+                    <td
+                        style="
+                            display: flex;
+                            justify-content: end;
+                            border: none;
+                        "
+                    >
+                        <b>PROMEDIO:</b>
                     </td>
                     <td>10</td>
                 </tr>
@@ -162,28 +184,23 @@
         </div>
         <br />
         <div style="border: 1px solid black; padding: 10px">
-            <h3>COMPROMISO DE LA ORGANIZACIÓN, ENTIDAD O PERSONA JURÍDICA:</h3>
-            <p style="text-align: justify">
-                Me comprometo en realizar el seguimiento y las evaluaciones
-                respectivas, y recibir a la autoridad de la Universidad para la
-                supervisión al estudiante.
-            </p>
-            <p style="line-height: 1.3">
-                Nombre: {{$solicitudData['nombre_representante']}}<br />
-                CI: {{$solicitudData['identificacion_representante']}}<br />
-                Quito, D.M,
-                {{$solicitudData['fecha_compromiso_organizacion_texto']}}
+            <p>
+                ASISTENCIA: {{$solicitudData['asistencia']}}<br />
+                HORAS APROBADAS DE PRÁCTICAS PRE PROFESIONALES: {{$solicitudData['horas_aprobadas']}}<br />
+                REPROBADO: (RAZONES):<br/>
+                <p style="text-align: justify">{{$solicitudData['recomendaciones']}}</p>
             </p>
         </div>
+        <br />
         <div style="padding: 10px">
             <p class="text-end">
-                Quito, D.M, {{$solicitudData['fecha_director_texto']}}
+                Quito, D.M, {{$solicitudData['fecha_evaluacion_representante_texto']}}
             </p>
             <p style="line-height: 1.3">
-                {{$solicitudData['nombre_director']}}<br />
+                {{$solicitudData['nombre_director']}}<br/>
                 <b>
-                    Director Escuela de: {{$solicitudData['carrera']}}<br />
-                    CC: {{$solicitudData['identificacion_director']}}<br />
+                    Director Escuela de: {{$solicitudData['carrera']}}<br/>
+                    CC: {{$solicitudData['identificacion_director']}}<br/>
                     UNIBE
                 </b>
             </p>
