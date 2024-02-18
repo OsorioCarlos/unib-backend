@@ -246,7 +246,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory()->create([
             'identificacion' => '2222222222',
             'nombre_completo' => 'MEDINA PONCE DARIO JOSE',
-            'email' => 'directo r@test.com',
+            'email' => 'director@test.com',
             'password' => '123456789',
             'tipo_id' => 18
         ]);

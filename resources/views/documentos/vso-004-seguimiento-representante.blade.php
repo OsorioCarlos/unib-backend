@@ -10,19 +10,37 @@
             font-size: 14px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border: 1px solid #000;
-        }
-
-        th, td {
+        .tabla-calificacion {
             text-align: left;
             vertical-align: center;
             border: 1px solid #000;
             padding: 10px;
         }
 
+        th,
+        td {
+            padding: 5px;
+        }
+
+        td,
+        th,
+        table {
+            border: 1px solid black;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table {
+            border-collapse: collapse;
+            border: 2px solid black;
+        }
+
+        td,
+        th {
+            border: 2px solid black;
+        }
         .text-justify {
             text-align: justify;
         }
@@ -106,19 +124,21 @@
     </p>
 </div>
 <br/>
-<table>
+<table style="width: 100%;
+border-collapse: collapse;
+border: 1px solid #000;">
     <tr>
-        <th><b>VALORACIÓN / CRITERIOS</b></th>
-        <th><b>SOBRE /30</b></th>
+        <th class="tabla-calificacion"><b>VALORACIÓN / CRITERIOS</b></th>
+        <th class="tabla-calificacion"><b>SOBRE /30</b></th>
     </tr>
     @foreach($solicitudData['calificaciones'] as $calificacion)
         <tr>
-            <td>{{$calificacion['criterio']}}</td>
-            <td>{{$calificacion['calificacion']}}</td>
+            <td class="tabla-calificacion">{{$calificacion['criterio']}}</td>
+            <td class="tabla-calificacion">{{$calificacion['calificacion']}}</td>
         </tr>
     @endforeach
     <tr style="border-style: none">
-        <td
+        <td class="tabla-calificacion"
             style="
                             display: flex;
                             justify-content: end;
@@ -127,7 +147,7 @@
         >
             <b>PROMEDIO</b>
         </td>
-        <td>{{$solicitudData['nota_promedio']}}</td>
+        <td class="tabla-calificacion">{{$solicitudData['nota_promedio']}}</td>
     </tr>
 </table>
 <br/>
@@ -150,9 +170,8 @@
     <p style="line-height: 1.3">
         <b>
             {{$solicitudData['nombre_representante']}}<br/>
-            Representante para la práctica del estudiante<br/>
+            Representante de prácticas<br/>
             CC: {{$solicitudData['identificacion_representante']}}<br/>
-            UNIBE
         </b>
     </p>
 </div>

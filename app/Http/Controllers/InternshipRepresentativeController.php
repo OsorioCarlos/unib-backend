@@ -184,20 +184,26 @@ class InternshipRepresentativeController extends Controller
         $estudiantes = [];
 
 
-        foreach ($practicasPreprofesionales as $practica) {
-            if ($practica->grades->count() == 0) {
-                $estudiante = $practica->student->user;
-                array_push($estudiantes, $estudiante);
-            } else {
-                $practica->grades->map(function ($grade) use (&$practica, &$estudiantes) {
-                    if ($grade->user->tipoCatalogo->nombre != 'REPRESENTANTE PRÁCTICAS') {
-                        $estudiante = $practica->student->user;
-                        array_push($estudiantes, $estudiante);
-                    }
-                });
+//        foreach ($practicasPreprofesionales as $practica) {
+//            if ($practica->grades->count() == 0) {
+//                $estudiante = $practica->student->user;
+//                array_push($estudiantes, $estudiante);
+//            } else {
+//                $practica->grades->map(function ($grade) use (&$practica, &$estudiantes) {
+//                    if ($grade->user->tipoCatalogo->nombre != 'REPRESENTANTE PRÁCTICAS') {
+//                        $estudiante = $practica->student->user;
+//                        array_push($estudiantes, $estudiante);
+//                    }
+//                });
+//            }
+//
+//        }
+        foreach ($practicasPreprofesionales as $practicaPreprofesional) {
+            if ($practicaPreprofesional->empresa_compromiso != null && $practicaPreprofesional->empresa_compromiso_fecha != null) {
+                array_push($estudiantes, $practicaPreprofesional->student->user);
             }
-
         }
+
         return response()->json([
             'data' => $estudiantes,
             'mensaje' => 'OK'
