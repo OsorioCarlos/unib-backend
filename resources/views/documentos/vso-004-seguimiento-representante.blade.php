@@ -115,7 +115,7 @@
     <h3>DATOS DEL ESTUDIANTE:</h3>
     <p>
         NOMBRE: {{$solicitudData['nombre_estudiante']}}<br/>
-        ESCUELA: {{$solicitudData['carrera']}}<br/>
+        CARRERA: {{$solicitudData['carrera']}}<br/>
         NIVEL/CICLO: {{$solicitudData['nivel']}}<br/>
         ÁREA DE LA PRÁCTICA PRE PROFESIONAL:
         {{$solicitudData['area_practicas_solicitadas']}}<br/>
@@ -147,7 +147,7 @@ border: 1px solid #000;">
                             border: none;
                         "
         >
-            <b>PROMEDIO</b>
+            <b>PROMEDIO: </b>
         </td>
         <td class="tabla-calificacion">{{$solicitudData['nota_promedio']}}</td>
     </tr>

@@ -7,6 +7,7 @@ use App\Models\GradingCriteria;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GradeController extends Controller
 {
@@ -43,21 +44,11 @@ class GradeController extends Controller
                 'data' => ''
             ], 404);
         }
-        $usuario = null;
-        switch ($requestData['formulario']) {
-            case 'VSO-003':
-                $usuario = $practicaPreProfesional->careerDirector;
-                break;
-            case 'VSO-004':
-                $usuario = $practicaPreProfesional->internshipRepresentative;
-                break;
-            default:
-                break;
-        }
-
+        $usuario = Auth::user();
+        
         $calificacion = new Grade();
         $calificacion->pre_professional_practice_id = $practicaPreProfesional->id;
-        $calificacion->user_id = $usuario->user->id;
+        $calificacion->user_id = $usuario->id;
         $calificacion->nota_promedio = $requestData['calificacion']['nota_promedio'];
         $calificacion->porcentaje_asistencia = $requestData['calificacion']['porcentaje_asistencia'];
         $calificacion->observaciones = isset($requestData['calificacion']['observaciones']) ? (strtoupper($requestData['calificacion']['observaciones'])) : null;

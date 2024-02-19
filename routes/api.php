@@ -82,6 +82,12 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('representante/obtenerInformacionEvaluacion/{id}', 'obtenerInformacionEvaluacion');
         });
     });
+    Route::middleware('role:DIRECTOR DE CARRERA')->group(function () {
+        Route::controller(CareerDirectorController::class)->group(function () {
+            Route::get('director/obtenerEvaluacionesPendientes', 'obtenerEvaluacionesPendientes');
+            Route::get('director/obtenerInformacionEvaluacion/{id}', 'obtenerInformacionEvaluacion');
+        });
+    });
 
     Route::apiResource('usuarios', UserController::class);
     Route::apiResource('roles', RoleController::class);
@@ -101,6 +107,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('formularios/generar_carta_compromiso', 'generarCartaCompriso');;
         Route::post('formularios/generarVso001', 'generarVso001');
         Route::post('formularios/generarVso002', 'generarVso002');
+        Route::post('formularios/generarVso003', 'generarVso003');
         Route::post('formularios/generarVso004', 'generarVso004');;
         Route::post('formularios/generarVso005', 'generarVso005');;
 
