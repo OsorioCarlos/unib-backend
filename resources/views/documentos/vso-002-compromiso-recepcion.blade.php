@@ -112,17 +112,17 @@
         NOMBRE DEL ESTUDIANTE: {{$solicitudData['nombre_estudiante']}}<br/>
         ÁREA DE LA PRÁCTICA PRE PROFESIONAL: {{$solicitudData['area_practica']}}<br/>
         OBJETIVOS DE LA PRÁCTICA PARA EL ESTUDIANTE:<br/>
-    <p style="text-align: justify">{{$solicitudData['objetivos']}}</p>
+    <label style="text-align: justify">{{$solicitudData['objetivos']}}</label>
     <br/>
     TAREAS:<br/>
-    <p style="text-align: justify">{{$solicitudData['tareas']}}</p>
+    <label style="text-align: justify">{{$solicitudData['tareas']}}</label>
     <br/>
     DURACIÓN:<br/>
     FECHA DE INICIO: {{$solicitudData['fecha_inicio']}}<br/>
     FECHA DE FINALIZACIÓN: {{$solicitudData['fecha_fin']}}<br/>
     DÍAS LABORABLES DE LAS PRÁCTICAS PRE PROFESIONALES:<br/>
     {{$solicitudData['dias_laborables']}}<br/>
-    HORARIO: {{$solicitudData['horario']}}
+    HORARIO: {{$solicitudData['horario_practicas']}}
     </p>
 </div>
 <br/>

@@ -32,6 +32,7 @@
             width: 100%;
             border-collapse: collapse;
         }
+
         table {
             border-collapse: collapse;
             border: 2px solid black;
@@ -41,6 +42,7 @@
         th {
             border: 2px solid black;
         }
+
         .text-justify {
             text-align: justify;
         }
@@ -152,7 +154,7 @@ border: 1px solid #000;">
 </table>
 <br/>
 <div style="border: 1px solid black; padding: 10px">
-    ASISTENCIA: {{$solicitudData['asistencia']}}<br/>
+    ASISTENCIA: {{$solicitudData['asistencia']}} %<br/>
     <p style="text-align: justify">
         OBSERVACIONES: <br/>
         {{$solicitudData['observaciones']}}
