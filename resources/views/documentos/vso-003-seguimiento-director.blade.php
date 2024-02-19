@@ -84,32 +84,18 @@
             rowspan="2"
             style="text-align: center; height: 100px; width: 110px"
         >
-            <b>VSO-004</b>
+            <b>VSO-003</b>
         </td>
     </tr>
     <tr>
         <td colspan="2" style="text-align: center">
             <b
-            >SEGUIMIENTO Y EVALUACIÓN DE PRÁCTICAS PRE PROFESIONALES
-                POR PARTE DE LA ORGANIZACIÓN, ENTIDAD O PERSONA
-                JURÍDICA</b
+            >SEGUIMIENTO Y EVALUACIÓN DE PRÁCTICAS PREPROFESIONALES
+                POR PARTE DE LA DIRECCIÓN DE CARRERA</b
             >
         </td>
     </tr>
 </table>
-<br/>
-<div style="border: 1px solid black; padding: 10px">
-    <h3>DATOS DE LA ORGANIZACIÓN, ENTIDAD O PERSONA JURÍDICA:</h3>
-    <p>
-        NOMBRE / RAZÓN SOCIAL: {{$solicitudData['razon_social']}}<br/>
-        REPRESENTANTE LEGAL:
-        {{$solicitudData['representante_legal']}}<br/>
-        ÁREA DE DEDICACIÓN: {{$solicitudData['area_dedicacion']}}<br/>
-        REPRESENTANTE PARA LA PRÁCTICA DEL ESTUDIANTE:
-        {{$solicitudData['nombre_representante']}}<br/>
-        ÁREA DE LAS PRÁCTICAS: {{$solicitudData['area_practica']}}
-    </p>
-</div>
 <br/>
 <div style="border: 1px solid black; padding: 10px">
     <h3>DATOS DEL ESTUDIANTE:</h3>
@@ -126,54 +112,98 @@
     </p>
 </div>
 <br/>
-<table style="width: 100%;
-border-collapse: collapse;
-border: 1px solid #000;">
+<div style="border: 1px solid black; padding: 10px">
+    <h3>DATOS DE LA ORGANIZACIÓN, ENTIDAD O PERSONA JURÍDICA:</h3>
+    <p>
+        NOMBRE / RAZÓN SOCIAL: {{$solicitudData['razon_social']}}<br/>
+        REPRESENTANTE LEGAL:
+        {{$solicitudData['representante_legal']}}<br/>
+        ÁREA DE DEDICACIÓN: {{$solicitudData['area_dedicacion']}}<br/>
+        REPRESENTANTE PARA LA PRÁCTICA DEL ESTUDIANTE:
+        {{$solicitudData['nombre_representante']}}<br/>
+        ÁREA DE LAS PRÁCTICAS: {{$solicitudData['area_practica']}}
+    </p>
+</div>
+<br/>
+<table
+    style="
+                width: 100%;
+                border-collapse: collapse;
+                border: 1px solid #000;
+            "
+>
     <tr>
-        <th class="tabla-calificacion"><b>VALORACIÓN / CRITERIOS</b></th>
+        <th class="tabla-calificacion">
+            <b>VALORACIÓN / CRITERIOS</b>
+        </th>
         <th class="tabla-calificacion"><b>SOBRE /30</b></th>
     </tr>
     @foreach($solicitudData['calificaciones'] as $calificacion)
         <tr>
-            <td class="tabla-calificacion">{{$calificacion['criterio']}}</td>
-            <td class="tabla-calificacion">{{$calificacion['calificacion']}}</td>
+            <td class="tabla-calificacion">
+                {{$calificacion['criterio']}}
+            </td>
+            <td class="tabla-calificacion">
+                {{$calificacion['calificacion']}}
+            </td>
         </tr>
     @endforeach
     <tr style="border-style: none">
-        <td class="tabla-calificacion"
-            style="
-                            display: flex;
-                            justify-content: end;
-                            border: none;
-                        "
+        <td
+            class="tabla-calificacion"
+            style="display: flex; justify-content: end; border: none"
+        >
+            <b>TOTAL: </b>
+        </td>
+        <td class="tabla-calificacion">
+            {{$solicitudData['nota_promedio']}}
+        </td>
+    </tr>
+    <tr style="border-style: none">
+        <td
+            class="tabla-calificacion"
+            style="display: flex; justify-content: end; border: none"
+        >
+            <b>EVALUACIÓN DE LA ORGANIZACIÓN: </b>
+        </td>
+        <td class="tabla-calificacion">
+            {{$solicitudData['nota_organizacion']}}
+        </td>
+    </tr>
+    <tr style="border-style: none">
+        <td
+            class="tabla-calificacion"
+            style="display: flex; justify-content: end; border: none"
         >
             <b>PROMEDIO: </b>
         </td>
-        <td class="tabla-calificacion">{{$solicitudData['nota_promedio']}}</td>
+        <td class="tabla-calificacion">
+            {{$solicitudData['promedio_final']}}
+        </td>
     </tr>
 </table>
 <br/>
 <div style="border: 1px solid black; padding: 10px">
     ASISTENCIA: {{$solicitudData['asistencia']}} %<br/>
+    HORAS APROBADAS DE PRÁCTICAS PRE PROFESIONALES:
+    {{$solicitudData['horas_aprobadas']}}<br/>
     <p style="text-align: justify">
-        OBSERVACIONES: <br/>
+        REPROBADO: (RAZONES): <br/>
         {{$solicitudData['observaciones']}}
-    </p>
-    <p style="text-align: justify">
-        RECOMENDACIONES: <br/>
-        {{$solicitudData['recomendaciones']}}
     </p>
 </div>
 <br/>
 <div style="padding: 10px">
     <p class="text-end">
-        Quito, D.M, {{$solicitudData['fecha_evaluacion_representante_texto']}}
+        Quito, D.M,
+        {{$solicitudData['fecha_evaluacion_director_texto']}}
     </p>
     <p style="line-height: 1.3">
         <b>
-            {{$solicitudData['nombre_representante']}}<br/>
-            Representante de prácticas<br/>
-            CC: {{$solicitudData['identificacion_representante']}}<br/>
+            {{$solicitudData['nombre_director']}}<br/>
+            Director Escuela de: {{$solicitudData['carrera']}}<br/>
+            CC: {{$solicitudData['identificacion_director']}}<br/>
+            UNIBE
         </b>
     </p>
 </div>

@@ -188,6 +188,7 @@ class StudentController extends Controller
         $statusSolicitud = 'Pendiente';
         $statusInformeFinal = 'Pendiente';
         $compromisoRecepcion = 'Pendiente';
+        $statusEvaluacionDirector = 'Pendiente';
         $statusEvaluacionRepresentante = 'Pendiente';
 
         $estudiante = Auth::user()->student;
@@ -210,7 +211,10 @@ class StudentController extends Controller
         if ($practicaPreprofesional->empresa_compromiso != null) {
             $compromisoRecepcion = 'Completado';
         }
-        $practicaPreprofesional->grades->map(function ($grade) use (&$statusEvaluacionRepresentante) {
+        $practicaPreprofesional->grades->map(function ($grade) use (&$statusEvaluacionDirector, &$statusEvaluacionRepresentante) {
+            if ($grade->user->tipoCatalogo->nombre == 'DIRECTOR DE CARRERA') {
+                $statusEvaluacionDirector = 'Completado';
+            }
             if ($grade->user->tipoCatalogo->nombre == 'REPRESENTANTE PRÁCTICAS') {
                 $statusEvaluacionRepresentante = 'Completado';
             }
@@ -221,8 +225,9 @@ class StudentController extends Controller
                 'cartaCompromiso' => $statusCartaCompromiso,
                 'solicitud' => $statusSolicitud,
                 'compromisoRecepcion' => $compromisoRecepcion,
-                'informeFinal' => $statusInformeFinal,
-                'evaluacionRepresentante' => $statusEvaluacionRepresentante
+                'evaluacionDirector' => $statusEvaluacionDirector,
+                'evaluacionRepresentante' => $statusEvaluacionRepresentante,
+                'informeFinal' => $statusInformeFinal
             ],
             'mensaje' => 'OK'
         ], Response::HTTP_OK);
@@ -262,6 +267,7 @@ class StudentController extends Controller
         $estudiante = Auth::user()->student;
 
         $respuesta = [
+            'identificacion' => $estudiante->user->identificacion,
             'nombre' => $estudiante->user->nombre_completo,
             'escuela' => $estudiante->carreraCatalogo->nombre,
             'nivel' => $estudiante->nivelCatalogo->nombre
@@ -283,6 +289,7 @@ class StudentController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
         $respuesta = [
+            'identificacion' => $usuario->identificacion,
             'nombre_estudiante' => $usuario->nombre_completo,
             'carrera' => $estudiante->carreraCatalogo->nombre,
             'nivel' => $estudiante->nivelCatalogo->nombre,

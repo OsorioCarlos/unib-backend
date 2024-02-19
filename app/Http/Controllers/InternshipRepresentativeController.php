@@ -145,7 +145,8 @@ class InternshipRepresentativeController extends Controller
             'compromisoRecepcion.tareas' => 'required|string',
             'compromisoRecepcion.fechaInicio' => 'required|string',
             'compromisoRecepcion.fechaFin' => 'required|string',
-            'compromisoRecepcion.horario' => 'required|string',
+            'compromisoRecepcion.horarioDesde' => 'required|string',
+            'compromisoRecepcion.horarioHasta' => 'required|string',
             'compromisoRecepcion.diasLaborables' => 'required|string',
             'compromisoRecepcion.aceptarCompromiso' => 'required',
         ]);
@@ -166,7 +167,7 @@ class InternshipRepresentativeController extends Controller
         $practica->fecha_inicio = $request->input('compromisoRecepcion.fechaInicio');
         $practica->fecha_fin = $request->input('compromisoRecepcion.fechaFin');
         $practica->dias_laborables = $request->input('compromisoRecepcion.diasLaborables');
-        $practica->horario = $request->input('compromisoRecepcion.horario');
+        $practica->horario = "{$request->input('compromisoRecepcion.horarioDesde')} a {$request->input('compromisoRecepcion.horarioHasta')}";
         $practica->empresa_compromiso = $request->input('compromisoRecepcion.aceptarCompromiso');
         $practica->empresa_compromiso_fecha = Carbon::now()->format('Y-m-d');
         $practica->save();
@@ -184,20 +185,26 @@ class InternshipRepresentativeController extends Controller
         $estudiantes = [];
 
 
-        foreach ($practicasPreprofesionales as $practica) {
-            if ($practica->grades->count() == 0) {
-                $estudiante = $practica->student->user;
-                array_push($estudiantes, $estudiante);
-            } else {
-                $practica->grades->map(function ($grade) use (&$practica, &$estudiantes) {
-                    if ($grade->user->tipoCatalogo->nombre != 'REPRESENTANTE PRÁCTICAS') {
-                        $estudiante = $practica->student->user;
-                        array_push($estudiantes, $estudiante);
-                    }
-                });
+//        foreach ($practicasPreprofesionales as $practica) {
+//            if ($practica->grades->count() == 0) {
+//                $estudiante = $practica->student->user;
+//                array_push($estudiantes, $estudiante);
+//            } else {
+//                $practica->grades->map(function ($grade) use (&$practica, &$estudiantes) {
+//                    if ($grade->user->tipoCatalogo->nombre != 'REPRESENTANTE PRÁCTICAS') {
+//                        $estudiante = $practica->student->user;
+//                        array_push($estudiantes, $estudiante);
+//                    }
+//                });
+//            }
+//
+//        }
+        foreach ($practicasPreprofesionales as $practicaPreprofesional) {
+            if ($practicaPreprofesional->empresa_compromiso != null && $practicaPreprofesional->empresa_compromiso_fecha != null) {
+                array_push($estudiantes, $practicaPreprofesional->student->user);
             }
-
         }
+
         return response()->json([
             'data' => $estudiantes,
             'mensaje' => 'OK'
