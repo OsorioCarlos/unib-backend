@@ -90,7 +90,7 @@ class StudentController extends Controller
             ->notify(new \App\Notifications\PracticasNotificacion(nombre: $practicaPreprofesional->internshipRepresentative->user->nombre_completo, estudiante: $student->user->nombre_completo, carrera: $student->carreraCatalogo->nombre));
 
         // Puedes devolver una respuesta o redirigir a otra página según tus necesidades
-        return response()->json(['mensaje' => 'Solicitud de práctica preprofesional enviada'], 200);
+        return response()->json(['mensaje' => 'Se ha notificado la solitud a tu representante'], 200);
     }
 
     public function enviarInformeFinal(Request $request)
