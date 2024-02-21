@@ -12,6 +12,25 @@ use Illuminate\Support\Facades\Notification;
 
 class StudentController extends Controller
 {
+    public function generarCartaCompromiso(Request $request)
+    {
+        $request->validate([
+            'organizacion.nombreRazonSocial' => 'required|string'
+        ]);
+
+        $authUser = Auth::user();
+
+        $practicaPreprofesional = $authUser->student->preprofessionalPractices()->firstOrNew();
+        $practicaPreprofesional->organization_id = $request->input('organizacion.nombreRazonSocial');
+        $practicaPreprofesional->save();
+
+        return response()->json([
+            'estado' => 'ok',
+            'mensaje' => 'Carta de compromiso generada correctamente'
+        ], 200);
+
+    }
+
     public function obtenerInfoCompromiso()
     {
         $authUser = Auth::user();
@@ -57,8 +76,8 @@ class StudentController extends Controller
         $practicaPreprofesional->save();
 
         return response()->json([
-            'estado' => 'ok',
-            'mensaje' => 'Carta de compromiso aceptada'
+            'estado' => 'Carta de compromiso generada!',
+            'mensaje' => 'Ya puedes solicitar tus prácticas preprofesionales'
         ], 200);
     }
 
@@ -140,32 +159,6 @@ class StudentController extends Controller
             'mensaje' => 'OK'
         ], 200);
     }
-
-    public function generarCartaCompromiso(Request $request)
-    {
-        $request->validate([
-            'estudiante.carrera' => 'required|string',
-            'estudiante.semestre' => 'required|string',
-            'organizacion.nombreRazonSocial' => 'required|string'
-        ]);
-
-        $authUser = Auth::user();
-        $student = $authUser->student()->firstOrNew();
-        $student->carrera_id = $request->input('estudiante.carrera');
-        $student->nivel_id = $request->input('estudiante.semestre');
-        $student->save();
-
-        $practicaPreprofesional = $student->preprofessionalPractices()->firstOrNew();
-        $practicaPreprofesional->organization_id = $request->input('organizacion.nombreRazonSocial');
-        $practicaPreprofesional->save();
-
-        return response()->json([
-            'estado' => 'ok',
-            'mensaje' => 'Carta de compromiso generada correctamente'
-        ], 200);
-
-    }
-
     public function consultarOrganizacionAsignada()
     {
         $user = Auth::user();
