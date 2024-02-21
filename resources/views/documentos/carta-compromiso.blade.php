@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Carta Compromiso</title>
+    <title>CARTA-001</title>
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
@@ -67,9 +67,11 @@
 </p>
 <br><br><br><br><br><br>
 <p>
+    <b>
     Srta./Sr {{$estudianteData['nombre_estudiante']}}<br>
-    ESTUDIANTE DE LA CARRERA DE: {{$estudianteData['carrera']}}<br>
+    ESTUDIANTE DE LA CARRERA DE {{$estudianteData['carrera']}}<br>
     CC: {{$estudianteData['cedula_estudiante']}}
+    </b>
 </p>
 </body>
 </html>

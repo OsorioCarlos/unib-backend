@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Carta Compromiso</title>
+    <title>VSO-003</title>
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
@@ -58,6 +58,7 @@
 
         p {
             line-height: 1.5;
+            margin-bottom: 0;
         }
 
         h3 {
@@ -100,28 +101,24 @@
 <div style="border: 1px solid black; padding: 10px">
     <h3>DATOS DEL ESTUDIANTE:</h3>
     <p>
-        NOMBRE: {{$solicitudData['nombre_estudiante']}}<br/>
-        CARRERA: {{$solicitudData['carrera']}}<br/>
-        NIVEL/CICLO: {{$solicitudData['nivel']}}<br/>
-        ÁREA DE LA PRÁCTICA PRE PROFESIONAL:
-        {{$solicitudData['area_practicas_solicitadas']}}<br/>
-        NÚMERO DE HORAS DE PRÁCTICA REALIZADAS:
-        {{$solicitudData['horas_practicas_solicitadas']}}<br/>
-        FECHA DE INICIO: {{$solicitudData['fecha_inicio']}}<br/>
-        FECHA DE FINALIZACIÓN: {{$solicitudData['fecha_finalizacion']}}
+    <b>NOMBRE: </b>{{$solicitudData['nombre_estudiante']}}<br/>
+    <b>CARRERA: </b>{{$solicitudData['carrera']}}<br/>
+    <b>NIVEL/CICLO: </b>{{$solicitudData['nivel']}}<br/>
+    <b>ÁREA DE LA PRÁCTICA PRE PROFESIONAL: </b>{{$solicitudData['area_practicas_solicitadas']}}<br/>
+        <b>NÚMERO DE HORAS DE PRÁCTICA REALIZADAS: </b>{{$solicitudData['horas_practicas_solicitadas']}}<br/>
+        <b>FECHA DE INICIO: </b>{{$solicitudData['fecha_inicio']}}<br/>
+        <b>FECHA DE FINALIZACIÓN: </b>{{$solicitudData['fecha_finalizacion']}}
     </p>
 </div>
 <br/>
 <div style="border: 1px solid black; padding: 10px">
     <h3>DATOS DE LA ORGANIZACIÓN, ENTIDAD O PERSONA JURÍDICA:</h3>
     <p>
-        NOMBRE / RAZÓN SOCIAL: {{$solicitudData['razon_social']}}<br/>
-        REPRESENTANTE LEGAL:
-        {{$solicitudData['representante_legal']}}<br/>
-        ÁREA DE DEDICACIÓN: {{$solicitudData['area_dedicacion']}}<br/>
-        REPRESENTANTE PARA LA PRÁCTICA DEL ESTUDIANTE:
-        {{$solicitudData['nombre_representante']}}<br/>
-        ÁREA DE LAS PRÁCTICAS: {{$solicitudData['area_practica']}}
+    <b>NOMBRE / RAZÓN SOCIAL: </b>{{$solicitudData['razon_social']}}<br/>
+    <b>REPRESENTANTE LEGAL:</b>{{$solicitudData['representante_legal']}}<br/>
+    <b>ÁREA DE DEDICACIÓN:</b>{{$solicitudData['area_dedicacion']}}<br/>
+    <b>REPRESENTANTE PARA LA PRÁCTICA DEL ESTUDIANTE:</b>{{$solicitudData['nombre_representante']}}<br/>
+    <b>ÁREA DE LAS PRÁCTICAS:</b>{{$solicitudData['area_practica']}}
     </p>
 </div>
 <br/>
@@ -151,7 +148,7 @@
     <tr style="border-style: none">
         <td
             class="tabla-calificacion"
-            style="display: flex; justify-content: end; border: none"
+            style="display: flex; justify-content: end; border: none; text-align: right"
         >
             <b>TOTAL: </b>
         </td>
@@ -162,7 +159,7 @@
     <tr style="border-style: none">
         <td
             class="tabla-calificacion"
-            style="display: flex; justify-content: end; border: none"
+            style="display: flex; justify-content: end; border: none; text-align: right"
         >
             <b>EVALUACIÓN DE LA ORGANIZACIÓN: </b>
         </td>
@@ -173,7 +170,7 @@
     <tr style="border-style: none">
         <td
             class="tabla-calificacion"
-            style="display: flex; justify-content: end; border: none"
+            style="display: flex; justify-content: end; border: none; text-align: right"
         >
             <b>PROMEDIO: </b>
         </td>
@@ -184,12 +181,10 @@
 </table>
 <br/>
 <div style="border: 1px solid black; padding: 10px">
-    ASISTENCIA: {{$solicitudData['asistencia']}} %<br/>
-    HORAS APROBADAS DE PRÁCTICAS PRE PROFESIONALES:
-    {{$solicitudData['horas_aprobadas']}}<br/>
+<b>ASISTENCIA: </b>{{$solicitudData['asistencia']}} %<br/>
+<b>HORAS APROBADAS DE PRÁCTICAS PRE PROFESIONALES: </b>{{$solicitudData['horas_aprobadas']}}<br/>
     <p style="text-align: justify">
-        REPROBADO: (RAZONES): <br/>
-        {{$solicitudData['observaciones']}}
+    <b>REPROBADO: (RAZONES): </b><br/>{{$solicitudData['observaciones']}}
     </p>
 </div>
 <br/>
@@ -201,7 +196,7 @@
     <p style="line-height: 1.3">
         <b>
             {{$solicitudData['nombre_director']}}<br/>
-            Director Escuela de: {{$solicitudData['carrera']}}<br/>
+            DIRECTOR ESCUELA DE {{$solicitudData['carrera']}}<br/>
             CC: {{$solicitudData['identificacion_director']}}<br/>
             UNIBE
         </b>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>Carta Compromiso</title>
+    <title>VSO-005</title>
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
@@ -51,6 +51,7 @@
 
         p {
             line-height: 1.5;
+            margin-bottom: 0;
         }
 
         h3 {
@@ -91,13 +92,13 @@
 <div style="border: 1px solid black; padding: 10px">
     <h3>DATOS DEL ESTUDIANTE:</h3>
     <p>
-        NOMBRE: {{$solicitudData['nombre_estudiante']}}<br/>
-        ESCUELA: {{$solicitudData['carrera']}}<br/>
-        NIVEL/CICLO: {{$solicitudData['nivel']}}<br/>
-        ORGANIZACIÓN, ENTIDAD O PERSONA JURÍDICA DE LA PRÁCTICA: {{$solicitudData['razon_social']}}<br/>
-        NÚMERO DE HORAS DE PRÁCTICA REALIZADAS: {{$solicitudData['horas_practicas_realizadas']}}<br/>
-        FECHA DE INICIO: {{$solicitudData['fecha_inicio']}}<br/>
-        FECHA DE FINALIZACIÓN: {{$solicitudData['fecha_fin']}}<br/>
+    <b>NOMBRE: </b>{{$solicitudData['nombre_estudiante']}}<br/>
+    <b>ESCUELA: </b>{{$solicitudData['carrera']}}<br/>
+    <b>NIVEL/CICLO: </b>{{$solicitudData['nivel']}}<br/>
+    <b>ORGANIZACIÓN, ENTIDAD O PERSONA JURÍDICA DE LA PRÁCTICA: </b>{{$solicitudData['razon_social']}}<br/>
+    <b>NÚMERO DE HORAS DE PRÁCTICA REALIZADAS: </b>{{$solicitudData['horas_practicas_realizadas']}}<br/>
+    <b>FECHA DE INICIO: </b>{{$solicitudData['fecha_inicio']}}<br/>
+    <b>FECHA DE FINALIZACIÓN: </b>{{$solicitudData['fecha_fin']}}<br/>
     </p>
 </div>
 <br/>
@@ -145,9 +146,11 @@
 <div style="padding: 10px">
     <p class="text-end">Quito, D.M, {{$solicitudData['fecha_texto']}}</p>
     <p>
+        <b>
         Srta./Sr {{$solicitudData['nombre_estudiante']}}<br>
         ESTUDIANTE DE LA CARRERA DE: {{$solicitudData['carrera']}}<br>
         CC: {{$solicitudData['cedula_estudiante']}}
+        </b>
     </p>
 </div>
 </body>
