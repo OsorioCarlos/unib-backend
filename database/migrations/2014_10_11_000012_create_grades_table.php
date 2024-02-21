@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->text('observaciones')->nullable();
             $table->text('recomendaciones')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('pre_professional_practice_id')->references('id')->on('pre_professional_practices')
                 ->onDelete('cascade')

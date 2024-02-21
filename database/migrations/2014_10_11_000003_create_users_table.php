@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('identificacion')->unique();
+            $table->string('identificacion');
             $table->string('nombre_completo');
             $table->string('email');
             $table->timestamp('email_verified_at')->nullable();
@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('estado_id')->default(1);
             //$table->unsignedBigInteger('rol_id');
             $table->timestamps();
+            $table->softDeletes();
 
             /*$table->foreign('rol_id')->references('id')->on('roles')
                 ->onDelete('cascade')

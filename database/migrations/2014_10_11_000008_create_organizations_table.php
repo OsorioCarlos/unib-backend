@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->string('horario');
             $table->string('dias_laborables');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
