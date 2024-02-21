@@ -43,6 +43,7 @@ return new class extends Migration {
             $table->float('nota_final')->nullable();
             $table->unsignedBigInteger('estado_id')->default(3);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('student_id')->references('id')->on('students')
                 ->onDelete('cascade')

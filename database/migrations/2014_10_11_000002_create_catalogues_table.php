@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('nombre');
             $table->unsignedBigInteger('resource_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('resource_id')->references('id')->on('resources')
                 ->onDelete('cascade')

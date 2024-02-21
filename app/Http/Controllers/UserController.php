@@ -17,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $usuarios = User::all();
+        $usuarios = User::with(['tipoCatalogo', 'estadoCatalogo'])->paginate(10);
 
         return response()->json([
             'data' => $usuarios,
@@ -31,39 +31,27 @@ class UserController extends Controller
     public function show(string $id)
     {
         $usuario = User::find($id);
-        $json = [];
+        $usuario->estadoCatalogo;
 
         switch ($usuario->tipoCatalogo->nombre) {
             case 'ESTUDIANTE':
-                $json = [
-                    'usuario' => $usuario,
-                    'estudiante' => $usuario->student,
-                    'mensaje' => 'OK'
-                ];
+                $usuario->student->carreraCatalogo;
+                $usuario->student->nivelCatalogo;
                 break;
-            case 'DIRECTOR CARRERA':
-                $json = [
-                    'usuario' => $usuario,
-                    'director_carrera' => $usuario->careerDirector,
-                    'mensaje' => 'OK'
-                ];
+            case 'DIRECTOR DE CARRERA':
+                $usuario->careerDirector->carreraCatalogo;
                 break;
-            case 'REPRESENTANTE PRACTICAS':
-                $json = [
-                    'usuario' => $usuario,
-                    'representante_practicas' => $usuario->internshipRepresentative,
-                    'mensaje' => 'OK'
-                ];
+            case 'REPRESENTANTE DE PRACTICAS':
+                $usuario->internshipRepresentative->carreraCatalogo;
                 break;
             default:
-                $json = [
-                    'usuario' => $usuario,
-                    'mensaje' => 'OK'
-                ];
                 break;
         }
 
-        return response()->json($json, Response::HTTP_OK);
+        return response()->json([
+            'data' => $usuario,
+            'mensaje' => 'OK'
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -90,14 +78,14 @@ class UserController extends Controller
                 $estudiante->save();
                 break;
 
-            case 'DIRECTOR CARRERA':
+            case 'DIRECTOR DE CARRERA':
                 $directorCarrera = new CareerDirector();
                 $directorCarrera->user_id = $usuario->id;
                 $directorCarrera->carrera_id = $usuarioData['carrera_id'];
                 $directorCarrera->save();
                 break;
 
-            case 'REPRESENTANTE PRACTICAS':
+            case 'REPRESENTANTE DE PRACTICAS':
                 $internshipRepresentative = new InternshipRepresentative();
                 $internshipRepresentative->user_id = $usuario->id;
                 $internshipRepresentative->organization_id = $usuarioData['organizacion_id'];
@@ -106,7 +94,7 @@ class UserController extends Controller
         }
 
         return response()->json([
-            'usuario' => $usuario,
+            'data' => $usuario,
             'mensaje' => 'OK'
         ], Response::HTTP_OK);
     }
@@ -122,7 +110,10 @@ class UserController extends Controller
         $usuario->identificacion = $usuarioData['identificacion'];
         $usuario->nombre_completo = $usuarioData['nombre_completo'];
         $usuario->email = $usuarioData['email'];
-        $usuario->password = $usuarioData['password'];
+        $usuario->estado_id = $usuarioData['estado_id'];
+        if (!empty($usuarioData['password'])) {
+            $usuario->password = $usuarioData['password'];
+        }
         $usuario->save();
 
         switch ($usuario->tipoCatalogo->nombre) {
@@ -133,13 +124,13 @@ class UserController extends Controller
                 $estudiante->save();
                 break;
 
-            case 'DIRECTOR CARRERA':
+            case 'DIRECTOR DE CARRERA':
                 $directorCarrera = CareerDirector::where('user_id', $id)->first();
                 $directorCarrera->carrera_id = $usuarioData['carrera_id'];
                 $directorCarrera->save();
                 break;
 
-            case 'REPRESENTANTE PRACTICAS':
+            case 'REPRESENTANTE DE PRACTICAS':
                 $internshipRepresentative = InternshipRepresentative::where('user_id', $id)->first();
                 $internshipRepresentative->organization_id = $usuarioData['organizacion_id'];
                 $internshipRepresentative->save();
@@ -147,7 +138,7 @@ class UserController extends Controller
         }
 
         return response()->json([
-            'usuario' => $usuario,
+            'data' => $usuario,
             'mensaje' => 'OK'
         ], Response::HTTP_OK);
     }
@@ -156,18 +147,18 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(string $id)
+    public function destroy(string $id)
     {
         $usuario = User::find($id);
         if (!$usuario) {
             return response()->json([
-                'estado' => 'error',
+                'data' => null,
                 'mensaje' => 'No existe usuario',
             ], Response::HTTP_BAD_REQUEST);
         }
         $usuario->delete();
         return response()->json([
-            'estado' => 'ok',
+            'data' => $usuario,
             'mensaje' => 'Usuario eliminado',
         ], Response::HTTP_OK);
     }
