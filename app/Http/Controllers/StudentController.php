@@ -15,8 +15,7 @@ class StudentController extends Controller
     public function obtenerInfoCompromiso()
     {
         $authUser = Auth::user();
-        $usuario = User::where('identificacion', $authUser->identificacion)->first();
-        if ($usuario->student->preprofessionalPractices->first() == null) {
+        if ($authUser->student->preprofessionalPractices->first() == null) {
             return response()->json([
                 'mensaje' => 'No existe estudiante creado'
             ], Response::HTTP_BAD_REQUEST);
@@ -24,11 +23,11 @@ class StudentController extends Controller
 
         return response()->json([
             'data' => [
-                'carrera' => $usuario->student->carreraCatalogo->nombre,
-                'nombreCompleto' => $usuario->nombre_completo,
+                'carrera' => $authUser->student->carreraCatalogo->nombre,
+                'nombreCompleto' => $authUser->nombre_completo,
                 'identificacion' => $authUser->identificacion,
-                'semestre' => $usuario->student->nivelCatalogo->nombre,
-                'razonSocial' => $usuario->student->preprofessionalPractices->first()->organization->razon_social,
+                'semestre' => $authUser->student->nivelCatalogo->nombre,
+                'razonSocial' => $authUser->student->preprofessionalPractices->first()->organization->razon_social,
             ],
             'mensaje' => 'OK'
         ], Response::HTTP_OK);
@@ -90,7 +89,7 @@ class StudentController extends Controller
             ->notify(new \App\Notifications\PracticasNotificacion(nombre: $practicaPreprofesional->internshipRepresentative->user->nombre_completo, estudiante: $student->user->nombre_completo, carrera: $student->carreraCatalogo->nombre));
 
         // Puedes devolver una respuesta o redirigir a otra página según tus necesidades
-        return response()->json(['mensaje' => 'Solicitud de práctica preprofesional enviada'], 200);
+        return response()->json(['mensaje' => 'Se ha notificado la solitud a tu representante'], 200);
     }
 
     public function enviarInformeFinal(Request $request)

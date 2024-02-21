@@ -19,7 +19,6 @@ class FormulariosController extends Controller
         $identificacionEstudiante = $request->input('identificacionEstudiante');
         $usuario = User::where('identificacion', $identificacionEstudiante)->first();
         $practicaPreprofesional = $usuario->student->preprofessionalPractices->first();
-
         $estudianteData = [
             'carrera' => $usuario->student->carreraCatalogo->nombre,
             'nombre_estudiante' => $usuario->nombre_completo,

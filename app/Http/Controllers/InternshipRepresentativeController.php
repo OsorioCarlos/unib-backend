@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Resource;
 use App\Models\User;
+use App\Notifications\NotificacionCompromisoOrganizacion;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class InternshipRepresentativeController extends Controller
 {
@@ -171,6 +173,8 @@ class InternshipRepresentativeController extends Controller
         $practica->empresa_compromiso = $request->input('compromisoRecepcion.aceptarCompromiso');
         $practica->empresa_compromiso_fecha = Carbon::now()->format('Y-m-d');
         $practica->save();
+        Notification::route('mail',$user->email)
+            ->notify(new NotificacionCompromisoOrganizacion($user->nombre_completo, $practica->internshipRepresentative->user->nombre_completo));
 
         return response()->json([
             'mensaje' => 'OK'

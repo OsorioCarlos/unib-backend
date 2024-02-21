@@ -3,26 +3,22 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class PracticasNotificacion extends Notification
+class NotificacionCompromisoOrganizacion extends Notification
 {
     use Queueable;
 
-    protected $nombre;
-    protected $estudiante;
-    protected $carrera;
-
     /**
      * Create a new notification instance.
-     * @param $nombre
      */
-    public function __construct($nombre, $estudiante, $carrera)
+    public function __construct($nombre, $nombre_representante)
     {
         $this->nombre = $nombre;
-        $this->estudiante = $estudiante;
-        $this->carrera = $carrera;
+        $this->nombre_representante = $nombre_representante;
+
     }
 
     /**
@@ -38,21 +34,16 @@ class PracticasNotificacion extends Notification
     /**
      * Get the mail representation of the notification.
      */
-
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
             ->greeting('Universidad Iberoamericana del Ecuador - Prácticas Prepofesionales')
-            ->line("Hola {$this->nombre}!")
-            ->line("Tienes una nueva solicitud de prácticas preprofesionales.")
-            ->line("")
-            ->line("Estudiante: {$this->estudiante}")
-            ->line("Carrera: {$this->carrera}")
+            ->line("Felicidades! {$this->nombre}! Ya puedes asistir a tus prácticas preprofesionales.")
+            ->line("Tu representante {$this->nombre_representante} te ha enviado el documento de compromiso, donde puedes conoces cuales son tus objetivos, tareas y horarios.")
             ->line("")
             ->line("")
-            ->line('Por favor, revisa su solicitud para que pueda continuar con el proceso, gracias.')
-            ->action('Ver Solicitudes', url('http://localhost:4200/app/organization'));
-
+            ->line("Revisa el documento en tu perfil")
+            ->action('Ver mis documentos', url('http://localhost:4200/app/student'));
     }
 
     /**
