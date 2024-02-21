@@ -160,6 +160,7 @@
                     Nombre: {{$solicitudData['nombre_representante']}}<br />
                     CI: {{$solicitudData['identificacion_representante']}}<br />
                 </b>
+                <br />
                 Quito, D.M,{{$solicitudData['fecha_compromiso_organizacion_texto']}}
             </p>
         </div>
