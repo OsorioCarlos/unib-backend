@@ -34,10 +34,9 @@ class StudentController extends Controller
     public function obtenerInfoCompromiso()
     {
         $authUser = Auth::user();
-        if ($authUser->student->preprofessionalPractices->first() == null) {
-            return response()->json([
-                'mensaje' => 'No existe estudiante creado'
-            ], Response::HTTP_BAD_REQUEST);
+        $razonSocial = '';
+        if ($authUser->student->preprofessionalPractices->first() != null) {
+            $razonSocial = $authUser->student->preprofessionalPractices->first()->organization->razon_social;
         }
 
         return response()->json([
@@ -46,7 +45,7 @@ class StudentController extends Controller
                 'nombreCompleto' => $authUser->nombre_completo,
                 'identificacion' => $authUser->identificacion,
                 'semestre' => $authUser->student->nivelCatalogo->nombre,
-                'razonSocial' => $authUser->student->preprofessionalPractices->first()->organization->razon_social,
+                'razonSocial' => $razonSocial,
             ],
             'mensaje' => 'OK'
         ], Response::HTTP_OK);
