@@ -188,7 +188,7 @@ class FormulariosController extends Controller
             'nota_promedio' => $grade->nota_promedio,
             'nota_organizacion' => $gradeOrganizacion->nota_promedio,
             'promedio_final' => $practicaPreprofesional->nota_final,
-            'horas_aprobadas' => 'PENDIENTE LLENAR',
+            'horas_aprobadas' => $practicaPreprofesional->horas_practicas_realizadas,
             'nombre_director' => $director->user->nombre_completo,
             'identificacion_director' => $director->user->identificacion,
             'calificaciones' => $calificaciones

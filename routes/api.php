@@ -59,12 +59,12 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('estudiantes/obtenerRepresentantes', 'obtenerRepresentantes');
             Route::get('estudiantes/obtenerEstudiante', 'obtenerEstudiante');
             Route::get('estudiantes/obtenerInformeEstudiante', 'obtenerInformeEstudiante');
+            Route::get('estudiantes/obtenerInfo/{id}', 'obtenerInfoEstudiante');
         });
         Route::controller(OrganizationController::class)->group(function () {
             Route::get('organizaciones/buscarPorNombre/{nombre}', 'buscarPorNombre');
         });
     });
-
 
     Route::middleware('role:REPRESENTANTE PRÁCTICAS,ESTUDIANTE')->group(function () {
         Route::controller(InternshipRepresentativeController::class)->group(function () {
@@ -86,6 +86,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::controller(CareerDirectorController::class)->group(function () {
             Route::get('director/obtenerEvaluacionesPendientes', 'obtenerEvaluacionesPendientes');
             Route::get('director/obtenerInformacionEvaluacion/{id}', 'obtenerInformacionEvaluacion');
+            Route::get('director/obtenerEstudiantes', 'obtenerEstudiantes');
+        });
+        Route::controller(StudentController::class)->group(function () {
+            Route::get('estudiantes/obtenerInfoEstudiante/{id}', 'obtenerInfoEstudiante');
+            Route::get('estudiantes/obtenerEstadosPracticasPreprofesionalesEstudiantes', 'obtenerEstadosPracticasPreprofesionales');
         });
     });
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CareerDirector;
 use App\Models\Organization;
 use App\Models\User;
 use Carbon\Carbon;
@@ -12,13 +13,37 @@ use Illuminate\Support\Facades\Notification;
 
 class StudentController extends Controller
 {
+    public function generarCartaCompromiso(Request $request)
+    {
+        $request->validate([
+            'organizacion.nombreRazonSocial' => 'required|string'
+        ]);
+
+        $authUser = Auth::user();
+        $director = CareerDirector::where('carrera_id', $authUser->student->carrera_id)->first();
+        if ($director == null) {
+            return response()->json([
+                'mensaje' => 'No se ha encontrado un director para la carrera del estudiante'
+            ], 404);
+        }
+        $practicaPreprofesional = $authUser->student->preprofessionalPractices()->firstOrNew();
+        $practicaPreprofesional->organization_id = $request->input('organizacion.nombreRazonSocial');
+        $practicaPreprofesional->career_director_id = $director->id;
+        $practicaPreprofesional->save();
+
+        return response()->json([
+            'estado' => 'ok',
+            'mensaje' => 'Carta de compromiso generada correctamente'
+        ], 200);
+
+    }
+
     public function obtenerInfoCompromiso()
     {
         $authUser = Auth::user();
-        if ($authUser->student->preprofessionalPractices->first() == null) {
-            return response()->json([
-                'mensaje' => 'No existe estudiante creado'
-            ], Response::HTTP_BAD_REQUEST);
+        $razonSocial = '';
+        if ($authUser->student->preprofessionalPractices->first() != null) {
+            $razonSocial = $authUser->student->preprofessionalPractices->first()->organization->razon_social;
         }
 
         return response()->json([
@@ -27,7 +52,7 @@ class StudentController extends Controller
                 'nombreCompleto' => $authUser->nombre_completo,
                 'identificacion' => $authUser->identificacion,
                 'semestre' => $authUser->student->nivelCatalogo->nombre,
-                'razonSocial' => $authUser->student->preprofessionalPractices->first()->organization->razon_social,
+                'razonSocial' => $razonSocial,
             ],
             'mensaje' => 'OK'
         ], Response::HTTP_OK);
@@ -57,8 +82,8 @@ class StudentController extends Controller
         $practicaPreprofesional->save();
 
         return response()->json([
-            'estado' => 'ok',
-            'mensaje' => 'Carta de compromiso aceptada'
+            'estado' => 'Carta de compromiso generada!',
+            'mensaje' => 'Ya puedes solicitar tus prácticas preprofesionales'
         ], 200);
     }
 
@@ -140,32 +165,6 @@ class StudentController extends Controller
             'mensaje' => 'OK'
         ], 200);
     }
-
-    public function generarCartaCompromiso(Request $request)
-    {
-        $request->validate([
-            'estudiante.carrera' => 'required|string',
-            'estudiante.semestre' => 'required|string',
-            'organizacion.nombreRazonSocial' => 'required|string'
-        ]);
-
-        $authUser = Auth::user();
-        $student = $authUser->student()->firstOrNew();
-        $student->carrera_id = $request->input('estudiante.carrera');
-        $student->nivel_id = $request->input('estudiante.semestre');
-        $student->save();
-
-        $practicaPreprofesional = $student->preprofessionalPractices()->firstOrNew();
-        $practicaPreprofesional->organization_id = $request->input('organizacion.nombreRazonSocial');
-        $practicaPreprofesional->save();
-
-        return response()->json([
-            'estado' => 'ok',
-            'mensaje' => 'Carta de compromiso generada correctamente'
-        ], 200);
-
-    }
-
     public function consultarOrganizacionAsignada()
     {
         $user = Auth::user();
@@ -296,6 +295,144 @@ class StudentController extends Controller
             'numero_horas_realizada' => $practicaPreprofesional->horas_practicas_realizadas,
             'fecha_inicio' => $practicaPreprofesional->fecha_inicio,
             'fecha_fin' => $practicaPreprofesional->fecha_fin
+        ];
+        return response()->json([
+            'data' => $respuesta,
+            'mensaje' => 'OK'
+        ], Response::HTTP_OK);
+    }
+
+    function obtenerInfoEstudiante($identificacionEstudiante){
+        $user = User::where('identificacion', $identificacionEstudiante)->first();
+        if ($user == null) {
+            return response()->json([
+                'mensaje' => 'El estudiante no existe'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $student = $user->student;
+        if ($student == null) {
+            return response()->json([
+                'mensaje' => 'El usuario no es estudiante'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $practicaPreprofesional = $student->preprofessionalPractices->first();
+        if ($practicaPreprofesional == null) {
+            return response()->json([
+                'mensaje' => 'El estudiante no tiene practicas preprofesionales'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $director = CareerDirector::where('carrera_id', $user->student->carrera_id)->first();
+        if ($director == null) {
+            return response()->json([
+                'mensaje' => 'ERROR',
+                'data' => 'No se ha encontrado el director de carrera'
+            ], 404);
+        }
+
+        $gradeDirector = $practicaPreprofesional->grades()->where('user_id', $director->user_id)->first();
+        $calificacionesDirector = [];
+        if ($gradeDirector != null) {
+            $criterios = $gradeDirector->gradingCriterias;
+            if ($criterios == null) {
+                return response()->json([
+                    'mensaje' => 'ERROR',
+                    'data' => 'No se han encontrado los criterios de evaluación'
+                ], 404);
+            }
+            foreach ($criterios as $criterio) {
+                array_push($calificacionesDirector, [
+                    'criterio' => $criterio->criterioCatalogo->nombre,
+                    'calificacion' => $criterio->calificacion
+                ]);
+            }
+
+        }
+
+        $gradeOrganizacion = $practicaPreprofesional->grades()->where('user_id', $practicaPreprofesional->internshipRepresentative->user_id)->first();
+        $calificacionesOrganizacion = [];
+        if ($gradeOrganizacion != null) {
+            $criteriosOrganizacion = $gradeOrganizacion->gradingCriterias;
+            if ($criteriosOrganizacion == null) {
+                return response()->json([
+                    'mensaje' => 'ERROR',
+                    'data' => 'No se han encontrado los criterios de evaluación'
+                ], 404);
+            }
+            foreach ($criteriosOrganizacion as $criterio) {
+                array_push($calificacionesOrganizacion, [
+                    'criterio' => $criterio->criterioCatalogo->nombre,
+                    'calificacion' => $criterio->calificacion
+                ]);
+            }
+        }
+
+        $respuesta = [
+          'estudiante' =>[
+              'nombre' => $user->nombre_completo== null? '': $user->nombre_completo,
+              'identificacion' => $user->identificacion== null? '': $user->identificacion,
+              'email'=> $user->email== null? '': $user->email,
+              'carrera' => $user->student->carreraCatalogo->nombre== null? '': $user->student->carreraCatalogo->nombre,
+              'nivel' => $user->student->nivelCatalogo->nombre== null? '': $user->student->nivelCatalogo->nombre,
+              'areaPropuesta' => $practicaPreprofesional->area_practicas_solicitadas== null? '': $practicaPreprofesional->area_practicas_solicitadas,
+              'horasSolicitadas' => $practicaPreprofesional->horas_practicas_solicitadas== null? '': $practicaPreprofesional->horas_practicas_solicitadas,
+          ],
+            'organizacion'=>[
+                'razonSocial'=> $practicaPreprofesional->organization->razon_social== null? '': $practicaPreprofesional->organization->razon_social,
+                'representanteLegal'=> $practicaPreprofesional->organization->representante_legal== null? '': $practicaPreprofesional->organization->representante_legal,
+                'areaDedicacion'=> $practicaPreprofesional->organization->area_dedicacion== null? '': $practicaPreprofesional->organization->area_dedicacion,
+                'direccion'=> $practicaPreprofesional->organization->direccion== null? '': $practicaPreprofesional->organization->direccion,
+                'telefono'=> $practicaPreprofesional->organization->telefono== null? '': $practicaPreprofesional->organization->telefono,
+                'email'=> $practicaPreprofesional->organization->email== null? '': $practicaPreprofesional->organization->email,
+                'diasHabiles'=> $practicaPreprofesional->organization->dias_laborables== null? '': $practicaPreprofesional->organization->dias_laborables,
+                'horario'=> $practicaPreprofesional->organization->horario== null? '': $practicaPreprofesional->organization->horario
+            ],
+            'representante'=>[
+                'nombre'=> $practicaPreprofesional->internshipRepresentative->user->nombre_completo== null? '': $practicaPreprofesional->internshipRepresentative->user->nombre_completo,
+                'funcion'=> $practicaPreprofesional->internshipRepresentative->funcion_laboral== null? '': $practicaPreprofesional->internshipRepresentative->funcion_laboral,
+                'identificacion'=> $practicaPreprofesional->internshipRepresentative->user->identificacion== null? '': $practicaPreprofesional->internshipRepresentative->user->identificacion,
+                'email'=> $practicaPreprofesional->internshipRepresentative->user->email== null? '': $practicaPreprofesional->internshipRepresentative->user->email,
+                'telefono'=> $practicaPreprofesional->internshipRepresentative->telefono== null? '': $practicaPreprofesional->internshipRepresentative->telefono,
+            ],
+            'practica'=>[
+                'areaPractica'=> $practicaPreprofesional->area_practicas_solicitadas== null? '': $practicaPreprofesional->area_practicas_solicitadas,
+                'objetivos'=> $practicaPreprofesional->objetivos_practicas== null? '': $practicaPreprofesional->objetivos_practicas,
+                'tareas'=> $practicaPreprofesional->tareas== null? '': $practicaPreprofesional->tareas,
+                'fechaInicio'=> $practicaPreprofesional->fecha_inicio== null? '': $practicaPreprofesional->fecha_inicio,
+                'fechaFin'=> $practicaPreprofesional->fecha_fin== null? '': $practicaPreprofesional->fecha_fin,
+                'diasLaborables'=> $practicaPreprofesional->dias_laborables== null? '': $practicaPreprofesional->dias_laborables,
+                'horario'=> $practicaPreprofesional->horario== null? '': $practicaPreprofesional->horario,
+            ],
+            'informe'=>[
+                'cumplimientosObjetivos'=> $practicaPreprofesional->cumplimiento_objetivos== null? '': $practicaPreprofesional->cumplimiento_objetivos,
+                'beneficios'=> $practicaPreprofesional->beneficios== null? '': $practicaPreprofesional->beneficios,
+                'aprendizajes'=> $practicaPreprofesional->aprendizajes== null? '': $practicaPreprofesional->aprendizajes,
+                'desarrolloPersonal'=> $practicaPreprofesional->desarrollo_personal== null? '': $practicaPreprofesional->desarrollo_personal,
+                'comentarios'=> $practicaPreprofesional->comentarios== null? '': $practicaPreprofesional->comentarios,
+                'recomendaciones'=> $practicaPreprofesional->recomendaciones== null? '': $practicaPreprofesional->recomendaciones,
+            ],
+            'valoracion'=>[
+                'organizacion'=>[
+                    'calificaciones'=> $calificacionesOrganizacion== null? '': $calificacionesOrganizacion,
+                    'asistencia'=> $gradeOrganizacion == null? '': $gradeOrganizacion->porcentaje_asistencia,
+                    'observaciones'=> $gradeOrganizacion == null? '': $gradeOrganizacion->observaciones,
+                    'recomendaciones'=> $gradeOrganizacion == null? '': $gradeOrganizacion->recomendaciones,
+                    'nota'=> $gradeOrganizacion == null? '': $gradeOrganizacion->nota_promedio
+                ],
+                'director'=>[
+                    'calificaciones'=> $calificacionesDirector == null? '': $calificacionesDirector,
+                    'asistencia'=> $gradeDirector== null? '': $gradeDirector->porcentaje_asistencia,
+                    'observaciones'=> $gradeDirector == null? '': $gradeDirector->observaciones,
+                    'nota'=> $gradeDirector== null? '': $gradeDirector->nota_promedio
+                ],
+                'promedio'=>[
+                    'horasAprobadas'=> $practicaPreprofesional->horas_practicas_realizadas== null? '': $practicaPreprofesional->horas_practicas_realizadas,
+                    'promedio'=> $practicaPreprofesional->nota_final== null? '': $practicaPreprofesional->nota_final,
+                    'asistencia'=> $practicaPreprofesional->asistencia== null? '': $practicaPreprofesional->asistencia
+                ]
+            ]
         ];
         return response()->json([
             'data' => $respuesta,

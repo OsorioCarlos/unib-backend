@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('pre_professional_practices', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('career_director_id')->nullable();
             $table->unsignedBigInteger('organization_id');
             $table->boolean('estudiante_carta_compromiso')->nullable();
             $table->dateTime('estudiante_carta_compromiso_fecha')->nullable();
@@ -37,7 +38,6 @@ return new class extends Migration {
             $table->text('recomendaciones')->nullable();
             $table->string('fecha_informe_enviado')->nullable();
             $table->integer('horas_practicas_realizadas')->nullable();
-            $table->unsignedBigInteger('career_director_id')->nullable();
             $table->float('asistencia')->nullable();
             $table->float('nota_final')->nullable();
             $table->unsignedBigInteger('estado_id')->default(3);
