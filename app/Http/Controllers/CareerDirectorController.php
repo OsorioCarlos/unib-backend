@@ -88,11 +88,17 @@ class CareerDirectorController extends Controller
         $estudiantes = Student::where('carrera_id', $director->carrera_id)->get();
         $estudiantesRespuesta = [];
         foreach ($estudiantes as $estudiante) {
-            if ($estudiante->preprofessionalPractices->first() !== null) {
-                if ($estudiante->preprofessionalPractices->first()->empresa_compromiso != null && $estudiante->preprofessionalPractices->first()->empresa_compromiso_fecha != null) {
-                    array_push($estudiantesRespuesta, $estudiante->user);
-                }
-            }
+           if($estudiante->preprofessionalPractices->first() !== null){
+               $gradeInternship = $estudiante->preprofessionalPractices->first()->grades->where('user_id', $estudiante->preprofessionalPractices->first()->internshipRepresentative->user_id)->first();
+               $grade = $estudiante->preprofessionalPractices->first()->grades->where('user_id', $estudiante->preprofessionalPractices->first()->careerDirector->user_id)->first();
+               if($gradeInternship!= null && $grade == null ){
+                     array_push($estudiantesRespuesta, [
+                          'identificacion' => $estudiante->user->identificacion,
+                          'nombre' => $estudiante->user->nombre_completo,
+                          'nivel' => $estudiante->nivelCatalogo->nombre,
+                     ]);
+               }
+           }
         }
         return response()->json([
             'data' => $estudiantesRespuesta,
@@ -142,5 +148,33 @@ class CareerDirectorController extends Controller
             'mensaje' => 'OK'
         ], Response::HTTP_OK);
 
+    }
+
+    public function obtenerEstudiantes(){
+        $user = Auth::user();
+        $director = $user->careerDirector;
+        if($director == null){
+            return response()->json([
+                'mensaje' => 'No se encontro el director'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        $estudiantes = Student::where('carrera_id', $director->carrera_id)->get();
+        $estudiantesRespuesta = [];
+        foreach ($estudiantes as $estudiante) {
+            if($estudiante->preprofessionalPractices->first() !== null){
+                array_push($estudiantesRespuesta, [
+                    'identificacion' => $estudiante->user->identificacion,
+                    'nombre' => $estudiante->user->nombre_completo,
+                    'carrera' => $estudiante->carreraCatalogo->nombre,
+                    'nivel' => $estudiante->nivelCatalogo->nombre,
+                    'estadoPractica'=> $estudiante->preprofessionalPractices->first()->estadoCatalogo->nombre
+                ]);
+            }
+        }
+        return response()->json([
+            'data' => $estudiantesRespuesta,
+            'mensaje' => 'OK'
+        ], Response::HTTP_OK);
     }
 }

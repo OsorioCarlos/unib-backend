@@ -239,7 +239,7 @@ class DatabaseSeeder extends Seeder
             'identificacion' => '2929291291',
             'nombre_completo' => 'MOLINA RIVERA EWDIN MARCELO',
             'email' => 'representante@test.com',
-            'password' => '123456789',
+                'password' => '123456789',
             'tipo_id' => 20
         ]);
 

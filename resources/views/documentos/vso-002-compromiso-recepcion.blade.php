@@ -137,8 +137,7 @@
                     >{{$solicitudData['tareas']}}</span
                 >
                 <br />
-                <br />
-                <b>DURACIÓN: </b><br /><br />
+                <b>DURACIÓN: </b><br />
                 <b>FECHA DE INICIO: </b>{{$solicitudData['fecha_inicio']}}<br />
                 <b>FECHA DE FINALIZACIÓN: </b
                 >{{$solicitudData['fecha_fin']}}<br />

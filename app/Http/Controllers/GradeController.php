@@ -45,7 +45,7 @@ class GradeController extends Controller
             ], 404);
         }
         $usuario = Auth::user();
-        
+
         $calificacion = new Grade();
         $calificacion->pre_professional_practice_id = $practicaPreProfesional->id;
         $calificacion->user_id = $usuario->id;
@@ -75,7 +75,7 @@ class GradeController extends Controller
 
             $practicaPreProfesional->nota_final = $notaFinal / 2;
             $practicaPreProfesional->asistencia = $asistencia / 2;
-            //$practicaPreProfesional->estado_id = 4;
+            $practicaPreProfesional->horas_practicas_realizadas = ($practicaPreProfesional->horas_practicas_solicitadas * $practicaPreProfesional->asistencia) / 100;
             $practicaPreProfesional->save();
         }
 

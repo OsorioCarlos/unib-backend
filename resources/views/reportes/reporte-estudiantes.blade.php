@@ -31,7 +31,6 @@
     <tr>
         <th>CEDULA</th>
         <th>NOMBRE ESTUDIANTE</th>
-        <th>APELLIDO ESTUDIANTE</th>
         <th>CARRERA</th>
         <th>NIVEL</th>
         <th>ESTADO</th>
@@ -41,8 +40,7 @@
     @foreach($practicasPreprofesionales as $practicaPreprofesional)
         <tr>
             <td>{{$practicaPreprofesional->student->user->identificacion}}</td>
-            <td>{{$practicaPreprofesional->student->user->primer_nombre}} {{$practicaPreprofesional->student->user->segundo_nombre}}</td>
-            <td>{{$practicaPreprofesional->student->user->primer_apellido}} {{$practicaPreprofesional->student->user->segundo_apellido}}</td>
+            <td>{{$practicaPreprofesional->student->user->nombre_completo}}</td>
             <td>{{$practicaPreprofesional->student->carreraCatalogo->nombre}}</td>
             <td>{{$practicaPreprofesional->student->nivelCatalogo->nombre}}</td>
             <td>{{$practicaPreprofesional->estadoCatalogo->nombre}}</td>
