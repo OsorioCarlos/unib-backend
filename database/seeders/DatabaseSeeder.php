@@ -183,7 +183,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Resource::factory()->create([
-            'nombre' => 'CRITERIOS CALIFFICACIÓN'
+            'nombre' => 'CRITERIOS CALIFICACIÓN'
         ]);
 
         \App\Models\Catalogue::factory()->create([

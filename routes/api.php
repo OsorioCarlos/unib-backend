@@ -109,13 +109,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('formularios/informacionVSO003/{cedula}', 'obtenerInformacionFormularioVSO003');
         Route::get('formularios/informacionVSO004/{ruc}', 'obtenerInformacionFormularioVSO004');
         Route::get('formularios/informacionVSO005/{cedula}', 'obtenerInformacionFormularioVSO005');
-        Route::post('formularios/generar_carta_compromiso', 'generarCartaCompriso');;
+        Route::post('formularios/generar_carta_compromiso', 'generarCartaCompriso');
         Route::post('formularios/generarVso001', 'generarVso001');
         Route::post('formularios/generarVso002', 'generarVso002');
         Route::post('formularios/generarVso003', 'generarVso003');
-        Route::post('formularios/generarVso004', 'generarVso004');;
-        Route::post('formularios/generarVso005', 'generarVso005');;
-
+        Route::post('formularios/generarVso004', 'generarVso004');
+        Route::post('formularios/generarVso005', 'generarVso005');
     });
 
 
@@ -123,6 +122,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('representantes_practicas/buscarPorCedula/{ruc}', 'buscarRepresentatePracticas');
     });
 
+    Route::controller(UserController::class)->group(function () {
+        Route::get('usuarios/validarUsuarioDuplicado/{cedula}', 'validarUsuarioDuplicado');
+    });
 
+    Route::controller(OrganizationController::class)->group(function () {
+        Route::get('organizaciones/validarOrganizacionDuplicada/{ruc}', 'validarOrganizacionDuplicado');
+    });
 });
 

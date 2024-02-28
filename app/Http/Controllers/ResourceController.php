@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Resource;
+use App\Models\Catalogue;
 use Illuminate\Http\Request;
 
 class ResourceController extends Controller
@@ -12,10 +13,10 @@ class ResourceController extends Controller
      */
     public function index()
     {
-        $recursos = Resource::all();
+        $recursos = Resource::paginate(10);
 
         return response()->json([
-            'recursos' => $recursos,
+            'data' => $recursos,
             'mensaje' => 'OK'
         ], 200);
     }
@@ -31,8 +32,15 @@ class ResourceController extends Controller
         $recurso->nombre = $recursoData['nombre'];
         $recurso->save();
 
+        foreach ($recursoData['catalogos'] as $catalogoData) {
+            $catalogo = new Catalogue();
+            $catalogo->nombre = $catalogoData['nombre'];
+            $catalogo->resource_id = $recurso->id;
+            $catalogo->save();
+        }
+
         return response()->json([
-            'recurso' => $recurso,
+            'data' => $recurso,
             'mensaje' => 'OK'
         ], 200);
     }
@@ -43,10 +51,10 @@ class ResourceController extends Controller
     public function show(string $id)
     {
         $recurso = Resource::find($id);
+        $recurso->catalogues;
 
         return response()->json([
-            'recurso' => $recurso,
-            'catalogos' => $recurso->catalogues,
+            'data' => $recurso,
             'mensaje' => 'OK'
         ], 200);
     }
@@ -62,8 +70,39 @@ class ResourceController extends Controller
         $recurso->nombre = $recursoData['nombre'];
         $recurso->save();
 
+
+        $borrarCatalogoIds = [];
+        foreach ($recurso->catalogues as $catalogue) {
+            $existe = false;
+            foreach ($recursoData['catalogos'] as $catalogoData) {
+                if ($catalogue->id === $catalogoData['id']) {
+                    $existe = true;
+                }
+            }
+            if (!$existe) {
+                $borrarCatalogoIds[] = $catalogue->id;
+            }
+        }
+        $catalogosBorrar = Catalogue::whereIn('id', $borrarCatalogoIds)->get();
+        foreach ($catalogosBorrar as $catalogoBorrar) {
+            $catalogoBorrar->delete();
+        }
+
+        foreach ($recursoData['catalogos'] as $catalogoData) {
+            $catalogo = Catalogue::find($catalogoData['id']);
+            if ($catalogo) {
+                $catalogo->nombre = $catalogoData['nombre'];
+                $catalogo->save();
+            } else {
+                $catalogo = new Catalogue();
+                $catalogo->nombre = $catalogoData['nombre'];
+                $catalogo->resource_id = $recurso->id;
+                $catalogo->save();
+            }
+        }
+
         return response()->json([
-            'recurso' => $recurso,
+            'data' => $recurso,
             'mensaje' => 'OK'
         ], 200);
     }
@@ -73,6 +112,16 @@ class ResourceController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $recurso = Resource::find($id);
+        $catalogos = Catalogue::where('resource_id', $id)->get();
+        foreach ($catalogos as $catalogo) {
+            $catalogo->delete();
+        }
+        $recurso->delete();
+
+        return response()->json([
+            'data' => null,
+            'mensaje' => 'OK'
+        ], 200);
     }
 }
