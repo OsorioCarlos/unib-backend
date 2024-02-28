@@ -162,4 +162,18 @@ class UserController extends Controller
             'mensaje' => 'Usuario eliminado',
         ], Response::HTTP_OK);
     }
+
+    public function validarUsuarioDuplicado(string $cedula)
+    {
+        $usuarios = User::where('identificacion', $cedula)->count();
+        $valido = true;
+        if ($usuarios > 0) {
+            $valido = false;
+        }
+
+        return response()->json([
+            'data' => $valido,
+            'mensaje' => 'OK'
+        ], Response::HTTP_OK);
+    }
 }

@@ -14,8 +14,20 @@ class CatalogueController extends Controller
     public function index(Request $request)
     {
         $nombreRecurso = $request->get('nombre');
+        $pagination = $request->get('pagination');
+        $idRecurso = $request->get('recurso_id');
 
         $catalogos = Catalogue::where('id', '<>', null);
+
+        if ($pagination !== '' && $pagination !== null) {
+            $catalogos->where('resource_id', $idRecurso);
+            $catalogos = $catalogos->paginate(10);
+
+            return response()->json([
+                'data' => $catalogos,
+                'mensaje' => 'OK'
+            ], 200);
+        }
 
         if ($nombreRecurso !== '' && $nombreRecurso !== null) {
             $recurso = Resource::where('nombre', $nombreRecurso)->first();

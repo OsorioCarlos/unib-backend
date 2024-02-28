@@ -12,10 +12,10 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        $organizaciones = Organization::all();
+        $organizaciones = Organization::paginate(10);
 
         return response()->json([
-            'organizaciones' => $organizaciones,
+            'data' => $organizaciones,
             'mensaje' => 'OK'
         ], 200);
     }
@@ -32,14 +32,15 @@ class OrganizationController extends Controller
         $organizacion->razon_social = $organizacionData['razon_social'];
         $organizacion->representante_legal = $organizacionData['representante_legal'];
         $organizacion->direccion = $organizacionData['direccion'];
-        $organizacion->area_dedicacion = $organizacionData['area_dedicacion'];
         $organizacion->telefono = $organizacionData['telefono'];
+        $organizacion->email = $organizacionData['email'];
+        $organizacion->area_dedicacion = $organizacionData['area_dedicacion'];
         $organizacion->horario = $organizacionData['horario'];
         $organizacion->dias_laborables = $organizacionData['dias_laborables'];
         $organizacion->save();
 
         return response()->json([
-            'organizacion' => $organizacion,
+            'data' => $organizacion,
             'mensaje' => 'OK'
         ], 200);
     }
@@ -52,7 +53,7 @@ class OrganizationController extends Controller
         $organizacion = Organization::find($id);
 
         return response()->json([
-            'organizacion' => $organizacion,
+            'data' => $organizacion,
             'mensaje' => 'OK'
         ], 200);
     }
@@ -76,6 +77,34 @@ class OrganizationController extends Controller
 
         return response()->json([
             'organizacion' => $organizacion,
+            'mensaje' => 'OK'
+        ], 200);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $organizacion = Organization::find($id);
+        $organizacion->delete();
+
+        return response()->json([
+            'data' => null,
+            'mensaje' => 'OK'
+        ], 200);
+    }
+
+    public function validarOrganizacionDuplicado(string $ruc)
+    {
+        $organizaciones = Organization::where('ruc', $ruc)->count();
+        $valido = true;
+        if ($organizaciones > 0) {
+            $valido = false;
+        }
+
+        return response()->json([
+            'data' => $valido,
             'mensaje' => 'OK'
         ], 200);
     }
