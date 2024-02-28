@@ -44,6 +44,9 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('admin/crearUsuario', 'crearUsuario');
             Route::get('admin/consultarUsuarios', 'consultarUsuarios');
         });
+        Route::controller(OrganizationController::class)->group(function () {
+            Route::get('organizaciones', 'index');
+        });
     });
 
     Route::middleware('role:ESTUDIANTE')->group(function () {

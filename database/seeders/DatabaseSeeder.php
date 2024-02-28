@@ -260,6 +260,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Organization::factory()->create([
+            'ruc'=> '1234567890',
             'razon_social' => 'Empresa de prueba',
             'representante_legal' => 'Representante de prueba',
             'direccion' => 'Direccion de prueba',
