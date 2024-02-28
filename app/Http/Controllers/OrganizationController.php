@@ -12,7 +12,7 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        $organizaciones = Organization::paginate(10);
+        $organizaciones = Organization::all();
 
         return response()->json([
             'data' => $organizaciones,
