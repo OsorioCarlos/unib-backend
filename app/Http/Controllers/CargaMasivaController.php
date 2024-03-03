@@ -3,14 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Catalogue;
-use App\Models\CareerDirector;
-use App\Models\Grade;
-use App\Models\GradingCriteria;
-use App\Models\InternshipRepresentative;
 use App\Models\Organization;
 use App\Models\Resource;
-use App\Models\Student;
-use App\Models\User;
+use App\Jobs\CargaMasivaJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -172,32 +167,33 @@ class CargaMasivaController extends Controller
             $tipo_carga = $request->get('tipo');
             $archivo = $request->file('archivo');
 
-            // Cargar el archivo Excel
-            $spreadsheet = IOFactory::load($archivo);
-            // Obtener la primera hoja de cálculo
-            $hoja = $spreadsheet->getActiveSheet();
-            // Obtener todas las filas como un array
-            $datos = $hoja->toArray();
-
+            $headerTotal = 0;
+            $headerText = '';
             $jsonResponse = null;
             switch ($tipo_carga) {
                 case 'usuario_administrador':
-                    $jsonResponse = $this->cargarUsuarioAdministrador($datos);
+                    $headerTotal = 4;
+                    $headerText = 'CEDULA;NOMBRE COMPLETO;EMAIL;CONTRASEÑA';
                     break;
                 case 'usuario_area_vinculacion':
-                    $jsonResponse = $this->cargarUsuarioAreaVinculacion($datos);
+                    $headerTotal = 4;
+                    $headerText = 'CEDULA;NOMBRE COMPLETO;EMAIL;CONTRASEÑA';
                     break;
                 case 'usuario_director_carrera':
-                    $jsonResponse = $this->cargarUsuarioDirectorCarrera($datos);
+                    $headerTotal = 5;
+                    $headerText = 'CEDULA;NOMBRE COMPLETO;EMAIL;CONTRASEÑA;CARRERA';
                     break;
                 case 'usuario_representante_practicas':
-                    $jsonResponse = $this->cargarUsuarioRepresentantePracticas($datos);
+                    $headerTotal = 5;
+                    $headerText = 'CEDULA;NOMBRE COMPLETO;EMAIL;CONTRASEÑA;ORGANIZACION';
                     break;
                 case 'usuario_estudiante':
-                    $jsonResponse = $this->cargarUsuarioEstudiante($datos);
+                    $headerTotal = 5;
+                    $headerText = 'CEDULA;NOMBRE COMPLETO;EMAIL;CONTRASEÑA;CARRERA;NIVEL';
                     break;
                 case 'organizacion':
-                    $jsonResponse = $this->cargarOrganizacion($datos);
+                    $headerTotal = 9;
+                    $headerText = 'RUC;RAZON SOCIAL;REPRESENTANTE LEGAL;DIRECCION;TELEFONO;EMAIL;AREA DEDICACION;HORARIO;DIAS LABORABLES';
                     break;
                 default:
                     $jsonResponse = [
@@ -206,6 +202,31 @@ class CargaMasivaController extends Controller
                     ];
                     break;
             }
+
+            // Cargar el archivo Excel
+            $spreadsheet = IOFactory::load($archivo);
+            // Obtener la primera hoja de cálculo
+            $hoja = $spreadsheet->getActiveSheet();
+            // Obtener todas las filas como un array
+            $datos = $hoja->toArray();
+            if (count($datos[0]) === $headerTotal && (implode(';', $datos[0])) === $headerText) {
+                foreach ($datos as $key => $dato) {
+                    if ($key > 0) {
+                        CargaMasivaJob::dispatch($tipo_carga, $dato);
+                    }
+                }
+
+                $jsonResponse = [
+                    'mensaje' => 'OK',
+                    'data' => 'Archivo cargado con éxito'
+                ];
+            } else {
+                $jsonResponse = [
+                    'mensaje' => 'ERROR',
+                    'data' => 'La estructura del archivo es incorrecta'
+                ];
+            }
+
             return response()->json($jsonResponse, 200);
         } else {
             return response()->json([
@@ -238,223 +259,5 @@ class CargaMasivaController extends Controller
     {
         //
     }
-
-    private function cargarUsuarioAdministrador($filas)
-    {
-        $header = $filas[0];
-        $headerText = implode(';', $header);
-        $resultado = [
-            'mensaje' => 'ERROR',
-            'data' => 'La estructura del archivo es incorrecta'
-        ];
-        if (count($header) === 4 && $headerText === 'CEDULA;NOMBRE COMPLETO;EMAIL;CONTRASEÑA') {
-            foreach ($filas as $key => $fila) {
-                if ($key > 0) {
-                    $usuarios = User::where('identificacion', $fila[0])->count();
-                    if (!($usuarios > 0)) {
-                        $usuario = new User();
-                        $usuario->identificacion = $fila[0];
-                        $usuario->nombre_completo = $fila[1];
-                        $usuario->email = $fila[2];
-                        $usuario->password = $fila[3];
-                        $usuario->tipo_id = 16;
-                        $usuario->save();
-                    }
-                }
-            }
-
-            $resultado = [
-                'mensaje' => 'OK',
-                'data' => 'Usuarios administradores cargados con éxito'
-            ];
-        }
-
-        return $resultado;
-    }
-
-    private function cargarUsuarioAreaVinculacion($filas)
-    {
-        $header = $filas[0];
-        $headerText = implode(';', $header);
-        $resultado = [
-            'mensaje' => 'ERROR',
-            'data' => 'La estructura del archivo es incorrecta'
-        ];
-        if (count($header) === 4 && $headerText === 'CEDULA;NOMBRE COMPLETO;EMAIL;CONTRASEÑA') {
-            foreach ($filas as $key => $fila) {
-                if ($key > 0) {
-                    $usuarios = User::where('identificacion', $fila[0])->count();
-                    if (!($usuarios > 0)) {
-                        $usuario = new User();
-                        $usuario->identificacion = $fila[0];
-                        $usuario->nombre_completo = $fila[1];
-                        $usuario->email = $fila[2];
-                        $usuario->password = $fila[3];
-                        $usuario->tipo_id = 17;
-                        $usuario->save();
-                    }
-                }
-            }
-
-            $resultado = [
-                'mensaje' => 'OK',
-                'data' => 'Usuarios del área de vinculación cargados con éxito'
-            ];
-        }
-
-        return $resultado;
-    }
-
-    private function cargarUsuarioDirectorCarrera($filas)
-    {
-        $header = $filas[0];
-        $headerText = implode(';', $header);
-        $resultado = [
-            'mensaje' => 'ERROR',
-            'data' => 'La estructura del archivo es incorrecta'
-        ];
-        if (count($header) === 5 && $headerText === 'CEDULA;NOMBRE COMPLETO;EMAIL;CONTRASEÑA;CARRERA') {
-            foreach ($filas as $key => $fila) {
-                if ($key > 0) {
-                    $usuarios = User::where('identificacion', $fila[0])->count();
-                    if (!($usuarios > 0)) {
-                        $usuario = new User();
-                        $usuario->identificacion = $fila[0];
-                        $usuario->nombre_completo = $fila[1];
-                        $usuario->email = $fila[2];
-                        $usuario->password = $fila[3];
-                        $usuario->tipo_id = 18;
-                        $usuario->save();
-
-                        $directorCarrera = new CareerDirector();
-                        $directorCarrera->user_id = $usuario->id;
-                        $directorCarrera->carrera_id = $fila[4];
-                        $directorCarrera->save();
-                    }
-                }
-            }
-
-            $resultado = [
-                'mensaje' => 'OK',
-                'data' => 'Usuarios directores de carrera cargados con éxito'
-            ];
-        }
-
-        return $resultado;
-    }
-
-    private function cargarUsuarioRepresentantePracticas($filas)
-    {
-        $header = $filas[0];
-        $headerText = implode(';', $header);
-        $resultado = [
-            'mensaje' => 'ERROR',
-            'data' => 'La estructura del archivo es incorrecta'
-        ];
-        if (count($header) === 5 && $headerText === 'CEDULA;NOMBRE COMPLETO;EMAIL;CONTRASEÑA;ORGANIZACION') {
-            foreach ($filas as $key => $fila) {
-                if ($key > 0) {
-                    $usuarios = User::where('identificacion', $fila[0])->count();
-                    if (!($usuarios > 0)) {
-                        $usuario = new User();
-                        $usuario->identificacion = $fila[0];
-                        $usuario->nombre_completo = $fila[1];
-                        $usuario->email = $fila[2];
-                        $usuario->password = $fila[3];
-                        $usuario->tipo_id = 20;
-                        $usuario->save();
-
-                        $internshipRepresentative = new InternshipRepresentative();
-                        $internshipRepresentative->user_id = $usuario->id;
-                        $internshipRepresentative->organization_id = $fila[4];
-                        $internshipRepresentative->save();
-                    }
-                }
-            }
-
-            $resultado = [
-                'mensaje' => 'OK',
-                'data' => 'Usuarios representantes de prácticas cargados con éxito'
-            ];
-        }
-
-        return $resultado;
-    }
-
-    private function cargarUsuarioEstudiante($filas)
-    {
-        $header = $filas[0];
-        $headerText = implode(';', $header);
-        $resultado = [
-            'mensaje' => 'ERROR',
-            'data' => 'La estructura del archivo es incorrecta'
-        ];
-        if (count($header) === 5 && $headerText === 'CEDULA;NOMBRE COMPLETO;EMAIL;CONTRASEÑA;CARRERA;NIVEL') {
-            foreach ($filas as $key => $fila) {
-                if ($key > 0) {
-                    $usuarios = User::where('identificacion', $fila[0])->count();
-                    if (!($usuarios > 0)) {
-                        $usuario = new User();
-                        $usuario->identificacion = $fila[0];
-                        $usuario->nombre_completo = $fila[1];
-                        $usuario->email = $fila[2];
-                        $usuario->password = $fila[3];
-                        $usuario->tipo_id = 19;
-                        $usuario->save();
-
-                        $estudiante = new Student();
-                        $estudiante->user_id = $usuario->id;
-                        $estudiante->carrera_id = $fila[4];
-                        $estudiante->nivel_id = $fila[5];
-                        $estudiante->save();
-                    }
-                }
-            }
-
-            $resultado = [
-                'mensaje' => 'OK',
-                'data' => 'Usuarios estudiantes cargados con éxito'
-            ];
-        }
-
-        return $resultado;
-    }
-
-    private function cargarOrganizacion($filas)
-    {
-        $header = $filas[0];
-        $headerText = implode(';', $header);
-        $resultado = [
-            'mensaje' => 'ERROR',
-            'data' => 'La estructura del archivo es incorrecta',
-            'header' => $header
-        ];
-        if (count($header) === 9 && $headerText === 'RUC;RAZON SOCIAL;REPRESENTANTE LEGAL;DIRECCION;TELEFONO;EMAIL;AREA DEDICACION;HORARIO;DIAS LABORABLES') {
-            foreach ($filas as $key => $fila) {
-                if ($key > 0) {
-                    $organizaciones = Organization::where('ruc', $fila[0])->count();
-                    if (!($organizaciones > 0)) {
-                        $organizacion = new Organization();
-                        $organizacion->ruc = $fila[0];
-                        $organizacion->razon_social = $fila[1];
-                        $organizacion->representante_legal = $fila[2];
-                        $organizacion->direccion = $fila[3];
-                        $organizacion->telefono = $fila[4];
-                        $organizacion->email = $fila[5];
-                        $organizacion->area_dedicacion = $fila[6];
-                        $organizacion->horario = $fila[7];
-                        $organizacion->dias_laborables = $fila[8];
-                        $organizacion->save();
-                    }
-                }
-            }
-
-            $resultado = [
-                'mensaje' => 'OK',
-                'data' => 'Organizaciones cargadas con éxito'
-            ];
-        }
-
-        return $resultado;
-    }
+    
 }
