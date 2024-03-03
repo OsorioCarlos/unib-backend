@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CareerDirectorController;
 use App\Http\Controllers\CatalogueController;
+use App\Http\Controllers\CargaMasivaController;
 use App\Http\Controllers\FormulariosController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\GradingCriteriaController;
@@ -107,6 +108,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('calificaciones', GradeController::class);
     Route::apiResource('criterios_calificacion', GradingCriteriaController::class);
     Route::apiResource('reportes', ReportController::class);
+    Route::apiResource('carga_masiva', CargaMasivaController::class);
 
     Route::controller(FormulariosController::class)->group(function () {
         Route::get('formularios/informacionVSO003/{cedula}', 'obtenerInformacionFormularioVSO003');
