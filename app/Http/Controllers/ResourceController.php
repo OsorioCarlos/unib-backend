@@ -29,12 +29,12 @@ class ResourceController extends Controller
         $recursoData = $request->get('recurso');
 
         $recurso = new Resource();
-        $recurso->nombre = $recursoData['nombre'];
+        $recurso->nombre = strtoupper($recursoData['nombre']);
         $recurso->save();
 
         foreach ($recursoData['catalogos'] as $catalogoData) {
             $catalogo = new Catalogue();
-            $catalogo->nombre = $catalogoData['nombre'];
+            $catalogo->nombre = strtoupper($catalogoData['nombre']);
             $catalogo->resource_id = $recurso->id;
             $catalogo->save();
         }
@@ -67,7 +67,7 @@ class ResourceController extends Controller
         $recursoData = $request->get('recurso');
 
         $recurso = Resource::find($id);
-        $recurso->nombre = $recursoData['nombre'];
+        $recurso->nombre = strtoupper($recursoData['nombre']);
         $recurso->save();
 
 
@@ -91,11 +91,11 @@ class ResourceController extends Controller
         foreach ($recursoData['catalogos'] as $catalogoData) {
             $catalogo = Catalogue::find($catalogoData['id']);
             if ($catalogo) {
-                $catalogo->nombre = $catalogoData['nombre'];
+                $catalogo->nombre = strtoupper($catalogoData['nombre']);
                 $catalogo->save();
             } else {
                 $catalogo = new Catalogue();
-                $catalogo->nombre = $catalogoData['nombre'];
+                $catalogo->nombre = strtoupper($catalogoData['nombre']);
                 $catalogo->resource_id = $recurso->id;
                 $catalogo->save();
             }

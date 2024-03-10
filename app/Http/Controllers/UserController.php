@@ -41,8 +41,8 @@ class UserController extends Controller
             case 'DIRECTOR DE CARRERA':
                 $usuario->careerDirector->carreraCatalogo;
                 break;
-            case 'REPRESENTANTE DE PRACTICAS':
-                $usuario->internshipRepresentative->carreraCatalogo;
+            case 'REPRESENTANTE PRÁCTICAS':
+                $usuario->internshipRepresentative->organization;
                 break;
             default:
                 break;
@@ -63,7 +63,7 @@ class UserController extends Controller
 
         $usuario = new User();
         $usuario->identificacion = $usuarioData['identificacion'];
-        $usuario->nombre_completo = $usuarioData['nombre_completo'];
+        $usuario->nombre_completo = strtoupper($usuarioData['nombre_completo']);
         $usuario->email = $usuarioData['email'];
         $usuario->password = $usuarioData['password'];
         $usuario->tipo_id = $usuarioData['tipo_id'];
@@ -85,10 +85,12 @@ class UserController extends Controller
                 $directorCarrera->save();
                 break;
 
-            case 'REPRESENTANTE DE PRACTICAS':
+            case 'REPRESENTANTE PRÁCTICAS':
                 $internshipRepresentative = new InternshipRepresentative();
                 $internshipRepresentative->user_id = $usuario->id;
                 $internshipRepresentative->organization_id = $usuarioData['organizacion_id'];
+                $internshipRepresentative->funcion_laboral = strtoupper($usuarioData['funcion_laboral']);
+                $internshipRepresentative->telefono = $usuarioData['telefono'];
                 $internshipRepresentative->save();
                 break;
         }
@@ -108,7 +110,7 @@ class UserController extends Controller
 
         $usuario = User::find($id);
         $usuario->identificacion = $usuarioData['identificacion'];
-        $usuario->nombre_completo = $usuarioData['nombre_completo'];
+        $usuario->nombre_completo = strtoupper($usuarioData['nombre_completo']);
         $usuario->email = $usuarioData['email'];
         $usuario->estado_id = $usuarioData['estado_id'];
         if (!empty($usuarioData['password'])) {
@@ -130,9 +132,11 @@ class UserController extends Controller
                 $directorCarrera->save();
                 break;
 
-            case 'REPRESENTANTE DE PRACTICAS':
+            case 'REPRESENTANTE PRÁCTICAS':
                 $internshipRepresentative = InternshipRepresentative::where('user_id', $id)->first();
                 $internshipRepresentative->organization_id = $usuarioData['organizacion_id'];
+                $internshipRepresentative->funcion_laboral = strtoupper($usuarioData['funcion_laboral']);
+                $internshipRepresentative->telefono = $usuarioData['telefono'];
                 $internshipRepresentative->save();
                 break;
         }
