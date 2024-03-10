@@ -153,7 +153,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Catalogue::factory()->create([
-            'nombre' => 'FISNUTRICIÓN Y DIETÉTICAIOTERAPIA',
+            'nombre' => 'NUTRICIÓN Y DIETÉTICA',
             'resource_id' => 5
         ]);
 
@@ -280,6 +280,13 @@ class DatabaseSeeder extends Seeder
             'user_id' => 4,
             'carrera_id' => 23,
             'nivel_id' => 10
+        ]);
+
+        \App\Models\InternshipRepresentative::factory()->create([
+            'user_id' => 2,
+            'organization_id' => 1,
+            'funcion_laboral' => 'GERENTE',
+            'telefono' => '0999999999'
         ]);
 
     }

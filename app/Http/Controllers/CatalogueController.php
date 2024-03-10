@@ -52,7 +52,7 @@ class CatalogueController extends Controller
         $catalogoData = $request->get('catalogo');
 
         $catalogo = new Catalogue();
-        $catalogo->nombre = $catalogoData['nombre'];
+        $catalogo->nombre = strtoupper($catalogoData['nombre']);
         $catalogo->resource_id = $catalogoData['recurso_id'];
         $catalogo->save();
 
@@ -83,7 +83,7 @@ class CatalogueController extends Controller
         $catalogoData = $request->get('catalogo');
 
         $catalogo = Catalogue::find($id);
-        $catalogo->nombre = $catalogoData['nombre'];
+        $catalogo->nombre = strtoupper($catalogoData['nombre']);
         $catalogo->resource_id = $catalogoData['recurso_id'];
         $catalogo->save();
 

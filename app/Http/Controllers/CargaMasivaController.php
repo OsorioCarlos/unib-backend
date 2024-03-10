@@ -61,11 +61,15 @@ class CargaMasivaController extends Controller
                 $hoja1->setCellValue('C1', 'EMAIL');
                 $hoja1->setCellValue('D1', 'CONTRASEÑA');
                 $hoja1->setCellValue('E1', 'ORGANIZACION');
+                $hoja1->setCellValue('F1', 'FUNCION LABORAL');
+                $hoja1->setCellValue('G1', 'TELEFONO');
                 $hoja1->setCellValue('A2', '1111111111');
                 $hoja1->setCellValue('B2', 'USUARIO EJEMPLO');
                 $hoja1->setCellValue('C2', 'usuario_ejemplo@test.com');
                 $hoja1->setCellValue('D2', '1234567890');
                 $hoja1->setCellValue('E2', '1');
+                $hoja1->setCellValue('F2', 'GERENTE');
+                $hoja1->setCellValue('G2', '0995567849');
 
                 // Hoja 2
                 $hoja2 = $spreadsheet->createSheet();
@@ -185,7 +189,7 @@ class CargaMasivaController extends Controller
                     break;
                 case 'usuario_representante_practicas':
                     $headerTotal = 5;
-                    $headerText = 'CEDULA;NOMBRE COMPLETO;EMAIL;CONTRASEÑA;ORGANIZACION';
+                    $headerText = 'CEDULA;NOMBRE COMPLETO;EMAIL;CONTRASEÑA;ORGANIZACION;FUNCION LABORAL;TELEFONO';
                     break;
                 case 'usuario_estudiante':
                     $headerTotal = 5;

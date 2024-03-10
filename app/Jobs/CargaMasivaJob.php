@@ -41,7 +41,7 @@ class CargaMasivaJob implements ShouldQueue
                 if (!($usuarios > 0)) {
                     $usuario = new User();
                     $usuario->identificacion = $this->datoExcel[0];
-                    $usuario->nombre_completo = $this->datoExcel[1];
+                    $usuario->nombre_completo = strtoupper($this->datoExcel[1]);
                     $usuario->email = $this->datoExcel[2];
                     $usuario->password = $this->datoExcel[3];
                     $usuario->tipo_id = 16;
@@ -53,7 +53,7 @@ class CargaMasivaJob implements ShouldQueue
                 if (!($usuarios > 0)) {
                     $usuario = new User();
                     $usuario->identificacion = $this->datoExcel[0];
-                    $usuario->nombre_completo = $this->datoExcel[1];
+                    $usuario->nombre_completo = strtoupper($this->datoExcel[1]);
                     $usuario->email = $this->datoExcel[2];
                     $usuario->password = $this->datoExcel[3];
                     $usuario->tipo_id = 17;
@@ -65,7 +65,7 @@ class CargaMasivaJob implements ShouldQueue
                 if (!($usuarios > 0)) {
                     $usuario = new User();
                     $usuario->identificacion = $this->datoExcel[0];
-                    $usuario->nombre_completo = $this->datoExcel[1];
+                    $usuario->nombre_completo = strtoupper($this->datoExcel[1]);
                     $usuario->email = $this->datoExcel[2];
                     $usuario->password = $this->datoExcel[3];
                     $usuario->tipo_id = 18;
@@ -82,7 +82,7 @@ class CargaMasivaJob implements ShouldQueue
                 if (!($usuarios > 0)) {
                     $usuario = new User();
                     $usuario->identificacion = $this->datoExcel[0];
-                    $usuario->nombre_completo = $this->datoExcel[1];
+                    $usuario->nombre_completo = strtoupper($this->datoExcel[1]);
                     $usuario->email = $this->datoExcel[2];
                     $usuario->password = $this->datoExcel[3];
                     $usuario->tipo_id = 20;
@@ -91,6 +91,8 @@ class CargaMasivaJob implements ShouldQueue
                     $internshipRepresentative = new InternshipRepresentative();
                     $internshipRepresentative->user_id = $usuario->id;
                     $internshipRepresentative->organization_id = $this->datoExcel[4];
+                    $internshipRepresentative->funcion_laboral = strtoupper($this->datoExcel[5]);
+                    $internshipRepresentative->telefono = $this->datoExcel[6];
                     $internshipRepresentative->save();
                 }
                 break;
@@ -99,7 +101,7 @@ class CargaMasivaJob implements ShouldQueue
                 if (!($usuarios > 0)) {
                     $usuario = new User();
                     $usuario->identificacion = $this->datoExcel[0];
-                    $usuario->nombre_completo = $this->datoExcel[1];
+                    $usuario->nombre_completo = strtoupper($this->datoExcel[1]);
                     $usuario->email = $this->datoExcel[2];
                     $usuario->password = $this->datoExcel[3];
                     $usuario->tipo_id = 19;
@@ -117,14 +119,14 @@ class CargaMasivaJob implements ShouldQueue
                 if (!($organizaciones > 0)) {
                     $organizacion = new Organization();
                     $organizacion->ruc = $this->datoExcel[0];
-                    $organizacion->razon_social = $this->datoExcel[1];
-                    $organizacion->representante_legal = $this->datoExcel[2];
-                    $organizacion->direccion = $this->datoExcel[3];
+                    $organizacion->razon_social = strtoupper($this->datoExcel[1]);
+                    $organizacion->representante_legal = strtoupper($this->datoExcel[2]);
+                    $organizacion->direccion = strtoupper($this->datoExcel[3]);
                     $organizacion->telefono = $this->datoExcel[4];
                     $organizacion->email = $this->datoExcel[5];
-                    $organizacion->area_dedicacion = $this->datoExcel[6];
-                    $organizacion->horario = $this->datoExcel[7];
-                    $organizacion->dias_laborables = $this->datoExcel[8];
+                    $organizacion->area_dedicacion = strtoupper($this->datoExcel[6]);
+                    $organizacion->horario = strtoupper($this->datoExcel[7]);
+                    $organizacion->dias_laborables = strtoupper($this->datoExcel[8]);
                     $organizacion->save();
                 }
                 break;

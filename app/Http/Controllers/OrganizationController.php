@@ -10,8 +10,15 @@ class OrganizationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->get('all')) {
+            $organizaciones = Organization::select(['id', 'razon_social'])->get();
+            return response()->json([
+                'data' => $organizaciones,
+                'mensaje' => 'OK'
+            ], 200);
+        }
         $organizaciones = Organization::paginate(10);
 
         return response()->json([
@@ -29,14 +36,14 @@ class OrganizationController extends Controller
 
         $organizacion = new Organization();
         $organizacion->ruc = $organizacionData['ruc'];
-        $organizacion->razon_social = $organizacionData['razon_social'];
-        $organizacion->representante_legal = $organizacionData['representante_legal'];
-        $organizacion->direccion = $organizacionData['direccion'];
+        $organizacion->razon_social = strtoupper($organizacionData['razon_social']);
+        $organizacion->representante_legal = strtoupper($organizacionData['representante_legal']);
+        $organizacion->direccion = strtoupper($organizacionData['direccion']);
         $organizacion->telefono = $organizacionData['telefono'];
         $organizacion->email = $organizacionData['email'];
-        $organizacion->area_dedicacion = $organizacionData['area_dedicacion'];
-        $organizacion->horario = $organizacionData['horario'];
-        $organizacion->dias_laborables = $organizacionData['dias_laborables'];
+        $organizacion->area_dedicacion = strtoupper($organizacionData['area_dedicacion']);
+        $organizacion->horario = strtoupper($organizacionData['horario']);
+        $organizacion->dias_laborables = strtoupper($organizacionData['dias_laborables']);
         $organizacion->save();
 
         return response()->json([
@@ -67,12 +74,14 @@ class OrganizationController extends Controller
 
         $organizacion = Organization::find($id);
         $organizacion->ruc = $organizacionData['ruc'];
-        $organizacion->razon_social = $organizacionData['razon_social'];
-        $organizacion->direccion = $organizacionData['direccion'];
-        $organizacion->area_dedicacion = $organizacionData['area_dedicacion'];
+        $organizacion->razon_social = strtoupper($organizacionData['razon_social']);
+        $organizacion->representante_legal = strtoupper($organizacionData['representante_legal']);
+        $organizacion->direccion = strtoupper($organizacionData['direccion']);
         $organizacion->telefono = $organizacionData['telefono'];
-        $organizacion->horario = $organizacionData['horario'];
-        $organizacion->dias_laborables = $organizacionData['dias_laborables'];
+        $organizacion->email = $organizacionData['email'];
+        $organizacion->area_dedicacion = strtoupper($organizacionData['area_dedicacion']);
+        $organizacion->horario = strtoupper($organizacionData['horario']);
+        $organizacion->dias_laborables = strtoupper($organizacionData['dias_laborables']);
         $organizacion->save();
 
         return response()->json([
